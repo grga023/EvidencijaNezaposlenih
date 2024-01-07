@@ -9,7 +9,7 @@ namespace EvidencijaNezaposlenih.Modeli.Modeli
 {
     public class Poslodavac
     {
-        [Required]
+        [Key]
         public int PIB { get; set; }
         public required string Naziv { get; set; }
         public required string Adresa { get; set; }
