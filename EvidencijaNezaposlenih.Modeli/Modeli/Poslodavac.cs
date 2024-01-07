@@ -11,7 +11,7 @@ namespace EvidencijaNezaposlenih.Modeli.Modeli
     {
         [Required]
         public int PIB { get; set; }
-        public string Naziv { get; set; }
-        public string Adresa { get; set; }
+        public required string Naziv { get; set; }
+        public required string Adresa { get; set; }
     }
 }

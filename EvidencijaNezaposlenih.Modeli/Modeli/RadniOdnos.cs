@@ -11,8 +11,8 @@ namespace EvidencijaNezaposlenih.Modeli.Modeli
     {
         [Required]
         public int ID { get; set; }
-        public int PIB { get; set; }
-        public string NezaposleniID { get; set; }
-        public int trajanje { get; set; }
+        public required int PIB { get; set; }
+        public required string NezaposleniID { get; set; }
+        public required int Trajanje { get; set; }
     }
 }

@@ -5,13 +5,11 @@ using System.Linq.Expressions;
 
 public interface IRepozitorijum<T> where T : class
 {
-    T DajSvePoID(object id);
-    IEnumerable<T> DajSve();
-    IEnumerable<T> Pronađi(Expression<Func<T, bool>> uslov);
-
-    void Dodaj(T entitet);
-    void DodajSve(IEnumerable<T> entiteti);
-
-    void Ukloni(T entitet);
-    void UkloniSve(IEnumerable<T> entiteti);
+    Task<T?> Obrisi(object PK);
+    Task<T?> DajSvePoPrimarnomKljucu(object PK);
+    Task<T?> DajSvePoFilteru(object filter);
+    Task<IEnumerable<T>> DajSve();
+    T Dodaj(T obj);
+    T? Izmeni(T obj);
+    void Snimi();
 }
