@@ -11,6 +11,7 @@ namespace EvidencijaNezaposlenih.Modeli.Modeli
     {
         [Key]
         public required string ID { get; set; }
+        public required string JMBG { get; set; }
         public required string Ime { get; set; }
         public required string Prezime { get; set; }
         public DateTime DatumRodjenja { get; set; }
