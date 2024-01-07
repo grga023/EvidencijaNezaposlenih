@@ -10,17 +10,15 @@ namespace EvidencijaNezaposlenih.Modeli.Modeli
 {
     public class RadniOdnos
     {
-        [Key]
-        public int ID { get; set; }
+        public required int Trajanje { get; set; }
 
         [ForeignKey("Poslodavac")]
-        public required int PIB { get; set; }
+        public required Guid PIB { get; set; }
         public Poslodavac Poslodavac { get; set; }
 
         [ForeignKey("Nezaposleni")]
         public required string NezaposleniID { get; set; }
         public Nezaposleni Nezaposleni { get; set; }
 
-        public required int Trajanje { get; set; }
     }
 }

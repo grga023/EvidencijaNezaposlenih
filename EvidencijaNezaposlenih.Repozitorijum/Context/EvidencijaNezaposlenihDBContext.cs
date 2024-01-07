@@ -26,7 +26,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RadniOdnos>()
-                .HasKey(ro => new { ro.ID, ro.PIB, ro.NezaposleniID });
+                .HasKey(ro => new { ro.PIB, ro.NezaposleniID });
         }
     }
 

@@ -31,8 +31,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                 name: "Poslodavci",
                 columns: table => new
                 {
-                    PIB = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PIB = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Naziv = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Adresa = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -45,14 +44,13 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                 name: "RadniOdnosi",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false),
-                    PIB = table.Column<int>(type: "int", nullable: false),
+                    PIB = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     NezaposleniID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Trajanje = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RadniOdnosi", x => new { x.ID, x.PIB, x.NezaposleniID });
+                    table.PrimaryKey("PK_RadniOdnosi", x => new { x.PIB, x.NezaposleniID });
                     table.ForeignKey(
                         name: "FK_RadniOdnosi_Nezaposleni_NezaposleniID",
                         column: x => x.NezaposleniID,
@@ -71,11 +69,6 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                 name: "IX_RadniOdnosi_NezaposleniID",
                 table: "RadniOdnosi",
                 column: "NezaposleniID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RadniOdnosi_PIB",
-                table: "RadniOdnosi",
-                column: "PIB");
         }
 
         /// <inheritdoc />

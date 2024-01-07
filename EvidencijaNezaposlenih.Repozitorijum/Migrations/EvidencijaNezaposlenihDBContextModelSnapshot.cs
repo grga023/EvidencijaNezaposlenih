@@ -52,11 +52,9 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 
             modelBuilder.Entity("EvidencijaNezaposlenih.Modeli.Modeli.Poslodavac", b =>
                 {
-                    b.Property<int>("PIB")
+                    b.Property<Guid>("PIB")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PIB"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Adresa")
                         .IsRequired()
@@ -73,11 +71,8 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 
             modelBuilder.Entity("EvidencijaNezaposlenih.Modeli.Modeli.RadniOdnos", b =>
                 {
-                    b.Property<int>("ID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PIB")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PIB")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("NezaposleniID")
                         .HasColumnType("nvarchar(450)");
@@ -85,11 +80,9 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                     b.Property<int>("Trajanje")
                         .HasColumnType("int");
 
-                    b.HasKey("ID", "PIB", "NezaposleniID");
+                    b.HasKey("PIB", "NezaposleniID");
 
                     b.HasIndex("NezaposleniID");
-
-                    b.HasIndex("PIB");
 
                     b.ToTable("RadniOdnosi");
                 });
