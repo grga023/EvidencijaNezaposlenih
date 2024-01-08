@@ -1,4 +1,16 @@
+using EvidencijaNezaposlenih.Repozitorijum.Context;
+using EvidencijaNezaposlenih.Repozitorijum.Interfejsi;
+using EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi;
+using EvidencijaNezaposlenih.Servisi.Interfejsi;
+using EvidencijaNezaposlenih.Servisi.Servisi;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<EvidencijaNezaposlenihDBContext>();
+builder.Services.AddScoped<INezaposleniRepozitorijum, NezaposleniRepozitorujum>();
+builder.Services.AddScoped<IPoslodavacRepozitorijum, PoslodavacRepozitorijum>();
+builder.Services.AddScoped<INezaposleniServis, NenzaposleniServis>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();

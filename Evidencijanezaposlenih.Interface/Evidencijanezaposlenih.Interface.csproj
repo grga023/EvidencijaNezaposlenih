@@ -16,4 +16,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EvidencijaNezaposlenih.modeliPodataka\EvidencijaNezaposlenih.ModeliPodataka.csproj" />
+    <ProjectReference Include="..\EvidencijaNezaposlenih.Servisi\EvidencijaNezaposlenih.Servisi.csproj" />
+  </ItemGroup>
+
 </Project>

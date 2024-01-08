@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 {
     [DbContext(typeof(EvidencijaNezaposlenihDBContext))]
-    [Migration("20240107210553_Init")]
-    partial class Init
+    [Migration("20240108172412_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EvidencijaNezaposlenih.Modeli.Modeli.Nezaposleni", b =>
+            modelBuilder.Entity("EvidencijaNezaposlenih.ModeliPodataka.Modeli.Nezaposleni", b =>
                 {
                     b.Property<string>("ID")
                         .HasColumnType("nvarchar(450)");
@@ -35,12 +35,17 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BrojTelefona")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DatumRodjenja")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Ime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JMBG")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -53,7 +58,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                     b.ToTable("Nezaposleni");
                 });
 
-            modelBuilder.Entity("EvidencijaNezaposlenih.Modeli.Modeli.Poslodavac", b =>
+            modelBuilder.Entity("EvidencijaNezaposlenih.ModeliPodataka.Modeli.Poslodavac", b =>
                 {
                     b.Property<Guid>("PIB")
                         .ValueGeneratedOnAdd()
@@ -72,7 +77,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                     b.ToTable("Poslodavci");
                 });
 
-            modelBuilder.Entity("EvidencijaNezaposlenih.Modeli.Modeli.RadniOdnos", b =>
+            modelBuilder.Entity("EvidencijaNezaposlenih.ModeliPodataka.Modeli.RadniOdnos", b =>
                 {
                     b.Property<Guid>("PIB")
                         .HasColumnType("uniqueidentifier");
@@ -90,15 +95,15 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                     b.ToTable("RadniOdnosi");
                 });
 
-            modelBuilder.Entity("EvidencijaNezaposlenih.Modeli.Modeli.RadniOdnos", b =>
+            modelBuilder.Entity("EvidencijaNezaposlenih.ModeliPodataka.Modeli.RadniOdnos", b =>
                 {
-                    b.HasOne("EvidencijaNezaposlenih.Modeli.Modeli.Nezaposleni", "Nezaposleni")
-                        .WithMany()
+                    b.HasOne("EvidencijaNezaposlenih.ModeliPodataka.Modeli.Nezaposleni", "Nezaposleni")
+                        .WithMany("RadniOdnos")
                         .HasForeignKey("NezaposleniID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EvidencijaNezaposlenih.Modeli.Modeli.Poslodavac", "Poslodavac")
+                    b.HasOne("EvidencijaNezaposlenih.ModeliPodataka.Modeli.Poslodavac", "Poslodavac")
                         .WithMany()
                         .HasForeignKey("PIB")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -107,6 +112,11 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                     b.Navigation("Nezaposleni");
 
                     b.Navigation("Poslodavac");
+                });
+
+            modelBuilder.Entity("EvidencijaNezaposlenih.ModeliPodataka.Modeli.Nezaposleni", b =>
+                {
+                    b.Navigation("RadniOdnos");
                 });
 #pragma warning restore 612, 618
         }

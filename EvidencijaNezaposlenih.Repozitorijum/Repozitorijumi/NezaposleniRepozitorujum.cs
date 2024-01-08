@@ -49,13 +49,13 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
                 else if (filterParts.Length == 1)
                 {
                     // Filter sadrži ili ime ili prezime
-                    return await _context.Nezaposleni
-                        .Include(x => x.RadniOdnos)
-                        .ThenInclude(x => x.Poslodavac)
+                    var data =  await _context.Nezaposleni
                         .Where(nezaposleni =>
                             nezaposleni.Ime.Contains(filterParts[0]) ||
-                            nezaposleni.Prezime.Contains(filterParts[0]))
+                            nezaposleni.Prezime.Contains(filterParts[1]))
+
                         .ToListAsync();
+                    return data;
                 }
                 else
                 {
