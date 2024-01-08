@@ -12,22 +12,34 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
 {
     public class NenzaposleniServis : INezaposleniServis
     {
-        private readonly INezaposleniServis _nezaposleniServis;
         private readonly INezaposleniRepozitorijum _nezaposleniRepozitorijum;
-        private readonly IRadniOdnosRepozitorijum _radniOdnosRepozitorijum;
         private readonly IPoslodavacRepozitorijum _poslodavacRepozitorijum;
 
-        public NenzaposleniServis (INezaposleniServis nezaposleniServis, INezaposleniRepozitorijum nezaposleniRepozitorijum, IRadniOdnosRepozitorijum radniOdnosRepozitorijum, IPoslodavacRepozitorijum poslodavacRepozitorijum)
+        public NenzaposleniServis (INezaposleniRepozitorijum nezaposleniRepozitorijum, IPoslodavacRepozitorijum poslodavacRepozitorijum)
         {
-            _nezaposleniServis = nezaposleniServis;
             _nezaposleniRepozitorijum = nezaposleniRepozitorijum;
-            _radniOdnosRepozitorijum = radniOdnosRepozitorijum;
             _poslodavacRepozitorijum = poslodavacRepozitorijum;
         }
 
-        public Task Azuriraj(NezaposleniUnos obj)
+        public async Task Azuriraj(NezaposleniIzmena obj)
         {
-            throw new NotImplementedException();
+            var data = await _nezaposleniRepozitorijum.DajSvePoPrimarnomKljucu(obj.ID);
+            if (data != null)
+                throw new ArgumentException("Pogresan ID");
+
+            Nezaposleni nezaposleni = new Nezaposleni
+            {
+                ID = data.ID,
+                Adresa = obj.Adresa,
+                BrojTelefona = obj.BrojTelefona,
+                Ime = obj.Ime,
+                Prezime = obj.Prezime,
+                DatumRodjenja = obj.DatumRodjenja,
+                JMBG = obj.JMBG,
+            };
+
+            _nezaposleniRepozitorijum.Izmeni(nezaposleni);
+            _nezaposleniRepozitorijum.Snimi();
         }
 
         public async Task<IEnumerable<NezaposleniPrikaz>> DajSve()

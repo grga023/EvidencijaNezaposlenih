@@ -16,6 +16,6 @@ namespace EvidencijaNezaposlenih.Servisi.Interfejsi
         Task<NezaposleniPrikaz> DajSvePoID(object PK);
         Task KreirajNezaposlenog(NezaposleniUnos obj);
         Task Obrisi(object PK);
-        Task Azuriraj(NezaposleniUnos obj);
+        Task Azuriraj(NezaposleniIzmena obj);
     }
 }
