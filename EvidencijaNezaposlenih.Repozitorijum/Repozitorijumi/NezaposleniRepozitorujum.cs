@@ -1,4 +1,4 @@
-﻿using EvidencijaNezaposlenih.Modeli.Modeli;
+﻿using EvidencijaNezaposlenih.ModeliPodataka.Modeli;
 using EvidencijaNezaposlenih.Repozitorijum.Context;
 using EvidencijaNezaposlenih.Repozitorijum.Interfejsi;
 using Microsoft.EntityFrameworkCore;

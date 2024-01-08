@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EvidencijaNezaposlenih.Modeli\EvidencijaNezaposlenih.Modeli.csproj" />
+    <ProjectReference Include="..\EvidencijaNezaposlenih.modeliPodataka\EvidencijaNezaposlenih.ModeliPodataka.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System;
-using EvidencijaNezaposlenih.Modeli.Modeli;
+using EvidencijaNezaposlenih.ModeliPodataka.Modeli;
 
 namespace EvidencijaNezaposlenih.Repozitorijum.Context
 {

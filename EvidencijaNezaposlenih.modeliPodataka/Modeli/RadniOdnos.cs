@@ -6,18 +6,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EvidencijaNezaposlenih.Modeli.Modeli
+namespace EvidencijaNezaposlenih.ModeliPodataka.Modeli
 {
     public class RadniOdnos
     {
-        public required int Trajanje { get; set; }
+        public int Trajanje { get; set; }
 
         [ForeignKey("Poslodavac")]
-        public required Guid PIB { get; set; }
+        public Guid PIB { get; set; }
         public Poslodavac Poslodavac { get; set; }
 
         [ForeignKey("Nezaposleni")]
-        public required string NezaposleniID { get; set; }
+        public string NezaposleniID { get; set; }
         public Nezaposleni Nezaposleni { get; set; }
 
     }
