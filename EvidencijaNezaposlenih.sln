@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvidencijaNezaposlenih.Repo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvidencijaNezaposlenih.ModeliPodataka", "EvidencijaNezaposlenih.modeliPodataka\EvidencijaNezaposlenih.ModeliPodataka.csproj", "{F30788D9-7C4C-46CC-9C7A-77F8869DE247}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvidencijaNezaposlenih.Servisi", "EvidencijaNezaposlenih.Servisi\EvidencijaNezaposlenih.Servisi.csproj", "{0612B185-0556-454F-B8CE-CD9E57A52640}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvidencijaNezaposlenih.Servisi", "EvidencijaNezaposlenih.Servisi\EvidencijaNezaposlenih.Servisi.csproj", "{0612B185-0556-454F-B8CE-CD9E57A52640}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
