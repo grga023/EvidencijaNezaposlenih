@@ -7,7 +7,7 @@ public interface IRepozitorijum<T> where T : class
 {
     Task<T?> Obrisi(object PK);
     Task<T?> DajSvePoPrimarnomKljucu(object PK);
-    Task<T?> DajSvePoFilteru(object filter);
+    Task<List<T>> DajSvePoFilteru(object filter);
     Task<IEnumerable<T>> DajSve();
     T Dodaj(T obj);
     T? Izmeni(T obj);

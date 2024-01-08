@@ -9,5 +9,6 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Interfejsi
 {
     public interface IPoslodavacRepozitorijum : IRepozitorijum<Poslodavac>
     {
+        Task<Poslodavac> PronadjiPoNazivu(object filter);
     }
 }

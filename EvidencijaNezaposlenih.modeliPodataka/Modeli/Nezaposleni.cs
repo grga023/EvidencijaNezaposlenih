@@ -17,6 +17,7 @@ namespace EvidencijaNezaposlenih.ModeliPodataka.Modeli
         public DateTime DatumRodjenja { get; set; }
         public string BrojTelefona { get; set; }
         public string Adresa { get; set; }
+        public List<RadniOdnos> RadniOdnos { get; set; }
     }
 
 }

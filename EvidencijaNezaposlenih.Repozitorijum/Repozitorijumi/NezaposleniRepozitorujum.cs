@@ -20,10 +20,13 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
         public async Task<IEnumerable<Nezaposleni>> DajSve()
         {
-            return await _context.Nezaposleni.ToListAsync();
+            return await _context.Nezaposleni
+                .Include(x => x.RadniOdnos)
+                .ThenInclude(x => x.Poslodavac)
+                .ToListAsync();
         }
 
-        public async Task<Nezaposleni?> DajSvePoFilteru(object filter)
+        public async Task<List<Nezaposleni>?> DajSvePoFilteru(object filter)
         {
             if (filter is string filterString)
             {
@@ -36,17 +39,23 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
                     string prezime = filterParts[1];
 
                     return await _context.Nezaposleni
-                        .FirstOrDefaultAsync(nezaposleni =>
+                        .Include(x => x.RadniOdnos)
+                        .ThenInclude(x => x.Poslodavac)
+                        .Where(nezaposleni =>
                             nezaposleni.Ime.Contains(ime) &&
-                            nezaposleni.Prezime.Contains(prezime));
+                            nezaposleni.Prezime.Contains(prezime))
+                        .ToListAsync();
                 }
                 else if (filterParts.Length == 1)
                 {
                     // Filter sadrži ili ime ili prezime
                     return await _context.Nezaposleni
-                        .FirstOrDefaultAsync(nezaposleni =>
+                        .Include(x => x.RadniOdnos)
+                        .ThenInclude(x => x.Poslodavac)
+                        .Where(nezaposleni =>
                             nezaposleni.Ime.Contains(filterParts[0]) ||
-                            nezaposleni.Prezime.Contains(filterParts[0]));
+                            nezaposleni.Prezime.Contains(filterParts[0]))
+                        .ToListAsync();
                 }
                 else
                 {
@@ -74,26 +83,14 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
         public Nezaposleni Dodaj(Nezaposleni obj)
         {
-            _context.Nezaposleni.Add(obj);
-            _context.SaveChanges();
+            _ = _context.Nezaposleni.Add(obj).Entity;
             return obj;
         }
 
         public Nezaposleni? Izmeni(Nezaposleni obj)
         {
-            var existingNezaposleni = _context.Nezaposleni.Find(obj.ID);
-            if (existingNezaposleni != null)
-            {
-                existingNezaposleni.Ime = obj.Ime;
-                existingNezaposleni.Prezime = obj.Prezime;
-                existingNezaposleni.DatumRodjenja = obj.DatumRodjenja;
-                existingNezaposleni.BrojTelefona = obj.BrojTelefona;
-                existingNezaposleni.Adresa = obj.Adresa;
-
-                _context.SaveChanges();
-            }
-
-            return existingNezaposleni;
+            _context.Entry(obj).State = EntityState.Modified;
+            return obj;
         }
 
         public async Task<Nezaposleni?> Obrisi(object PK)
@@ -102,7 +99,6 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
             if (nezaposleniToDelete != null)
             {
                 _context.Nezaposleni.Remove(nezaposleniToDelete);
-                _context.SaveChanges();
             }
 
             return nezaposleniToDelete;
