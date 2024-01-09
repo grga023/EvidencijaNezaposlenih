@@ -16,14 +16,16 @@ namespace Evidencijanezaposlenih.Interface.Pages
         }
 
 
-        public void OnPost()
+        public async Task OnPostAsync()
         {
-            var data  = _nezaposleniServis.DajSvePoID(Name);
+            var tmp = "Grgur";
 
-            while (true)
-            {
+            var data  = await _nezaposleniServis.DajSvePoID(Name);
 
-            }
+            var data2 = await _nezaposleniServis.DajSvePoimenuIPrezimenu(tmp);
+            _ = await _nezaposleniServis.Obrisi(Name);
+
+            data = null;
         }
     }
 }

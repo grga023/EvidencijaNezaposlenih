@@ -30,6 +30,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
         {
             if (filter is string filterString)
             {
+
                 var filterParts = filterString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
                 if (filterParts.Length == 2)
@@ -50,10 +51,11 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
                 {
                     // Filter sadrži ili ime ili prezime
                     var data =  await _context.Nezaposleni
+                        .Include(x => x.RadniOdnos)
+                        .ThenInclude(x => x.Poslodavac)
                         .Where(nezaposleni =>
-                            nezaposleni.Ime.Contains(filterParts[0]) ||
-                            nezaposleni.Prezime.Contains(filterParts[1]))
-
+                            nezaposleni.Ime == filterParts[0] ||
+                            nezaposleni.Prezime == filterParts[0])
                         .ToListAsync();
                     return data;
                 }
@@ -71,14 +73,8 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
         public async Task<Nezaposleni?> DajSvePoPrimarnomKljucu(object PK)
         {
-            if (PK is string idString)
-            {
-                return await _context.Nezaposleni.FindAsync(idString);
-            }
-            else
-            {
-                throw new ArgumentException("Invalid data type for primary key.");
-            }
+            return await _context.Nezaposleni.Include(x => x.RadniOdnos)
+                         .ThenInclude(x => x.Poslodavac).FirstOrDefaultAsync(x => x.ID == PK);
         }
 
         public Nezaposleni Dodaj(Nezaposleni obj)
@@ -95,7 +91,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
         public async Task<Nezaposleni?> Obrisi(object PK)
         {
-            var nezaposleniToDelete = await _context.Nezaposleni.FindAsync(PK);
+            var nezaposleniToDelete = await DajSvePoPrimarnomKljucu(PK);
             if (nezaposleniToDelete != null)
             {
                 _context.Nezaposleni.Remove(nezaposleniToDelete);

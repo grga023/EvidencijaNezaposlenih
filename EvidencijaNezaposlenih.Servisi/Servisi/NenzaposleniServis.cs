@@ -223,11 +223,11 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
             _nezaposleniRepozitorijum.Snimi();
         }
 
-        public Task Obrisi(object PK)
+        public async Task Obrisi(object PK)
         {
-            _nezaposleniRepozitorijum.Obrisi(PK);
+            await _nezaposleniRepozitorijum.Obrisi(PK);
             _nezaposleniRepozitorijum.Snimi();
-            return Task.CompletedTask;
+            
         }
     }
 }

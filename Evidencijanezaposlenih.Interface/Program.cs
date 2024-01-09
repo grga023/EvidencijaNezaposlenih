@@ -7,7 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<EvidencijaNezaposlenihDBContext>();
+
+builder.Services.AddDbContext<EvidencijaNezaposlenihDBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("EvidencijaNezaposlenihDBContext")
+    ).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+
 builder.Services.AddScoped<INezaposleniRepozitorijum, NezaposleniRepozitorujum>();
 builder.Services.AddScoped<IPoslodavacRepozitorijum, PoslodavacRepozitorijum>();
 builder.Services.AddScoped<INezaposleniServis, NenzaposleniServis>();
