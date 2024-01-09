@@ -15,6 +15,6 @@ namespace EvidencijaNezaposlenih.ModeliPodataka.DTO
         public required string BrojTelefona { get; set; }
         public required string Adresa { get; set; }
         public string JMBG { get; set; }
-        public required List<RadniOdnos> RadniOdnosPrikaz { get; set; }
+        public required List<RadniOdnosPrikaz> RadniOdnosPrikaz { get; set; }
     }
 }

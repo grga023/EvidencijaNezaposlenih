@@ -190,7 +190,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
         {
             string ID_N = GenerisiRandomID();
             var postoji = await _nezaposleniRepozitorijum.DajSvePoPrimarnomKljucu(ID_N);
-            if (postoji == null)
+            if (postoji != null)
                 await KreirajNezaposlenog(obj);
 
             Nezaposleni nezaposleniZaDodavanje = new Nezaposleni
@@ -208,14 +208,15 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
 
             foreach (var item in obj.RadniOdnosPrikaz)
             {
-                var poslodavac = await _poslodavacRepozitorijum.PronadjiPoNazivu(item);
+                var poslodavac = await _poslodavacRepozitorijum.PronadjiPoNazivu(item.NazivFirme);
                 if (poslodavac == null)
                     throw new ArgumentException("SF");
 
                 radniOdnosList.Add(new RadniOdnos
                 {
                     NezaposleniID = ID_N,
-                    PIB = poslodavac.PIB
+                    PIB = poslodavac.PIB,
+                    Trajanje = item.Staz
                 });
             }
             nezaposleniZaDodavanje.RadniOdnos = radniOdnosList;
