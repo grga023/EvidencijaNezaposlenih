@@ -19,9 +19,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
         }
         public async Task OnPostAsync()
         {
-            //var dateOfBirth = Request.Form["dateOfBirth"];
-            //var jmbg = Request.Form["jmbg"];
-            //var phoneNumber = Request.Form["phoneNumber"];
+
             PoslodavacUnos obj = new()
             {
                 PIB = Int32.Parse(Request.Form["pib"]),
