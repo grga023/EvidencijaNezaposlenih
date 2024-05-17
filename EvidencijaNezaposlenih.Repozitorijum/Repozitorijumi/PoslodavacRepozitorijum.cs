@@ -77,7 +77,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
         }
 
         public async Task<Poslodavac> PronadjiPoNazivu(object filter) 
-            => await _ctx.Poslodavci.FirstOrDefaultAsync(x => x.Naziv == filter);
+            => await _ctx.Poslodavci.FirstOrDefaultAsync(x => x.Naziv == (string)filter);
 
         public void Snimi()
         {
