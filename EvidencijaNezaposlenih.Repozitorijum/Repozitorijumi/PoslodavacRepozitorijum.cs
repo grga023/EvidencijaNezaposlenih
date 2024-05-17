@@ -34,7 +34,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
         public async Task<Poslodavac?> DajSvePoPrimarnomKljucu(object PK)
         {
-            if (PK is Guid PIB)
+            if (PK is int PIB)
             {
                 return await _ctx.Poslodavci.FindAsync(PIB);
             }
