@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 {
     [DbContext(typeof(EvidencijaNezaposlenihDBContext))]
-    [Migration("20240109074324_add")]
-    partial class add
+    [Migration("20240517100750_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,8 +85,11 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                     b.Property<string>("NezaposleniID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Trajanje")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("DatumPocetka")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DatumZavrsetka")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("PIB", "NezaposleniID");
 

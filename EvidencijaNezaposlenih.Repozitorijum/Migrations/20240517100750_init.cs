@@ -47,7 +47,8 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                 {
                     PIB = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     NezaposleniID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Trajanje = table.Column<int>(type: "int", nullable: false)
+                    DatumPocetka = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DatumZavrsetka = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

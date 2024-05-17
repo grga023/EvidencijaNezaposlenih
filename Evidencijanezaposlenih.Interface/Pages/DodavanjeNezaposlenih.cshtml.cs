@@ -1,4 +1,5 @@
 using EvidencijaNezaposlenih.ModeliPodataka.DTO;
+using EvidencijaNezaposlenih.Repozitorijum.Interfejsi;
 using EvidencijaNezaposlenih.Servisi.Interfejsi;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,12 +9,24 @@ namespace Evidencijanezaposlenih.Interface.Pages
     public class DodavanjeNezaposlenihModel : PageModel
     {
         private readonly INezaposleniServis _nezaposleniServis;
+        private readonly IPoslodavacRepozitorijum _poslodavacRepozitorijum;
 
-        public DodavanjeNezaposlenihModel(INezaposleniServis nezaposleniServis)
+        public DodavanjeNezaposlenihModel(IPoslodavacRepozitorijum poslodavacRepozitorijum, INezaposleniServis nezaposleniServis)
         {
+            _poslodavacRepozitorijum = poslodavacRepozitorijum;
             _nezaposleniServis = nezaposleniServis;
         }
-        public void OnPost()
+
+        public async Task OnGetAsync()
+        {
+            // Populate the combo boxes with data from _firmaServis.DajSve() method
+            var firms = await _poslodavacRepozitorijum.DajSve();
+            foreach (var firm in firms)
+            {
+                ViewData["Firms"] += $"<option >{firm.Naziv}</option>"; // Adjust as per your Firma model properties
+            }
+        }
+        public async Task OnPost()
         {
             int cnt = 0;
             //var name = Request.Form["name"];
@@ -38,6 +51,8 @@ namespace Evidencijanezaposlenih.Interface.Pages
                     DatumZavrsetka = DateTime.Parse(datumZavrsetka[cnt])
                 };
                 radniOdnosi.Add(radniOdnos);
+                cnt++;
+
             }
 
             NezaposleniUnos nezaposleniUnos = new()
@@ -50,8 +65,10 @@ namespace Evidencijanezaposlenih.Interface.Pages
                 BrojTelefona = Request.Form["phoneNumber"],
                 RadniOdnosPrikaz = radniOdnosi
             };
+            
+            await _nezaposleniServis.KreirajNezaposlenog(nezaposleniUnos);
 
-            _nezaposleniServis.KreirajNezaposlenog(nezaposleniUnos);
+            cnt++;
         }
     }
 }

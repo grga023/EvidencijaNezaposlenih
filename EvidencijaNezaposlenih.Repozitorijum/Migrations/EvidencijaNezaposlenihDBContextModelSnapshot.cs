@@ -82,8 +82,11 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                     b.Property<string>("NezaposleniID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Trajanje")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("DatumPocetka")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DatumZavrsetka")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("PIB", "NezaposleniID");
 
