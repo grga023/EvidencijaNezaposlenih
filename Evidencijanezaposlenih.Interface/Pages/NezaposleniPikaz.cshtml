@@ -1,0 +1,54 @@
+﻿@page
+@model Evidencijanezaposlenih.Interface.Pages.NezaposleniPrikazModel
+@{
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nezaposleni List</title>
+</head>
+<body>
+    <h1>List of Nezaposleni</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Datum Rodjenja</th>
+                <th>Broj Telefona</th>
+                <th>Adresa</th>
+                <th>Radni Odnosi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var nezaposleni in Model.NezaposleniList)
+            {
+                <tr>
+                    <td>@nezaposleni.Ime</td>
+                    <td>@nezaposleni.Prezime</td>
+                    <td>@nezaposleni.DatumRodjenja.ToShortDateString()</td>
+                    <td>@nezaposleni.BrojTelefona</td>
+                    <td>@nezaposleni.Adresa</td>
+                    <td>
+                        <ul>
+                            @foreach (var radniOdnos in nezaposleni.RadniOdnosPrikaz)
+                            {
+                                <li>
+                                    <strong>Naziv Firme:</strong> @radniOdnos.NazivFirme, 
+                                    <strong>Datum Pocetka:</strong> @radniOdnos.DatumPocetka.ToShortDateString(), 
+                                    <strong>Datum Zavrsetka:</strong> @radniOdnos.DatumZavrsetka.ToShortDateString()
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
