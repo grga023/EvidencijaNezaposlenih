@@ -32,7 +32,8 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                 name: "Poslodavci",
                 columns: table => new
                 {
-                    PIB = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PIB = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Naziv = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Adresa = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -45,7 +46,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                 name: "RadniOdnosi",
                 columns: table => new
                 {
-                    PIB = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PIB = table.Column<int>(type: "int", nullable: false),
                     NezaposleniID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DatumPocetka = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DatumZavrsetka = table.Column<DateTime>(type: "datetime2", nullable: false)
