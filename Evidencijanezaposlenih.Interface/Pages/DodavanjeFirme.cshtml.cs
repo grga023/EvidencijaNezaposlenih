@@ -26,6 +26,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
             {
                 PIB = Int32.Parse(Request.Form["pib"]),
                 Adresa = Request.Form["adresa"],
+                Grad = Request.Form["grad"],
                 Naziv = Request.Form["naziv"]
             };
 

@@ -38,6 +38,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                 {
                     Adresa = obj.Adresa,
                     Naziv = obj.Naziv,
+                    Grad = obj.Grad,
                     PIB = obj.PIB,
                 };
 
@@ -62,6 +63,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                 {
                     Adresa = obj.Adresa,
                     Naziv = obj.Naziv,
+                    Grad = obj.Grad,
                     PIB = obj.PIB,
                 };
 
@@ -82,6 +84,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
             {
                 Adresa = data.Adresa,
                 Naziv = data.Naziv,
+                Grad = data.Grad,
                 PIB = data.PIB,
             };
 
@@ -90,22 +93,27 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
 
         public async Task KreirajPoslodavca(PoslodavacUnos obj)
         {
-            var data = await _poslodavacRepozitorijum.DajSvePoFilteru(obj.Naziv);
-            if (data != null)
+            try
             {
-                foreach (var item in data)
+                var data = await _poslodavacRepozitorijum.DajSvePoFilteru(obj.Naziv);
+                if (data != null)
                 {
-                    var dataById = await _poslodavacRepozitorijum.DajSvePoPrimarnomKljucu(item.PIB);
-                    if (dataById != null)
-                        throw new ArgumentException("Poslodavac postoji");
+                    foreach (var item in data)
+                    {
+                        var dataById = await _poslodavacRepozitorijum.DajSvePoPrimarnomKljucu(item.PIB);
+                        if (dataById != null)
+                            throw new ArgumentException("Poslodavac postoji");
 
+                    }
                 }
             }
+            catch (Exception ex) { }
 
             Poslodavac poslodavacZaDodati = new()
             {
                 Naziv = obj.Naziv,
                 Adresa = obj.Adresa,
+                Grad = obj.Grad,
                 PIB = obj.PIB,
             };
             

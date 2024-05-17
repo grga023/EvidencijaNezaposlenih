@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 {
     [DbContext(typeof(EvidencijaNezaposlenihDBContext))]
-    [Migration("20240517131608_init")]
-    partial class init
+    [Migration("20240517144156_edit")]
+    partial class edit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,11 +60,11 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 
             modelBuilder.Entity("EvidencijaNezaposlenih.ModeliPodataka.Modeli.Poslodavac", b =>
                 {
-                    b.Property<int>("PIB")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PIB"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("Adresa")
                         .IsRequired()
@@ -74,7 +74,10 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PIB");
+                    b.Property<int>("PIB")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
 
                     b.ToTable("Poslodavci");
                 });

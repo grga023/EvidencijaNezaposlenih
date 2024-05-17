@@ -23,7 +23,8 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
         {
             if (filter is string naziv)
             {
-                return await _ctx.Poslodavci.Where(x => x.Naziv.Contains((string)filter)).ToListAsync();
+                var data = await _ctx.Poslodavci.Where(x => x.Naziv.Contains((string)filter)).ToListAsync();
+                return data;
             }
             else
             {

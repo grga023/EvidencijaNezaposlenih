@@ -23,7 +23,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
             var firms = await _poslodavacRepozitorijum.DajSve();
             foreach (var firm in firms)
             {
-                ViewData["Firms"] += $"<option >{firm.Naziv}</option>"; // Adjust as per your Firma model properties
+                ViewData["Firms"] += $"<option >{firm.Naziv} | {firm.Grad}</option>"; // Adjust as per your Firma model properties
             }
         }
         public async Task OnPost()

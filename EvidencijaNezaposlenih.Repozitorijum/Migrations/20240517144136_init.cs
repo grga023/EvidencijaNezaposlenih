@@ -32,14 +32,15 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                 name: "Poslodavci",
                 columns: table => new
                 {
-                    PIB = table.Column<int>(type: "int", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    PIB = table.Column<int>(type: "int", nullable: false),
                     Naziv = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Adresa = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Poslodavci", x => x.PIB);
+                    table.PrimaryKey("PK_Poslodavci", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,7 +65,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                         name: "FK_RadniOdnosi_Poslodavci_PIB",
                         column: x => x.PIB,
                         principalTable: "Poslodavci",
-                        principalColumn: "PIB",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 

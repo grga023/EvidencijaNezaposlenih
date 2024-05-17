@@ -4,6 +4,7 @@ using EvidencijaNezaposlenih.Repozitorijum.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 {
     [DbContext(typeof(EvidencijaNezaposlenihDBContext))]
-    partial class EvidencijaNezaposlenihDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240517144136_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,10 +67,6 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("Adresa")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Grad")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
