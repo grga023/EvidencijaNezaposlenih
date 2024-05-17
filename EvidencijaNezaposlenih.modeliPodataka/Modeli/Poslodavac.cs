@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EvidencijaNezaposlenih.Modeli.Modeli
+namespace EvidencijaNezaposlenih.ModeliPodataka.Modeli
 {
     public class Poslodavac
     {
-        [Required]
+        [Key]
         public int PIB { get; set; }
         public string Naziv { get; set; }
         public string Adresa { get; set; }

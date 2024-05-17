@@ -1,0 +1,166 @@
+﻿@page
+@model Evidencijanezaposlenih.Interface.Pages.DodavanjeNezaposlenihModel
+@{
+    ViewData["Title"] = "Dodavanje Zaposlenih";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezor Web App - Data Entry Page</title>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* CSS styles */
+        .container {
+            max-width: 1600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            padding: 20px;
+            margin-bottom: 0px;
+        }
+
+        label {
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 10px;
+            width: 150px; /* Set width for labels */
+            font-size: 18px; /* Larger font size */
+        }
+
+        select, input[type="text"], input[type="date"] {
+            width: 250px; /* Set width for input fields */
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .separator {
+            border-top: 2px solid #007bff;
+            margin: 20px 0;
+        }
+
+        .work-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .work-label {
+            font-size: 18px; /* Larger font size for labels */
+            margin-right: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Enter Information</h2>
+        <form id="data-entry-form" method="post" >
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="surname">Surname:</label>
+                <input type="text" id="surname" name="surname" required>
+            </div>
+            <div class="form-group">
+                <label for="dateOfBirth">Date of Birth:</label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+            </div>
+            <div class="form-group">
+                <label for="jmbg">JMBG:</label>
+                <input type="text" id="jmbg" name="jmbg" required>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" required>
+            </div>
+            <div class="separator"></div>
+            <h3>List of Work Experience</h3>
+            <div class="work-experience">
+                <div class="work-row">
+                    <label class="work-label" for="nazivFirme">Naziv Firme:</label>
+                    <div class="form-group">
+                        <select class="naziv-firme" name="nazivFirme[]" required>
+                            <option value="">Select Firm</option> <!-- Default option -->
+                        </select>
+                    </div>
+                    <label class="work-label" for="datumPocetka">Datum Pocetka:</label>
+                    <div class="form-group">
+                        <input type="date" class="datum-pocetka" name="datumPocetka[]" required>
+                    </div>
+                    <label class="work-label" for="datumZavrsetka">Datum Zavrsetka:</label>
+                    <div class="form-group">
+                        <input type="date" class="datum-zavrsetka" name="datumZavrsetka[]" required>
+                    </div>
+                    <button class="remove-row" onclick="removeWorkExperienceRow(this)"> - </button> <!-- Remove button -->
+                </div>
+            </div>
+            <div class="add-row" onclick="addWorkExperienceRow()">+ Add Work Experience</div>
+            <div class="separator"></div>
+            <input type="submit" value="Submit">
+            <div class="separator"></div>
+
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            // Populate the combo box with data from the ViewData["Firms"] variable
+            $(".naziv-firme").html(`@Html.Raw(ViewData["Firms"])`);
+        });
+
+        function removeWorkExperienceRow(button) {
+            button.parentNode.remove(); // Remove the parent element of the button (i.e., the work-row div)
+        }
+
+        function addWorkExperienceRow() {
+            const workExperienceContainer = document.querySelector('.work-experience');
+            const newRow = document.createElement('div');
+            newRow.classList.add('work-row');
+            newRow.innerHTML = `
+                        <label class="work-label" for="nazivFirme">Naziv Firme:</label>
+                        <div class="form-group">
+                            <select class="naziv-firme" name="nazivFirme[]" required>
+                                <option value="">Select Firm</option> <!-- Default option -->
+                            </select>
+                        </div>
+                        <label class="work-label" for="datumPocetka">Datum Pocetka:</label>
+                        <div class="form-group">
+                            <input type="date" class="datum-pocetka" name="datumPocetka[]" required>
+                        </div>
+                        <label class="work-label" for="datumZavrsetka">Datum Zavrsetka:</label>
+                        <div class="form-group">
+                            <input type="date" class="datum-zavrsetka" name="datumZavrsetka[]" required>
+                        </div>
+                        <button class="remove-row" onclick="removeWorkExperienceRow(this)"> - </button> <!-- Remove button -->
+                    `;
+            workExperienceContainer.appendChild(newRow);
+
+            // Populate the newly added combo box with data from the ViewData["Firms"] variable
+            $(newRow).find(".naziv-firme").html(`@Html.Raw(ViewData["Firms"])`);
+        }
+    </script>
+</body>
+</html>
+
+

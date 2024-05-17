@@ -1,14 +1,17 @@
-﻿using EvidencijaNezaposlenih.Modeli.Modeli;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EvidencijaNezaposlenih.Modeli.DTO
+namespace EvidencijaNezaposlenih.ModeliPodataka.Modeli
 {
-    public class NezaposleniUnos
+    public class Nezaposleni
     {
+        [Key]
+        public string ID { get; set; }
+        public string JMBG { get; set; }
         public string Ime { get; set; }
         public string Prezime { get; set; }
         public DateTime DatumRodjenja { get; set; }
@@ -16,4 +19,5 @@ namespace EvidencijaNezaposlenih.Modeli.DTO
         public string Adresa { get; set; }
         public List<RadniOdnos> RadniOdnos { get; set; }
     }
+
 }
