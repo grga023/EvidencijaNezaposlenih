@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 {
     [DbContext(typeof(EvidencijaNezaposlenihDBContext))]
-    [Migration("20240517100750_init")]
+    [Migration("20240517131608_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -60,9 +60,11 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 
             modelBuilder.Entity("EvidencijaNezaposlenih.ModeliPodataka.Modeli.Poslodavac", b =>
                 {
-                    b.Property<Guid>("PIB")
+                    b.Property<int>("PIB")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PIB"));
 
                     b.Property<string>("Adresa")
                         .IsRequired()
@@ -79,8 +81,8 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 
             modelBuilder.Entity("EvidencijaNezaposlenih.ModeliPodataka.Modeli.RadniOdnos", b =>
                 {
-                    b.Property<Guid>("PIB")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("PIB")
+                        .HasColumnType("int");
 
                     b.Property<string>("NezaposleniID")
                         .HasColumnType("nvarchar(450)");
