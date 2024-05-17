@@ -9,6 +9,7 @@ namespace EvidencijaNezaposlenih.ModeliPodataka.DTO
     public class RadniOdnosPrikaz
     {
         public string NazivFirme { get; set; }
-        public int Staz {  get; set; }
+        public DateTime DatumPocetka { get; set; }
+        public DateTime DatumZavrsetka { get; set; }
     }
 }

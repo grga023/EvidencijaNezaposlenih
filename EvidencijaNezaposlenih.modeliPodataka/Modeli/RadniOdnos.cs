@@ -10,7 +10,8 @@ namespace EvidencijaNezaposlenih.ModeliPodataka.Modeli
 {
     public class RadniOdnos
     {
-        public int Trajanje { get; set; }
+        public DateTime DatumPocetka { get; set; }
+        public DateTime DatumZavrsetka { get; set; }
 
         [ForeignKey("Poslodavac")]
         public Guid PIB { get; set; }

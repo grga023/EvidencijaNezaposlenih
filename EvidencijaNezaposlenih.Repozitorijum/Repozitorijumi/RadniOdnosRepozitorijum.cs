@@ -64,7 +64,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
             var radniOdnos =  _ctx.RadniOdnosi.FirstOrDefault(c => c.NezaposleniID == obj.NezaposleniID && c.PIB == obj.PIB);
             if (radniOdnos != null)
             {
-                radniOdnos.Trajanje = obj.Trajanje;
+                radniOdnos.DatumPocetka = obj.DatumPocetka;
 
                 _ctx.RadniOdnosi.Update(radniOdnos);
             }

@@ -17,49 +17,49 @@ namespace Evidencijanezaposlenih.Interface.Pages
         }
 
 
-        public async Task OnPostAsync()
-        {
-            List<RadniOdnosPrikaz> RadniOdnosLista = new();
+        //public async Task OnPostAsync()
+        //{
+        //    List<RadniOdnosPrikaz> RadniOdnosLista = new();
 
-            RadniOdnosLista.Add(new RadniOdnosPrikaz
-            {
-                NazivFirme = "Bomist",
-                Staz = 50,
-            });
+        //    RadniOdnosLista.Add(new RadniOdnosPrikaz
+        //    {
+        //        NazivFirme = "Bomist",
+        //        Staz = 50,
+        //    });
 
-            RadniOdnosLista.Add(new RadniOdnosPrikaz
-            {
-                NazivFirme = "Ogrev",
-                Staz = 20,
-            });
+        //    RadniOdnosLista.Add(new RadniOdnosPrikaz
+        //    {
+        //        NazivFirme = "Ogrev",
+        //        Staz = 20,
+        //    });
 
 
-            NezaposleniUnos obj = new NezaposleniUnos
-            {
-                Adresa = "Zrenjanin",
-                BrojTelefona = "063637108",
-                Ime = "Milan",
-                Prezime = "Buric",
-                DatumRodjenja = DateTime.Parse("4/6/2001"),
-                RadniOdnosPrikaz = RadniOdnosLista
-            };
+        //    NezaposleniUnos obj = new NezaposleniUnos
+        //    {
+        //        Adresa = "Zrenjanin",
+        //        BrojTelefona = "063637108",
+        //        Ime = "Milan",
+        //        Prezime = "Buric",
+        //        DatumRodjenja = DateTime.Parse("4/6/2001"),
+        //        RadniOdnosPrikaz = RadniOdnosLista
+        //    };
 
-            //await _nezaposleniServis.KreirajNezaposlenog(obj);
+        //    //await _nezaposleniServis.KreirajNezaposlenog(obj);
 
-            var data  = await _nezaposleniServis.DajSvePoID(Name);
-            var tmp = "Grgur";
+        //    var data  = await _nezaposleniServis.DajSvePoID(Name);
+        //    var tmp = "Grgur";
 
-            var data2 = await _nezaposleniServis.DajSvePoimenuIPrezimenu(tmp);
+        //    var data2 = await _nezaposleniServis.DajSvePoimenuIPrezimenu(tmp);
 
-            tmp = "Ognjen";
-            var data3 = await _nezaposleniServis.DajSvePoimenuIPrezimenu(tmp);
+        //    tmp = "Ognjen";
+        //    var data3 = await _nezaposleniServis.DajSvePoimenuIPrezimenu(tmp);
 
-            tmp = "Ognjen Grgur";
-            var data4 = await _nezaposleniServis.DajSvePoimenuIPrezimenu(tmp);
+        //    tmp = "Ognjen Grgur";
+        //    var data4 = await _nezaposleniServis.DajSvePoimenuIPrezimenu(tmp);
 
-            //await _nezaposleniServis.Obrisi(Name);
+        //    //await _nezaposleniServis.Obrisi(Name);
 
-            data = null;
-        }
+        //    data = null;
+        //}
     }
 }
