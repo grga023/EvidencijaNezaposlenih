@@ -22,6 +22,28 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("EvidencijaNezaposlenih.ModeliPodataka.DTO.PoslodavacPrikaz", b =>
+                {
+                    b.Property<string>("Adresa")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Grad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Naziv")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PIB")
+                        .HasColumnType("int");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("PoslodavacPrikaz", (string)null);
+                });
+
             modelBuilder.Entity("EvidencijaNezaposlenih.ModeliPodataka.Modeli.Nezaposleni", b =>
                 {
                     b.Property<string>("ID")

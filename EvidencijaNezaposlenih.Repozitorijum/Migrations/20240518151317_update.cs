@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 {
     /// <inheritdoc />
-    public partial class upd : Migration
+    public partial class update : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

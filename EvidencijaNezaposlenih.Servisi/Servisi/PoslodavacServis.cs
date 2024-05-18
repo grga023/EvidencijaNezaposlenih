@@ -119,6 +119,9 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
             
             _poslodavacRepozitorijum.Dodaj(poslodavacZaDodati);
             _poslodavacRepozitorijum.Snimi();
+
+
+            var dataViewe = _poslodavacRepozitorijum.DajSvePogled("PoslodavacPrikaz");
         }
 
         public async Task Obrisi(object PK)
