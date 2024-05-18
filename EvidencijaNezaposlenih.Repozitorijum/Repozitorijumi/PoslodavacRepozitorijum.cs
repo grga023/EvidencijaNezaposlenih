@@ -32,6 +32,13 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
             }   
         }
 
+        public async Task<IEnumerable<Poslodavac>> DajSvePogled(object pogled)
+        {
+            var sql = "SELECT * FROM {pogled.ToString()}"; 
+            var poslodavci = await _ctx.Poslodavci.FromSqlRaw(sql).ToListAsync();
+
+            return poslodavci;
+        }
 
         public async Task<Poslodavac?> DajSvePoPrimarnomKljucu(object PK)
         {

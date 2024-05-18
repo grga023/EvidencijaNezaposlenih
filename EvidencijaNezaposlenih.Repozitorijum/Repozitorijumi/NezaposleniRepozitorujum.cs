@@ -61,7 +61,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for filter. Use 'Ime Prezime'.");
+                    throw new ArgumentException("Invalid format for filter. Use formats like this: 'Ime Prezime' or 'Ime' or 'Prezime'.");
                 }
             }
             else
