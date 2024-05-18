@@ -1,4 +1,5 @@
-﻿using EvidencijaNezaposlenih.ModeliPodataka.DTO;
+﻿using Azure.Core;
+using EvidencijaNezaposlenih.ModeliPodataka.DTO;
 using EvidencijaNezaposlenih.ModeliPodataka.Modeli;
 using EvidencijaNezaposlenih.Repozitorijum.Interfejsi;
 using EvidencijaNezaposlenih.Servisi.Interfejsi;
@@ -188,7 +189,16 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
 
             return ID;
         }
+        private string FormatirajFirmu(string nazivFirme)
+        {
+            string input = nazivFirme;
+            int index = input.IndexOf('|'); 
 
+            string result = index >= 0 ? input.Substring(0, index).Trim() : input;
+
+            result = result.TrimEnd();
+            return result;
+        }
         public async Task KreirajNezaposlenog(NezaposleniUnos obj)
         {
             string ID_N = GenerisiRandomID();
@@ -211,14 +221,14 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
 
             foreach (var item in obj.RadniOdnosPrikaz)
             {
-                var poslodavac = await _poslodavacRepozitorijum.PronadjiPoNazivu(item.NazivFirme);
+                var poslodavac = await _poslodavacRepozitorijum.PronadjiPoNazivu(FormatirajFirmu(item.NazivFirme));
                 if (poslodavac == null)
                     throw new ArgumentException("SF");
 
                 radniOdnosList.Add(new RadniOdnos
                 {
                     NezaposleniID = ID_N,
-                    PIB = poslodavac.PIB,
+                    ID = poslodavac.ID,
                     DatumPocetka = item.DatumPocetka,
                     DatumZavrsetka = item.DatumZavrsetka,
                 });

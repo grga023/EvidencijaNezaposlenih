@@ -12,8 +12,9 @@ namespace Evidencijanezaposlenih.Interface.Pages
         public NezaposleniPrikazModel(INezaposleniServis nezaposleniService)
         {
             _nezaposleniService = nezaposleniService;
+            NezaposleniList = new List<NezaposleniPrikaz>();
         }
-        public List<NezaposleniPrikaz> NezaposleniList { get; set; }
+            public List<NezaposleniPrikaz> NezaposleniList { get; set; }
         public async Task OnGetAsync()
         {
             var data = await _nezaposleniService.DajSve();
@@ -30,7 +31,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
                 };
                 NezaposleniList.Add(nezaposleni);
             }
-            
+
         }
     }
 }

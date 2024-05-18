@@ -85,7 +85,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 
             modelBuilder.Entity("EvidencijaNezaposlenih.ModeliPodataka.Modeli.RadniOdnos", b =>
                 {
-                    b.Property<int>("PIB")
+                    b.Property<int>("ID")
                         .HasColumnType("int");
 
                     b.Property<string>("NezaposleniID")
@@ -97,7 +97,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                     b.Property<DateTime>("DatumZavrsetka")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("PIB", "NezaposleniID");
+                    b.HasKey("ID", "NezaposleniID");
 
                     b.HasIndex("NezaposleniID");
 
@@ -106,15 +106,15 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 
             modelBuilder.Entity("EvidencijaNezaposlenih.ModeliPodataka.Modeli.RadniOdnos", b =>
                 {
-                    b.HasOne("EvidencijaNezaposlenih.ModeliPodataka.Modeli.Nezaposleni", "Nezaposleni")
-                        .WithMany("RadniOdnos")
-                        .HasForeignKey("NezaposleniID")
+                    b.HasOne("EvidencijaNezaposlenih.ModeliPodataka.Modeli.Poslodavac", "Poslodavac")
+                        .WithMany()
+                        .HasForeignKey("ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EvidencijaNezaposlenih.ModeliPodataka.Modeli.Poslodavac", "Poslodavac")
-                        .WithMany()
-                        .HasForeignKey("PIB")
+                    b.HasOne("EvidencijaNezaposlenih.ModeliPodataka.Modeli.Nezaposleni", "Nezaposleni")
+                        .WithMany("RadniOdnos")
+                        .HasForeignKey("NezaposleniID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

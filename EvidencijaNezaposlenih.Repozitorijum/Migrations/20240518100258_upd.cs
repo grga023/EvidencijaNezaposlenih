@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class upd : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,6 +36,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PIB = table.Column<int>(type: "int", nullable: false),
                     Naziv = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Grad = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Adresa = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -47,14 +48,14 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                 name: "RadniOdnosi",
                 columns: table => new
                 {
-                    PIB = table.Column<int>(type: "int", nullable: false),
+                    ID = table.Column<int>(type: "int", nullable: false),
                     NezaposleniID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DatumPocetka = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DatumZavrsetka = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RadniOdnosi", x => new { x.PIB, x.NezaposleniID });
+                    table.PrimaryKey("PK_RadniOdnosi", x => new { x.ID, x.NezaposleniID });
                     table.ForeignKey(
                         name: "FK_RadniOdnosi_Nezaposleni_NezaposleniID",
                         column: x => x.NezaposleniID,
@@ -62,8 +63,8 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RadniOdnosi_Poslodavci_PIB",
-                        column: x => x.PIB,
+                        name: "FK_RadniOdnosi_Poslodavci_ID",
+                        column: x => x.ID,
                         principalTable: "Poslodavci",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);

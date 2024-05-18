@@ -14,7 +14,7 @@ namespace EvidencijaNezaposlenih.ModeliPodataka.Modeli
         public DateTime DatumZavrsetka { get; set; }
 
         [ForeignKey("Poslodavac")]
-        public int PIB { get; set; }
+        public int ID { get; set; }
         public Poslodavac Poslodavac { get; set; }
 
         [ForeignKey("Nezaposleni")]
