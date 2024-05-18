@@ -23,7 +23,8 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
         {
             if (filter is string naziv)
             {
-                return await _ctx.Poslodavci.Where(x => x.Naziv.Contains((string)filter)).ToListAsync();
+                var data = await _ctx.Poslodavci.Where(x => x.Naziv.Contains((string)filter)).ToListAsync();
+                return data;
             }
             else
             {
@@ -34,9 +35,9 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
         public async Task<Poslodavac?> DajSvePoPrimarnomKljucu(object PK)
         {
-            if (PK is Guid PIB)
+            if (PK is int ID)
             {
-                return await _ctx.Poslodavci.FindAsync(PIB);
+                return await _ctx.Poslodavci.FindAsync(ID);
             }
             else
             {

@@ -1,0 +1,34 @@
+using EvidencijaNezaposlenih.ModeliPodataka.DTO;
+using EvidencijaNezaposlenih.Servisi.Interfejsi;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace Evidencijanezaposlenih.Interface.Pages
+{
+    public class DodavanjeFirmeModel : PageModel
+    {
+        private readonly IPoslodavacServis _poslodavacServis;
+
+        public DodavanjeFirmeModel(IPoslodavacServis poslodavacServis)
+        {
+            _poslodavacServis = poslodavacServis;
+        }
+
+        public void OnGet()
+        {
+        }
+        public async Task OnPostAsync()
+        {
+
+            PoslodavacUnos obj = new()
+            {
+                PIB = Int32.Parse(Request.Form["pib"]),
+                Adresa = Request.Form["adresa"],
+                Grad = Request.Form["grad"],
+                Naziv = Request.Form["naziv"]
+            };
+
+            await _poslodavacServis.KreirajPoslodavca(obj);
+        }
+    }
+}

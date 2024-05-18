@@ -35,13 +35,13 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
                     return await _ctx.RadniOdnosi
                         .Where(c => c.NezaposleniID == ID_N &&
-                        c.PIB == Guid.Parse(ID_P)).ToListAsync();
+                        c.ID == Int32.Parse(ID_P)).ToListAsync();
                 }
                 else if (filterParts.Length == 1)
                 {
                     return await _ctx.RadniOdnosi
                         .Where(c => c.NezaposleniID == filterParts[0] ||
-                        c.PIB == Guid.Parse(filterParts[1])).ToListAsync();
+                        c.ID == Int32.Parse(filterParts[1])).ToListAsync();
                 }
                 else { throw new ArgumentException("Los format filtera"); }
             }
@@ -61,7 +61,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
         public RadniOdnos? Izmeni(RadniOdnos obj)
         {
-            var radniOdnos =  _ctx.RadniOdnosi.FirstOrDefault(c => c.NezaposleniID == obj.NezaposleniID && c.PIB == obj.PIB);
+            var radniOdnos =  _ctx.RadniOdnosi.FirstOrDefault(c => c.NezaposleniID == obj.NezaposleniID && c.ID == obj.ID);
             if (radniOdnos != null)
             {
                 radniOdnos.DatumPocetka = obj.DatumPocetka;
@@ -79,7 +79,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
             var radniOdnos = _ctx.RadniOdnosi
                         .FirstOrDefault(c => c.NezaposleniID == PKParts[0] &&
-                        c.PIB == Guid.Parse(PKParts[1]));
+                        c.ID == Int32.Parse(PKParts[1]));
             if (radniOdnos != null)
             {
                 _ctx.RadniOdnosi.Remove(radniOdnos);

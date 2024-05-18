@@ -1,0 +1,101 @@
+﻿@page
+@model Evidencijanezaposlenih.Interface.Pages.NezaposleniPrikazModel
+@{
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nezaposleni List</title>
+    <style>
+        .nezaposleni-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            position: relative;
+        }
+        .nezaposleni-details {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .nezaposleni-details p {
+            margin: 0 10px 0 0;
+        }
+        .toggle-button {
+            cursor: pointer;
+            margin-left: auto;
+        }
+        .radni-odnos {
+            display: none;
+            margin-top: 10px;
+        }
+        .radni-odnos table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .radni-odnos th, .radni-odnos td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        .radni-odnos th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>List of Nezaposleni</h1>
+
+    @foreach (var nezaposleni in Model.NezaposleniList)
+    {
+        <div class="nezaposleni-container">
+            <div class="nezaposleni-details">
+                <p><strong>Ime:</strong> @nezaposleni.Ime</p>
+                <p><strong>Prezime:</strong> @nezaposleni.Prezime</p>
+                <p><strong>Datum Rodjenja:</strong> @nezaposleni.DatumRodjenja.ToShortDateString()</p>
+                <p><strong>Broj Telefona:</strong> @nezaposleni.BrojTelefona</p>
+                <p><strong>Adresa:</strong> @nezaposleni.Adresa</p>
+                <span class="toggle-button" onclick="toggleDetails(this)">&#x25BC;</span>
+            </div>
+            <div class="radni-odnos">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Naziv Firme</th>
+                            <th>Datum Pocetka</th>
+                            <th>Datum Zavrsetka</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var radniOdnos in nezaposleni.RadniOdnosPrikaz)
+                        {
+                            <tr>
+                                <td>@radniOdnos.NazivFirme</td>
+                                <td>@radniOdnos.DatumPocetka.ToShortDateString()</td>
+                                <td>@radniOdnos.DatumZavrsetka.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+    <script>
+        function toggleDetails(element) {
+            const radniOdnosDiv = element.parentElement.nextElementSibling;
+            if (radniOdnosDiv.style.display === "none" || radniOdnosDiv.style.display === "") {
+                radniOdnosDiv.style.display = "block";
+                element.innerHTML = "&#x25B2;"; // Change to up arrow
+            } else {
+                radniOdnosDiv.style.display = "none";
+                element.innerHTML = "&#x25BC;"; // Change to down arrow
+            }
+        }
+    </script>
+</body>
+</html>

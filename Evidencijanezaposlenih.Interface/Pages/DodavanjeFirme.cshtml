@@ -1,0 +1,89 @@
+﻿@page
+@model Evidencijanezaposlenih.Interface.Pages.DodavanjeFirmeModel
+@{
+    ViewData["Title"] = "Dodavanje Firme";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezor Web App - Data Entry Page</title>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* CSS styles */
+        .container {
+            max-width: 1600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            padding: 20px;
+            margin-bottom: 0px;
+        }
+
+        label {
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 10px;
+            width: 150px; /* Set width for labels */
+            font-size: 18px; /* Larger font size */
+        }
+
+        input[type="text"], input[type="date"] {
+            width: 250px; /* Set width for input fields */
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .separator {
+            border-top: 2px solid #007bff;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Enter Firm Information</h2>
+        <form id="data-entry-form" method="post">
+            <div class="form-group">
+                <label for="name">PIB:</label>
+                <input type="text" id="pib" name="pib" required>
+            </div>
+            <div class="form-group">
+                <label for="startDate">Naziv:</label>
+                <input type="text" id="naziv" name="naziv" required>
+            </div>
+            <div class="form-group">
+                <label for="startDate">Grad:</label>
+                <input type="text" id="grad" name="grad" required>
+            </div>
+            <div class="form-group">
+                <label for="endDate">Adresa:</label>
+                <input type="text" id="adresa" name="adresa">
+            </div>
+            <input type="submit" value="Submit">
+            <div class="separator"></div>
+        </form>
+    </div>
+</body>
+</html>
