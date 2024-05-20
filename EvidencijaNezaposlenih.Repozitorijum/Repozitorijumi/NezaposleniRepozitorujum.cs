@@ -18,7 +18,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<IEnumerable<Nezaposleni>> DajSve()
+        public async Task<IEnumerable<Nezaposleni>?> DajSve()
         {
             return await _context.Nezaposleni
                 .Include(x => x.RadniOdnos)
@@ -43,8 +43,10 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
                         .Include(x => x.RadniOdnos)
                         .ThenInclude(x => x.Poslodavac)
                         .Where(nezaposleni =>
-                            nezaposleni.Ime.Contains(ime) &&
-                            nezaposleni.Prezime.Contains(prezime))
+                            (nezaposleni.Ime.Contains(ime) &&
+                            nezaposleni.Prezime.Contains(prezime)) ||
+                            nezaposleni.Ime.Contains(prezime) &&
+                            nezaposleni.Prezime.Contains(ime))
                         .ToListAsync();
                 }
                 else if (filterParts.Length == 1)
@@ -54,14 +56,17 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
                         .Include(x => x.RadniOdnos)
                         .ThenInclude(x => x.Poslodavac)
                         .Where(nezaposleni =>
-                            nezaposleni.Ime == filterParts[0] ||
-                            nezaposleni.Prezime == filterParts[0])
+                            nezaposleni.Ime.Contains(filterParts[0]) ||
+                            nezaposleni.Prezime.Contains(filterParts[0]))
                         .ToListAsync();
                     return data;
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for filter. Use formats like this: 'Ime Prezime' or 'Ime' or 'Prezime'.");
+                    return await _context.Nezaposleni
+                                    .Include(x => x.RadniOdnos)
+                                    .ThenInclude(x => x.Poslodavac)
+                                    .ToListAsync();
                 }
             }
             else

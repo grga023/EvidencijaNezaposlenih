@@ -1,0 +1,51 @@
+﻿@page
+@model Evidencijanezaposlenih.Interface.Pages.PoslodavacPikazModel
+@{
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/dodavanje.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="header">
+        <h1>Lista Poslodavaca</h1>
+        <div class="search-box">
+            <form method="post">
+                <input type="text" id="filter" name="filter" placeholder="Search...">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="MasterSeparator"></div>
+    @foreach (var firma in Model.PoslodavacPrikazLista)
+    {
+        <div class="firma-container">
+            <div class="firma-details">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Naziv Firme</th>
+                            <th>Adresa</th>
+                            <th>Grad</th>
+                            <th>PIB</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@firma.Naziv</td>
+                            <td>@firma.Adresa</td>
+                            <td>@firma.Grad</td>
+                            <td>@firma.PIB</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="separator"></div>
+    }
+</body>
+</html>

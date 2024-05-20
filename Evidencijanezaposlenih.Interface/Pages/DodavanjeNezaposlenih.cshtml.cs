@@ -29,13 +29,6 @@ namespace Evidencijanezaposlenih.Interface.Pages
         public async Task OnPost()
         {
             int cnt = 0;
-            //var name = Request.Form["name"];
-            //var surname = Request.Form["surname"];
-            //var dateOfBirth = Request.Form["dateOfBirth"];
-            //var jmbg = Request.Form["jmbg"];
-            //var phoneNumber = Request.Form["phoneNumber"];
-
-            // Handling the list of work experiences
             var nazivFirme = Request.Form["nazivFirme[]"];
             var datumPocetka = Request.Form["datumPocetka[]"];
             var datumZavrsetka = Request.Form["datumZavrsetka[]"];
@@ -46,9 +39,9 @@ namespace Evidencijanezaposlenih.Interface.Pages
             {
                 RadniOdnosPrikaz radniOdnos = new()
                 {
-                    NazivFirme = nazivFirme[cnt],
-                    DatumPocetka = DateTime.Parse(datumPocetka[cnt]),
-                    DatumZavrsetka = DateTime.Parse(datumZavrsetka[cnt])
+                    NazivFirme = nazivFirme[cnt].ToString(),
+                    DatumPocetka = DateTime.Parse(datumPocetka[cnt].ToString()),
+                    DatumZavrsetka = DateTime.Parse(datumZavrsetka[cnt].ToString())
                 };
                 radniOdnosi.Add(radniOdnos);
                 cnt++;
@@ -57,12 +50,12 @@ namespace Evidencijanezaposlenih.Interface.Pages
 
             NezaposleniUnos nezaposleniUnos = new()
             { 
-                Ime = Request.Form["name"],
-                Prezime = Request.Form["surname"],
-                DatumRodjenja = DateTime.Parse(Request.Form["dateOfBirth"]),
-                JMBG = Request.Form["jmbg"],
-                Adresa = "Adresa",
-                BrojTelefona = Request.Form["phoneNumber"],
+                Ime = Request.Form["name"].ToString(),
+                Prezime = Request.Form["surname"].ToString(),
+                DatumRodjenja = DateTime.Parse(Request.Form["dateOfBirth"].ToString()),
+                JMBG = Request.Form["jmbg"].ToString(),
+                Adresa = Request.Form["adresa"].ToString(),
+                BrojTelefona = Request.Form["phoneNumber"].ToString(),
                 RadniOdnosPrikaz = radniOdnosi
             };
             

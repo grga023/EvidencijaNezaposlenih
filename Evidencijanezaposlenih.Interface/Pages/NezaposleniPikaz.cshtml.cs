@@ -37,24 +37,27 @@ namespace Evidencijanezaposlenih.Interface.Pages
         }
         public async Task OnPostAsync()
         {
-            var filter = Request.Form["filter"];
+            var filter = Request.Form["filter"].ToString();
 
             var data = await _nezaposleniService.DajSvePoimenuIPrezimenu(filter);
-
-            foreach (var item in data)
+            if (data != null)
             {
-                NezaposleniPrikaz nezaposleni = new()
+                foreach (var item in data)
                 {
-                    Ime = item.Ime,
-                    Prezime = item.Prezime,
-                    Adresa = item.Adresa,
-                    JMBG = item.JMBG,
-                    BrojTelefona = item.BrojTelefona,
-                    DatumRodjenja = item.DatumRodjenja,
-                    RadniOdnosPrikaz = item.RadniOdnosPrikaz,
-                };
-                NezaposleniList.Add(nezaposleni);
+                    NezaposleniPrikaz nezaposleni = new()
+                    {
+                        Ime = item.Ime,
+                        Prezime = item.Prezime,
+                        Adresa = item.Adresa,
+                        JMBG = item.JMBG,
+                        BrojTelefona = item.BrojTelefona,
+                        DatumRodjenja = item.DatumRodjenja,
+                        RadniOdnosPrikaz = item.RadniOdnosPrikaz,
+                    };
+                    NezaposleniList.Add(nezaposleni);
+                }
             }
+            else NezaposleniList = new List<NezaposleniPrikaz>();
 
         }
     }

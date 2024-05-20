@@ -122,8 +122,9 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
 
         public async Task<IEnumerable<NezaposleniPrikaz>> DajSvePoimenuIPrezimenu(object filter)
         {
-            var data = await _nezaposleniRepozitorijum.DajSvePoFilteru(filter);
-            if (data == null) { throw new ArgumentNullException("Nema unetih podataka"); }
+            var data = await _nezaposleniRepozitorijum.DajSvePoFilteru((string)filter);
+            if (data == null) { return null; }
+
 
             List<NezaposleniPrikaz> rezultat = new();
             NezaposleniPrikaz nezaposleni;
@@ -138,6 +139,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                     BrojTelefona = item.BrojTelefona,
                     Ime = item.Ime,
                     Prezime = item.Prezime,
+                    JMBG = item.JMBG,
                     DatumRodjenja = item.DatumRodjenja,
                     RadniOdnosPrikaz = null
                 };
