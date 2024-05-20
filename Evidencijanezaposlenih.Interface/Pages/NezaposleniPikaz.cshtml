@@ -10,79 +10,188 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nezaposleni List</title>
     <style>
+        body {
+            background-color: #333333;
+            color: #ffffff;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            display: flex;
+        }
+
+            .search-box input[type="text"] {
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            .search-box button {
+                padding: 5px 10px;
+                margin-left: 5px;
+                background-color: #007bff;
+                border: none;
+                border-radius: 4px;
+                color: #ffffff;
+                cursor: pointer;
+            }
+
         .nezaposleni-container {
             border: 1px solid #ccc;
             padding: 10px;
             margin: 10px 0;
             position: relative;
+            color: #ffffff; /* Ensures text within these containers is white */
         }
+
         .nezaposleni-details {
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
         }
-        .nezaposleni-details p {
-            margin: 0 10px 0 0;
-        }
+
+            .nezaposleni-details p {
+                margin: 0 10px 0 0;
+                color: #ffffff; /* Ensures text within these paragraphs is white */
+            }
+
+            .nezaposleni-details table {
+                width: 100%;
+                color: #ffffff; /* Ensures text within these tables is white */
+            }
+
         .toggle-button {
             cursor: pointer;
             margin-left: auto;
+            color: #ffffff; /* Ensures toggle button text is white */
         }
+
         .radni-odnos {
             display: none;
             margin-top: 10px;
+            color: #ffffff; /* Ensures text within these containers is white */
         }
-        .radni-odnos table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .radni-odnos th, .radni-odnos td {
+
+            .radni-odnos table {
+                width: 100%;
+                border-collapse: collapse;
+                color: #ffffff; /* Ensures text within these tables is white */
+            }
+
+            .radni-odnos th, .radni-odnos td {
+                border: 1px solid #ccc;
+                padding: 8px;
+                text-align: left;
+                color: #ffffff; /* Ensures text within these table cells is white */
+            }
+
+            .radni-odnos th {
+                background-color: #88888888;
+                color: #ffffff; /* Ensures header text within these table cells is black for contrast */
+            }
+
+        .nezaposleni-details th, .nezaposleni-details td {
             border: 1px solid #ccc;
             padding: 8px;
             text-align: left;
+            color: #ffffff; /* Ensures text within these table cells is white */
         }
-        .radni-odnos th {
-            background-color: #f2f2f2;
+
+        .nezaposleni-details th {
+            background-color: #88888888;
+            color: #ffffff; /* Ensures header text within these table cells is black for contrast */
+        }
+
+        .separator {
+            border-top: 2px solid #007bff;
+            margin: 20px 0;
+        }
+
+        .MasterSeparator {
+            border-top: 5px solid #007bff;
+            margin: 20px 0;
+        }
+
+        h1, th {
+            color: #ffffff;
         }
     </style>
 </head>
 <body>
-    <h1>List of Nezaposleni</h1>
-
+    <div class="header">
+        <h1>List of Nezaposleni</h1>
+        <div class="search-box">
+            <form method="post">
+                <input type="text" id="filter" name="filter" placeholder="Search...">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="MasterSeparator"></div>
     @foreach (var nezaposleni in Model.NezaposleniList)
     {
         <div class="nezaposleni-container">
             <div class="nezaposleni-details">
-                <p><strong>Ime:</strong> @nezaposleni.Ime</p>
-                <p><strong>Prezime:</strong> @nezaposleni.Prezime</p>
-                <p><strong>Datum Rodjenja:</strong> @nezaposleni.DatumRodjenja.ToShortDateString()</p>
-                <p><strong>Broj Telefona:</strong> @nezaposleni.BrojTelefona</p>
-                <p><strong>Adresa:</strong> @nezaposleni.Adresa</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ime</th>
+                            <th>Prezime</th>
+                            <th>Jmbg</th>
+                            <th>Datum Rodjenja</th>
+                            <th>Broj telefona</th>
+                            <th>Adresa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@nezaposleni.Ime</td>
+                            <td>@nezaposleni.Prezime</td>
+                            <td>@nezaposleni.JMBG</td>
+                            <td>@nezaposleni.DatumRodjenja.ToShortDateString()</td>
+                            <td>@nezaposleni.BrojTelefona</td>
+                            <td>@nezaposleni.Adresa</td>
+                        </tr>
+                    </tbody>
+                </table>
                 <span class="toggle-button" onclick="toggleDetails(this)">&#x25BC;</span>
             </div>
             <div class="radni-odnos">
                 <table>
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Naziv Firme</th>
                             <th>Datum Pocetka</th>
                             <th>Datum Zavrsetka</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @{
+                            var rowIndex = 1;
+                        }
                         @foreach (var radniOdnos in nezaposleni.RadniOdnosPrikaz)
                         {
                             <tr>
+                                <td>@rowIndex</td>
                                 <td>@radniOdnos.NazivFirme</td>
                                 <td>@radniOdnos.DatumPocetka.ToShortDateString()</td>
                                 <td>@radniOdnos.DatumZavrsetka.ToShortDateString()</td>
                             </tr>
+                            rowIndex++;
                         }
                     </tbody>
                 </table>
             </div>
         </div>
+        <div class="separator"></div>
     }
 
     <script>
