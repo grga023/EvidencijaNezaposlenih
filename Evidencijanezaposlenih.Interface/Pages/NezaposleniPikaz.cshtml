@@ -35,6 +35,7 @@
                             <th>Datum Rodjenja</th>
                             <th>Broj telefona</th>
                             <th>Adresa</th>
+                            <th>Edit</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,6 +46,14 @@
                             <td>@nezaposleni.DatumRodjenja.ToShortDateString()</td>
                             <td>@nezaposleni.BrojTelefona</td>
                             <td>@nezaposleni.Adresa</td>
+                            <td>
+                                <form method="get" action="/NezaposleniIzmeni">
+                                    <input type="hidden" name="jmbg" value="@nezaposleni.JMBG" />
+                                    <button type="submit" title="Edit">
+                                        ✏️
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

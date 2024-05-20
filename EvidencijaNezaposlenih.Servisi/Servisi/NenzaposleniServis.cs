@@ -21,11 +21,10 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
             _nezaposleniRepozitorijum = nezaposleniRepozitorijum;
             _poslodavacRepozitorijum = poslodavacRepozitorijum;
         }
-
-        public async Task Azuriraj(NezaposleniIzmena obj)
+        public async Task Azuriraj(NezaposleniPrikaz obj)
         {
-            var data = await _nezaposleniRepozitorijum.DajSvePoPrimarnomKljucu(obj.ID);
-            if (data != null)
+            var data = await _nezaposleniRepozitorijum.DajSvePoJMBG(obj.JMBG);
+            if (data == null)
                 throw new ArgumentException("Pogresan ID");
 
             Nezaposleni nezaposleni = new Nezaposleni
@@ -36,13 +35,13 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                 Ime = obj.Ime,
                 Prezime = obj.Prezime,
                 DatumRodjenja = obj.DatumRodjenja,
-                JMBG = obj.JMBG,
+                JMBG = data.JMBG,
+                RadniOdnos = data.RadniOdnos,
             };
 
             _nezaposleniRepozitorijum.Izmeni(nezaposleni);
             _nezaposleniRepozitorijum.Snimi();
         }
-
         public async Task<IEnumerable<NezaposleniPrikaz>> DajSve()
         {
             var data = await _nezaposleniRepozitorijum.DajSve();
@@ -60,6 +59,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                     Adresa = item.Adresa,
                     BrojTelefona = item.BrojTelefona,
                     Ime = item.Ime,
+                    JMBG = item.JMBG,
                     Prezime = item.Prezime,
                     DatumRodjenja = item.DatumRodjenja,
                     RadniOdnosPrikaz = null
@@ -83,7 +83,6 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
 
             return rezultat;
         }
-
         public async Task<NezaposleniPrikaz> DajSvePoID(object PK)
         {
             var data = await _nezaposleniRepozitorijum.DajSvePoPrimarnomKljucu(PK);
@@ -97,6 +96,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                 Adresa = data.Adresa,
                 BrojTelefona = data.BrojTelefona,
                 Ime = data.Ime,
+                JMBG = data.JMBG,
                 Prezime = data.Prezime,
                 DatumRodjenja = data.DatumRodjenja,
                 RadniOdnosPrikaz = null
@@ -119,17 +119,51 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
 
             return nezaposleni;
         }
+        public async Task<NezaposleniPrikaz> DajSvePoJMBGU(object JMBG)
+        {
+            var data = await _nezaposleniRepozitorijum.DajSvePoJMBG((string)JMBG);
+            if (data == null) { return null; }
 
+            NezaposleniPrikaz nezaposleni;
+            RadniOdnosPrikaz radniOdnos;
+
+            nezaposleni = new NezaposleniPrikaz
+            {
+                Adresa = data.Adresa,
+                BrojTelefona = data.BrojTelefona,
+                Ime = data.Ime,
+                Prezime = data.Prezime,
+                JMBG = data.JMBG,
+                DatumRodjenja = data.DatumRodjenja,
+                RadniOdnosPrikaz = null
+            };
+
+            List<RadniOdnosPrikaz> radniOdnosList = new();
+
+            foreach (var iskustvo in data.RadniOdnos)
+            {
+                radniOdnos = new RadniOdnosPrikaz
+                {
+                    NazivFirme = iskustvo.Poslodavac.Naziv,
+                    DatumPocetka = iskustvo.DatumPocetka,
+                    DatumZavrsetka = iskustvo.DatumZavrsetka,
+                };
+                radniOdnosList.Add(radniOdnos);
+            }
+            nezaposleni.RadniOdnosPrikaz = radniOdnosList;
+
+
+
+            return nezaposleni;
+        }
         public async Task<IEnumerable<NezaposleniPrikaz>> DajSvePoimenuIPrezimenu(object filter)
         {
             var data = await _nezaposleniRepozitorijum.DajSvePoFilteru((string)filter);
             if (data == null) { return null; }
-
-
+            
             List<NezaposleniPrikaz> rezultat = new();
             NezaposleniPrikaz nezaposleni;
             RadniOdnosPrikaz radniOdnos;
-
 
             foreach (var item in data)
             {
@@ -159,10 +193,8 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                 nezaposleni.RadniOdnosPrikaz = radniOdnosList;
                 rezultat.Add(nezaposleni);
             }
-
             return rezultat;
         }
-
         private string GenerisiRandomID()
         {
             string IDzaKontrolu;
@@ -239,7 +271,6 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
             _nezaposleniRepozitorijum.Dodaj(nezaposleniZaDodavanje);
             _nezaposleniRepozitorijum.Snimi();
         }
-
         public async Task Obrisi(object PK)
         {
             await _nezaposleniRepozitorijum.Obrisi(PK);

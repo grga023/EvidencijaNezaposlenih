@@ -75,6 +75,13 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
             }
         }
 
+        public async Task<Nezaposleni?> DajSvePoJMBG(object filter)
+        {
+            var data = await _context.Nezaposleni
+                .Include(x => x.RadniOdnos)
+                .ThenInclude(x => x.Poslodavac).FirstOrDefaultAsync(nezaposleni => nezaposleni.JMBG == (string)filter);
+            return data;
+        }
 
         public async Task<Nezaposleni?> DajSvePoPrimarnomKljucu(object PK)
         {
