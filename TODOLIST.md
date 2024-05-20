@@ -13,7 +13,6 @@ This document tracks the tasks and features planned for the project. Feel free t
 - [x] Models for Nezaposleni
 - [x] Models for Poslodavac
 - [x] Models for Radni Odnos
-
 - [ ] Finalise DTOs
 
 - [x] Sevices for Nezaposleni

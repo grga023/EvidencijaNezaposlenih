@@ -10,6 +10,7 @@ html {
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  background-color: black;
 }
 
 html {
@@ -20,3 +21,34 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+.custom-navbar {
+    background-color: #333333; /* Change this to your desired color */
+    color: #ffffff; /* Ensures text color is white for contrast */
+    font-size: 30px; /* Adjusts the overall font size of the navbar */
+}
+
+    .custom-navbar .navbar-brand {
+        color: white;
+        font-size: 30px; /* Adjusts the font size of the brand name */
+    }
+
+    .custom-navbar .navbar-nav .nav-link {
+        color: #ffffff; /* Ensures nav link text color is white */
+        font-size: 20px; /* Adjusts the font size of nav links */
+    }
+
+    .custom-navbar .dropdown-menu {
+        background-color: #444444; /* Change dropdown background color */
+        font-size: 20px; /* Adjusts the font size of dropdown items */
+    }
+
+    .custom-navbar .dropdown-item {
+        color: #ffffff; /* Ensures dropdown item text color is white */
+    }
+
+        .custom-navbar .dropdown-item:hover {
+            background-color: #555555; /* Change hover background color */
+            color: #ffffff; /* Ensures hover text color is white */
+        }

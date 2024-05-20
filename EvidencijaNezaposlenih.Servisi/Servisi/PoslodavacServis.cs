@@ -52,22 +52,21 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
         public async Task<IEnumerable<PoslodavacPrikaz>> DajSvePoNazivu(object filter)
         {
             var data = await _poslodavacRepozitorijum.DajSvePoFilteru(filter);
-            if (data == null)
-                throw new ArgumentException("SF");
+            if (data.Count == 0)
+                return null;
 
             List<PoslodavacPrikaz> poslodavci = new();
 
             foreach(var obj in data)
             {
-                PoslodavacPrikaz poslodavacPrikaz = new()
+                poslodavci.Add(new PoslodavacPrikaz
                 {
                     Adresa = obj.Adresa,
                     Naziv = obj.Naziv,
                     Grad = obj.Grad,
                     PIB = obj.PIB,
-                };
+                });
 
-                poslodavci.Add(poslodavacPrikaz);
             }
 
 
@@ -119,6 +118,9 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
             
             _poslodavacRepozitorijum.Dodaj(poslodavacZaDodati);
             _poslodavacRepozitorijum.Snimi();
+
+
+            var dataViewe = _poslodavacRepozitorijum.DajSvePogled("PoslodavacPrikaz");
         }
 
         public async Task Obrisi(object PK)

@@ -1,10 +1,10 @@
 ﻿@page
-@model Evidencijanezaposlenih.Interface.Pages.DodavanjeNezaposlenihModel
+@model Evidencijanezaposlenih.Interface.Pages.NezaposleniIzmeniModel
 @{
     ViewData["Title"] = "Dodavanje Zaposlenih";
 }
 <!DOCTYPE html>
-<html lang="en">    
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>Dodavanje Firme</h1>
+        <h1>Izmena Nezaposlenog</h1>
 
     </div>
     <div class="MasterSeparator"></div>
@@ -24,48 +24,52 @@
         <form id="data-entry-form" method="post">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" value="@Model?.nezaposleni?.Ime" />
             </div>
             <div class="form-group">
                 <label for="surname">Surname:</label>
-                <input type="text" id="surname" name="surname" required>
+                <input type="text" id="surname" name="surname" value="@Model?.nezaposleni?.Prezime">
             </div>
             <div class="form-group">
                 <label for="dateOfBirth">Date of Birth:</label>
-                <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" value="@Model?.nezaposleni?.DatumRodjenja.ToString("yyyy-MM-dd")">
             </div>
             <div class="form-group">
                 <label for="jmbg">JMBG:</label>
-                <input type="text" id="jmbg" name="jmbg" required>
+                <input type="text" id="jmbg" name="jmbg" value="@Model?.nezaposleni?.JMBG">
             </div>
             <div class="form-group">
                 <label for="phoneNumber">Phone Number:</label>
-                <input type="text" id="phoneNumber" name="phoneNumber" required>
+                <input type="text" id="phoneNumber" name="phoneNumber" value="@Model?.nezaposleni?.BrojTelefona ">
             </div>
             <div class="form-group">
                 <label for="adresa">Adresa:</label>
-                <input type="text" id="adresa" name="adresa" required>
+                <input type="text" id="adresa" name="adresa" value="@Model?.nezaposleni?.Adresa">
             </div>
             <div class="separator"></div>
             <h3>List of Work Experience</h3>
             <div class="work-experience">
-                <div class="work-row">
-                    <label class="work-label" for="nazivFirme">Naziv Firme:</label>
-                    <div class="form-group">
-                        <select class="naziv-firme" name="nazivFirme[]" required>
-                            <option value="">Select Firm</option> <!-- Default option -->
-                        </select>
-                    </div>
-                    <label class="work-label" for="datumPocetka">Datum Pocetka:</label>
-                    <div class="form-group">
-                        <input type="date" class="datum-pocetka" name="datumPocetka[]" required>
-                    </div>
-                    <label class="work-label" for="datumZavrsetka">Datum Zavrsetka:</label>
-                    <div class="form-group">
-                        <input type="date" class="datum-zavrsetka" name="datumZavrsetka[]" required>
-                    </div>
-                    <button class="remove-row" onclick="removeWorkExperienceRow(this)"> - </button> <!-- Remove button -->
-                </div>
+                @if (Model != null && Model.nezaposleni != null && Model.nezaposleni.RadniOdnosPrikaz != null)
+                {
+                    foreach (var workExperience in Model.nezaposleni.RadniOdnosPrikaz)
+                        {
+                            <div class="work-row">
+                                <label class="work-label" for="nazivFirme">Naziv Firme:</label>
+                                <div class="form-group">
+                                    <input type="text" class="naziv-firme" name="nazivFirme[]" value="@workExperience?.NazivFirme" required>
+                                </div>
+                                <label class="work-label" for="datumPocetka">Datum Pocetka:</label>
+                                <div class="form-group">
+                                    <input type="date" class="datum-pocetka" name="datumPocetka[]" value="@workExperience?.DatumPocetka.ToString("yyyy-MM-dd")" required>
+                                </div>
+                                <label class="work-label" for="datumZavrsetka">Datum Zavrsetka:</label>
+                                <div class="form-group">
+                                    <input type="date" class="datum-zavrsetka" name="datumZavrsetka[]" value="@workExperience?.DatumZavrsetka.ToString("yyyy-MM-dd")" required>
+                                </div>
+                                <button class="remove-row" onclick="removeWorkExperienceRow(this)"> - </button> <!-- Remove button -->
+                            </div>
+                        }
+                }
             </div>
             <div class="add-row" onclick="addWorkExperienceRow()">+ Add Work Experience</div>
             <div class="separator"></div>
@@ -77,7 +81,11 @@
     <script>
         $(document).ready(function () {
             // Populate the combo box with data from the ViewData["Firms"] variable
-            $(".naziv-firme").html(`@Html.Raw(ViewData["Firms"])`);
+            var firmsData = ViewData["Firms"] != null ? Html.Raw(ViewData["Firms"]) : "";
+            // Check if firmsData is not empty
+            if (firmsData.trim() !== '') {
+                $(".naziv-firme").html(firmsData); // Populate the combo box with firmsData
+            }
         });
 
         function removeWorkExperienceRow(button) {

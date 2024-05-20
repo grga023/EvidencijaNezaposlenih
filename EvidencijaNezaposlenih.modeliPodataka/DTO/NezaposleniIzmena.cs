@@ -14,6 +14,6 @@ namespace EvidencijaNezaposlenih.ModeliPodataka.DTO
         public DateTime DatumRodjenja { get; set; }
         public required string BrojTelefona { get; set; }
         public required string Adresa { get; set; }
-        public string JMBG { get; set; }
+        public required string JMBG { get; set; }
     }
 }

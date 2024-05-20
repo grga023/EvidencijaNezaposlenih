@@ -11,59 +11,16 @@
     <title>Rezor Web App - Data Entry Page</title>
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        /* CSS styles */
-        .container {
-            max-width: 1600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        .form-group {
-            padding: 20px;
-            margin-bottom: 0px;
-        }
-
-        label {
-            display: inline-block;
-            font-weight: bold;
-            margin-bottom: 10px;
-            width: 150px; /* Set width for labels */
-            font-size: 18px; /* Larger font size */
-        }
-
-        input[type="text"], input[type="date"] {
-            width: 250px; /* Set width for input fields */
-            padding: 12px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        input[type="submit"] {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            display: block;
-            margin: 20px auto;
-        }
-
-        .separator {
-            border-top: 2px solid #007bff;
-            margin: 20px 0;
-        }
-    </style>
+    <link rel="stylesheet" href="~/css/dodavanje.css" asp-append-version="true" />
 </head>
 <body>
+    <div class="header">
+        <h1>Dodavanje Firme</h1>
+
+    </div>
+    <div class="MasterSeparator"></div>
     <div class="container">
-        <h2>Enter Firm Information</h2>
+        <h2>Upisite informacije o firmi</h2>
         <form id="data-entry-form" method="post">
             <div class="form-group">
                 <label for="name">PIB:</label>

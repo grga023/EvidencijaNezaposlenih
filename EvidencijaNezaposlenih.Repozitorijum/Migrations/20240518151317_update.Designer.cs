@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 {
     [DbContext(typeof(EvidencijaNezaposlenihDBContext))]
-    [Migration("20240518100258_upd")]
-    partial class upd
+    [Migration("20240518151317_update")]
+    partial class update
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,28 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("EvidencijaNezaposlenih.ModeliPodataka.DTO.PoslodavacPrikaz", b =>
+                {
+                    b.Property<string>("Adresa")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Grad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Naziv")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PIB")
+                        .HasColumnType("int");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("PoslodavacPrikaz", (string)null);
+                });
 
             modelBuilder.Entity("EvidencijaNezaposlenih.ModeliPodataka.Modeli.Nezaposleni", b =>
                 {

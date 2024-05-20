@@ -9,5 +9,6 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Interfejsi
 {
     public interface INezaposleniRepozitorijum : IRepozitorijum<Nezaposleni>
     {
+        Task<Nezaposleni?> DajSvePoJMBG(object filter);
     }
 }

@@ -14,10 +14,11 @@ namespace Evidencijanezaposlenih.Interface.Pages
             _nezaposleniService = nezaposleniService;
             NezaposleniList = new List<NezaposleniPrikaz>();
         }
-            public List<NezaposleniPrikaz> NezaposleniList { get; set; }
+        public List<NezaposleniPrikaz> NezaposleniList { get; set; }
         public async Task OnGetAsync()
         {
             var data = await _nezaposleniService.DajSve();
+
             foreach (var item in data)
             {
                 NezaposleniPrikaz nezaposleni = new()
@@ -25,6 +26,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
                     Ime = item.Ime,
                     Prezime = item.Prezime,
                     Adresa = item.Adresa,
+                    JMBG = item.JMBG,
                     BrojTelefona = item.BrojTelefona,
                     DatumRodjenja = item.DatumRodjenja,
                     RadniOdnosPrikaz = item.RadniOdnosPrikaz,
@@ -33,5 +35,31 @@ namespace Evidencijanezaposlenih.Interface.Pages
             }
 
         }
+        public async Task OnPostAsync()
+        {
+            var filter = Request.Form["filter"].ToString();
+
+            var data = await _nezaposleniService.DajSvePoimenuIPrezimenu(filter);
+            if (data != null)
+            {
+                foreach (var item in data)
+                {
+                    NezaposleniPrikaz nezaposleni = new()
+                    {
+                        Ime = item.Ime,
+                        Prezime = item.Prezime,
+                        Adresa = item.Adresa,
+                        JMBG = item.JMBG,
+                        BrojTelefona = item.BrojTelefona,
+                        DatumRodjenja = item.DatumRodjenja,
+                        RadniOdnosPrikaz = item.RadniOdnosPrikaz,
+                    };
+                    NezaposleniList.Add(nezaposleni);
+                }
+            }
+            else NezaposleniList = new List<NezaposleniPrikaz>();
+
+        }
     }
 }
+

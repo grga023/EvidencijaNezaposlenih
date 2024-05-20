@@ -1,4 +1,5 @@
-﻿using EvidencijaNezaposlenih.ModeliPodataka.Modeli;
+﻿using EvidencijaNezaposlenih.ModeliPodataka.DTO;
+using EvidencijaNezaposlenih.ModeliPodataka.Modeli;
 using EvidencijaNezaposlenih.Repozitorijum.Context;
 using EvidencijaNezaposlenih.Repozitorijum.Interfejsi;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,13 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
             }   
         }
 
+        public async Task<IEnumerable<PoslodavacPrikaz>> DajSvePogled(object pogled)
+        {
+
+            var poslodavci = await _ctx.PoslodavacPrikaz.ToListAsync();
+
+            return poslodavci;
+        }
 
         public async Task<Poslodavac?> DajSvePoPrimarnomKljucu(object PK)
         {

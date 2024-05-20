@@ -13,9 +13,10 @@ namespace EvidencijaNezaposlenih.Servisi.Interfejsi
     {
         Task<IEnumerable<NezaposleniPrikaz>> DajSve();
         Task<IEnumerable<NezaposleniPrikaz>> DajSvePoimenuIPrezimenu(object filter);
+        Task<NezaposleniPrikaz> DajSvePoJMBGU(object JMBG);
         Task<NezaposleniPrikaz> DajSvePoID(object PK);
         Task KreirajNezaposlenog(NezaposleniUnos obj);
         Task Obrisi(object PK);
-        Task Azuriraj(NezaposleniIzmena obj);
+        Task Azuriraj(NezaposleniPrikaz obj);
     }
 }
