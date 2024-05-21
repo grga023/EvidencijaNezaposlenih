@@ -73,14 +73,12 @@
             </div>
             <div class="add-row" onclick="addWorkExperienceRow()">+ Add Work Experience</div>
             <div class="separator"></div>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Izmeni">
             <div class="separator"></div>
         </form>
         <form method="post" asp-page-handler="Obrisi">
             <input type="hidden" name="JMBG" value="@Model?.nezaposleni?.JMBG" />
-            <button type="submit" title="Edit">
-                ✏️
-            </button>
+            <input type="submit" value="Obrisi">
         </form>
     </div>
     <script>

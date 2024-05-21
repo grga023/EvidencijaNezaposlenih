@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EvidencijaNezaposlenih.modeliPodataka\EvidencijaNezaposlenih.ModeliPodataka.csproj" />
+    <ProjectReference Include="..\EvidencijaNezaposlenih.PoslovnaLogika\EvidencijaNezaposlenih.PoslovnaLogika.csproj" />
     <ProjectReference Include="..\EvidencijaNezaposlenih.Repozitorijum\EvidencijaNezaposlenih.Repozitorijum.csproj" />
   </ItemGroup>
 

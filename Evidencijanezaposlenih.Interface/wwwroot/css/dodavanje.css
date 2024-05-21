@@ -190,6 +190,7 @@ h1, th {
     padding: 8px;
     text-align: left;
     color: #ffffff; /* Ensures text within these table cells is white */
+    width: 15%;
 }
 
 .nezaposleni-details th {

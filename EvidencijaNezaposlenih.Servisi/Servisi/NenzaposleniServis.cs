@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using EvidencijaNezaposlenih.ModeliPodataka.DTO;
 using EvidencijaNezaposlenih.ModeliPodataka.Modeli;
+using EvidencijaNezaposlenih.PoslovnaLogika.Interfejsi;
 using EvidencijaNezaposlenih.Repozitorijum.Interfejsi;
 using EvidencijaNezaposlenih.Servisi.Interfejsi;
 using System;
@@ -16,12 +17,14 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
         private readonly INezaposleniRepozitorijum _nezaposleniRepozitorijum;
         private readonly IPoslodavacRepozitorijum _poslodavacRepozitorijum;
         private readonly IRadniOdnosRepozitorijum _radniOdnosRepozitorijum;
+        private readonly IPoslovnaLogika _poslovnaLogika;
 
-        public NenzaposleniServis (INezaposleniRepozitorijum nezaposleniRepozitorijum, IPoslodavacRepozitorijum poslodavacRepozitorijum, IRadniOdnosRepozitorijum radniOdnosRepozitorijum)
+        public NenzaposleniServis (INezaposleniRepozitorijum nezaposleniRepozitorijum, IPoslodavacRepozitorijum poslodavacRepozitorijum, IRadniOdnosRepozitorijum radniOdnosRepozitorijum, IPoslovnaLogika poslovnaLogika)
         {
             _nezaposleniRepozitorijum = nezaposleniRepozitorijum;
             _poslodavacRepozitorijum = poslodavacRepozitorijum;
             _radniOdnosRepozitorijum = radniOdnosRepozitorijum;
+            _poslovnaLogika = poslovnaLogika;
         }
         public async Task Azuriraj(NezaposleniPrikaz obj)
         {
@@ -232,10 +235,10 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
 
             ID = Prvi + "-" + Drugi + "-" + kontrolniString;
 
-            //if (!_validationService.IsValidBillNumber(billNumber))
-            //{
-            //    GenerateRandomBillNumber();
-            //}
+            if (!_poslovnaLogika.ValidirajIdNezaposlenog(ID))
+            {
+                GenerisiRandomID();
+            }
 
             return ID;
         }
