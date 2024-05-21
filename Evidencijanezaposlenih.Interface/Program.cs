@@ -1,3 +1,4 @@
+using Evidencijanezaposlenih.Interface.Context;
 using EvidencijaNezaposlenih.PoslovnaLogika.Interfejsi;
 using EvidencijaNezaposlenih.PoslovnaLogika.Validacija;
 using EvidencijaNezaposlenih.Repozitorijum.Context;
@@ -6,12 +7,23 @@ using EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi;
 using EvidencijaNezaposlenih.Servisi.Interfejsi;
 using EvidencijaNezaposlenih.Servisi.Servisi;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Evidencijanezaposlenih.Interface.Context.Modeli;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
+
 builder.Services.AddDbContext<EvidencijaNezaposlenihDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EvidencijaNezaposlenihDBContext")
+    ).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+
+builder.Services.AddDefaultIdentity<Korisnik>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<IdentitetiDBContext>();
+
+builder.Services.AddDbContext<IdentitetiDBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("IdentitetiDBContext")
     ).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
 builder.Services.AddScoped<INezaposleniRepozitorijum, NezaposleniRepozitorujum>();

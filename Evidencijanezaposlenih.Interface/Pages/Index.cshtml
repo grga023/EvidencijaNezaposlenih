@@ -4,76 +4,17 @@
     ViewData["Title"] = "Dodavanje Zaposlenih";
 }
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rezor Web App - Data Entry Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: inline-block;
-            font-weight: bold;
-            margin-bottom: 10px;
-            width: 150px; /* Set width for labels */
-            font-size: 18px; /* Larger font size */
-        }
-        input[type="text"], input[type="date"] {
-            width: 150px; /* Set width for input fields */
-            padding: 12px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        input[type="submit"] {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-        .separator {
-            border-top: 1px solid #ccc;
-            margin: 20px 0;
-        }
-        .work-row {
-            display: flex;
-            align-items: center;
-        }
-        .add-row {
-            margin-top: 20px;
-            cursor: pointer;
-            color: #007bff;
-        }
-        .work-label {
-            font-size: 18px; /* Larger font size for labels */
-            margin-right: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="~/css/dodavanje.css" asp-append-version="true" />
 </head>
 <body>
+
     <div class="container">
         <h2>Enter Information</h2>
         <form id="data-entry-form" method="post" >

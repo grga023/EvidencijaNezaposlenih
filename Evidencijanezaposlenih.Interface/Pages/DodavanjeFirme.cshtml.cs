@@ -2,12 +2,14 @@ using EvidencijaNezaposlenih.ModeliPodataka.DTO;
 using EvidencijaNezaposlenih.PoslovnaLogika.Interfejsi;
 using EvidencijaNezaposlenih.PoslovnaLogika.Validacija;
 using EvidencijaNezaposlenih.Servisi.Interfejsi;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Evidencijanezaposlenih.Interface.Pages
 {
+    [Authorize]
     public class DodavanjeFirmeModel : PageModel
     {
         private readonly IPoslodavacServis _poslodavacServis;

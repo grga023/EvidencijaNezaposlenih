@@ -1,10 +1,12 @@
 using EvidencijaNezaposlenih.ModeliPodataka.DTO;
 using EvidencijaNezaposlenih.Servisi.Interfejsi;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Evidencijanezaposlenih.Interface.Pages
 {
+    [Authorize(Roles = "user,admin")]
     public class PoslodavacPikazModel : PageModel
     {
         private readonly IPoslodavacServis _poslodavacServis;

@@ -2,12 +2,14 @@ using EvidencijaNezaposlenih.ModeliPodataka.DTO;
 using EvidencijaNezaposlenih.PoslovnaLogika.Interfejsi;
 using EvidencijaNezaposlenih.Repozitorijum.Interfejsi;
 using EvidencijaNezaposlenih.Servisi.Interfejsi;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Runtime.CompilerServices;
 
 namespace Evidencijanezaposlenih.Interface.Pages
 {
+    [Authorize(Roles = "admin")]
     public class DodavanjeNezaposlenihModel : PageModel
     {
         private readonly INezaposleniServis _nezaposleniServis;
