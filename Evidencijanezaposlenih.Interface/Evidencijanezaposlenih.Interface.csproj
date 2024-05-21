@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EvidencijaNezaposlenih.modeliPodataka\EvidencijaNezaposlenih.ModeliPodataka.csproj" />
+    <ProjectReference Include="..\EvidencijaNezaposlenih.PoslovnaLogika\EvidencijaNezaposlenih.PoslovnaLogika.csproj" />
     <ProjectReference Include="..\EvidencijaNezaposlenih.Servisi\EvidencijaNezaposlenih.Servisi.csproj" />
   </ItemGroup>
 

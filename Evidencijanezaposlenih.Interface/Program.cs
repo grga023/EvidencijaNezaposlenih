@@ -1,3 +1,5 @@
+using EvidencijaNezaposlenih.PoslovnaLogika.Interfejsi;
+using EvidencijaNezaposlenih.PoslovnaLogika.Validacija;
 using EvidencijaNezaposlenih.Repozitorijum.Context;
 using EvidencijaNezaposlenih.Repozitorijum.Interfejsi;
 using EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi;
@@ -18,6 +20,7 @@ builder.Services.AddScoped<INezaposleniServis, NenzaposleniServis>();
 builder.Services.AddScoped<IPoslodavacServis, PoslodavacServis>();
 builder.Services.AddScoped<IRadniOdnosServis, RadniOdnosServis>();
 builder.Services.AddScoped<IRadniOdnosRepozitorijum, RadniOdnosRepozitorijum>();
+builder.Services.AddScoped<IPoslovnaLogika, PoslovnaLogika>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
