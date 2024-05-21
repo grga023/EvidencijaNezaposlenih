@@ -75,7 +75,12 @@
             <div class="separator"></div>
             <input type="submit" value="Submit">
             <div class="separator"></div>
-
+        </form>
+        <form method="post" asp-page-handler="Obrisi">
+            <input type="hidden" name="JMBG" value="@Model?.nezaposleni?.JMBG" />
+            <button type="submit" title="Edit">
+                ✏️
+            </button>
         </form>
     </div>
     <script>

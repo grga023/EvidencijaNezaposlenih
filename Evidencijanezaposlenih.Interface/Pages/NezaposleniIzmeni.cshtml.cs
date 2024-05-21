@@ -80,6 +80,15 @@ namespace Evidencijanezaposlenih.Interface.Pages
             };
 
             await _nezaposleniServis.Azuriraj(nezaposleniUnos);
+
+            return RedirectToPage("/NezaposleniPikaz");
+        }
+        public async Task<RedirectToPageResult> OnPostObrisi()
+        {
+            var JMBG = Request.Form["jmbg"].ToString();
+            
+            await _nezaposleniServis.Obrisi(JMBG);
+
             return RedirectToPage("/NezaposleniPikaz");
         }
     }

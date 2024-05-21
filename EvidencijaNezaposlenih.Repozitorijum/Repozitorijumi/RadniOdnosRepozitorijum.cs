@@ -48,9 +48,20 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
             else { throw new ArgumentException("Filter nije String"); }
         }
 
-        public Task<RadniOdnos?> DajSvePoPrimarnomKljucu(object PK)
+        public async Task<RadniOdnos?> DajSvePoPrimarnomKljucu(object PK)
         {
-            throw new NotImplementedException();
+            string PKString = (string)PK;
+            var PKParts = PKString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            var radniOdnos = await _ctx.RadniOdnosi
+            .FirstOrDefaultAsync(c => c.NezaposleniID == PKParts[0].ToString() &&
+            c.ID == Int32.Parse(PKParts[1]));
+
+            if (radniOdnos == null)
+            {
+                return null;
+            }
+            return radniOdnos;
         }
 
         public RadniOdnos Dodaj(RadniOdnos obj)
@@ -64,22 +75,23 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
             var radniOdnos =  _ctx.RadniOdnosi.FirstOrDefault(c => c.NezaposleniID == obj.NezaposleniID && c.ID == obj.ID);
             if (radniOdnos != null)
             {
-                radniOdnos.DatumPocetka = obj.DatumPocetka;
 
-                _ctx.RadniOdnosi.Update(radniOdnos);
+                _ctx.RadniOdnosi.Update(obj);
+            }
+            else
+            {
+                _ctx.RadniOdnosi.Add(obj);
             }
             return radniOdnos;
            
         }
 
-        public Task<RadniOdnos?> Obrisi(object PK)
+        public async Task<RadniOdnos?> Obrisi(object PK)
         {
             string PKString = (string)PK;
             var PKParts = PKString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-            var radniOdnos = _ctx.RadniOdnosi
-                        .FirstOrDefault(c => c.NezaposleniID == PKParts[0] &&
-                        c.ID == Int32.Parse(PKParts[1]));
+            var radniOdnos = await _ctx.RadniOdnosi.FirstOrDefaultAsync(c => c.NezaposleniID == PKParts[0] && c.ID == Int32.Parse(PKParts[1]));
             if (radniOdnos != null)
             {
                 _ctx.RadniOdnosi.Remove(radniOdnos);

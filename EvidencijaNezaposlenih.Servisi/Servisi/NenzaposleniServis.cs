@@ -15,17 +15,34 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
     {
         private readonly INezaposleniRepozitorijum _nezaposleniRepozitorijum;
         private readonly IPoslodavacRepozitorijum _poslodavacRepozitorijum;
+        private readonly IRadniOdnosRepozitorijum _radniOdnosRepozitorijum;
 
-        public NenzaposleniServis (INezaposleniRepozitorijum nezaposleniRepozitorijum, IPoslodavacRepozitorijum poslodavacRepozitorijum)
+        public NenzaposleniServis (INezaposleniRepozitorijum nezaposleniRepozitorijum, IPoslodavacRepozitorijum poslodavacRepozitorijum, IRadniOdnosRepozitorijum radniOdnosRepozitorijum)
         {
             _nezaposleniRepozitorijum = nezaposleniRepozitorijum;
             _poslodavacRepozitorijum = poslodavacRepozitorijum;
+            _radniOdnosRepozitorijum = radniOdnosRepozitorijum;
         }
         public async Task Azuriraj(NezaposleniPrikaz obj)
         {
             var data = await _nezaposleniRepozitorijum.DajSvePoJMBG(obj.JMBG);
             if (data == null)
                 throw new ArgumentException("Pogresan ID");
+
+            foreach (var item in obj.RadniOdnosPrikaz)
+            {
+                var radniOdnos = await _poslodavacRepozitorijum.PronadjiPoNazivu(FormatirajFirmu(item.NazivFirme));
+
+                RadniOdnos radniOdnosi = new()
+                {
+                    DatumPocetka = item.DatumPocetka,
+                    DatumZavrsetka = item.DatumZavrsetka,
+                    ID = radniOdnos.ID,
+                    NezaposleniID = data.ID,
+                };
+                _radniOdnosRepozitorijum.Izmeni(radniOdnosi);
+                _radniOdnosRepozitorijum.Snimi();
+            }
 
             Nezaposleni nezaposleni = new Nezaposleni
             {
@@ -36,7 +53,6 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                 Prezime = obj.Prezime,
                 DatumRodjenja = obj.DatumRodjenja,
                 JMBG = data.JMBG,
-                RadniOdnos = data.RadniOdnos,
             };
 
             _nezaposleniRepozitorijum.Izmeni(nezaposleni);
@@ -271,11 +287,14 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
             _nezaposleniRepozitorijum.Dodaj(nezaposleniZaDodavanje);
             _nezaposleniRepozitorijum.Snimi();
         }
-        public async Task Obrisi(object PK)
+        public async Task<object> Obrisi(object PK)
         {
-            await _nezaposleniRepozitorijum.Obrisi(PK);
+            var nezaposleni = await _nezaposleniRepozitorijum.DajSvePoJMBG(PK);
+            if (nezaposleni == null)
+                return null;
+            await _nezaposleniRepozitorijum.Obrisi(nezaposleni.ID);
             _nezaposleniRepozitorijum.Snimi();
-            
+            return null;            
         }
     }
 }
