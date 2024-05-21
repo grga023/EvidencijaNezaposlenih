@@ -287,11 +287,14 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
             _nezaposleniRepozitorijum.Dodaj(nezaposleniZaDodavanje);
             _nezaposleniRepozitorijum.Snimi();
         }
-        public async Task Obrisi(object PK)
+        public async Task<object> Obrisi(object PK)
         {
-            await _nezaposleniRepozitorijum.Obrisi(PK);
+            var nezaposleni = await _nezaposleniRepozitorijum.DajSvePoJMBG(PK);
+            if (nezaposleni == null)
+                return null;
+            await _nezaposleniRepozitorijum.Obrisi(nezaposleni.ID);
             _nezaposleniRepozitorijum.Snimi();
-            
+            return null;            
         }
     }
 }
