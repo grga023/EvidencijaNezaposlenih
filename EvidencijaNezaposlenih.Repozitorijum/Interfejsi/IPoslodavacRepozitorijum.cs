@@ -12,5 +12,6 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Interfejsi
     {
         Task<Poslodavac> PronadjiPoNazivu(object filter);
         Task<IEnumerable<PoslodavacPrikaz>> DajSvePogled(object pogled);
+        Task DodajStorred(PoslodavacUnos obj);
     }
 }

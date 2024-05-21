@@ -26,7 +26,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
 
         public async Task<IEnumerable<PoslodavacPrikaz>> DajSve()
         {
-            var data = await _poslodavacRepozitorijum.DajSve();
+            var data = await _poslodavacRepozitorijum.DajSvePogled("");
             if (data == null)
                 throw new ArgumentException("SF");
 
@@ -108,7 +108,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
             }
             catch (Exception ex) { }
 
-            Poslodavac poslodavacZaDodati = new()
+            PoslodavacUnos poslodavacZaDodati = new()
             {
                 Naziv = obj.Naziv,
                 Adresa = obj.Adresa,
@@ -116,11 +116,8 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                 PIB = obj.PIB,
             };
             
-            _poslodavacRepozitorijum.Dodaj(poslodavacZaDodati);
+            await _poslodavacRepozitorijum.DodajStorred(poslodavacZaDodati);
             _poslodavacRepozitorijum.Snimi();
-
-
-            var dataViewe = _poslodavacRepozitorijum.DajSvePogled("PoslodavacPrikaz");
         }
 
         public async Task Obrisi(object PK)

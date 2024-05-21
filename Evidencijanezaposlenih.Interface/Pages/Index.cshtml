@@ -1,87 +1,39 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Dodavanje Zaposlenih";
+    ViewData["Title"] = "EVIDENCIJA NEZAPOSLENIH";
+}
+@using Microsoft.AspNetCore.Identity
+@using Evidencijanezaposlenih.Interface.Context.Modeli
+
+@inject SignInManager<Korisnik> SignInManager
+@inject UserManager<Korisnik> UserManager
+
+
+<link rel="stylesheet" href="~/css/dodavanje.css" asp-append-version="true" />
+@if (SignInManager.IsSignedIn(User))
+{
+    if (User.IsInRole("admin"))
+    {
+        <div class="button-container">
+            <a href="/DodavanjeNezaposlenih" class="btn">DODAVANJE NEZAPOSLENIH</a>
+            <a href="/DodavanjeFirme" class="btn">DODAVANJE FIRME</a>
+        </div>
+        <div class="button-container">
+            <a href="/NezaposleniPikaz" class="btn">PREGLED NEZAPOSLENIH</a>
+            <a href="/PoslodavacPikaz" class="btn">PRIKAZ FIRME</a>
+        </div>
+    }
+    else
+    {
+        <div class="button-container">
+            <a href="/NezaposleniPikaz" class="btn">PREGLED NEZAPOSLENIH</a>
+            <a href="/PoslodavacPikaz" class="btn">PRIKAZ FIRME</a>
+        </div>
+    }
+}
+else
+{
+    <h1 class="text-center ">ULOGUJ SE!</h1>
 }
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rezor Web App - Data Entry Page</title>
-    <link rel="stylesheet" href="~/css/dodavanje.css" asp-append-version="true" />
-</head>
-<body>
-
-    <div class="container">
-        <h2>Enter Information</h2>
-        <form id="data-entry-form" method="post" >
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="surname">Surname:</label>
-                <input type="text" id="surname" name="surname" required>
-            </div>
-            <div class="form-group">
-                <label for="dateOfBirth">Date of Birth:</label>
-                <input type="date" id="dateOfBirth" name="dateOfBirth" required>
-            </div>
-            <div class="form-group">
-                <label for="jmbg">JMBG:</label>
-                <input type="text" id="jmbg" name="jmbg" required>
-            </div>
-            <div class="form-group">
-                <label for="phoneNumber">Phone Number:</label>
-                <input type="text" id="phoneNumber" name="phoneNumber" required>
-            </div>
-            <div class="separator"></div>
-            <h3>List of Work Experience</h3>
-            <div class="work-experience">
-                <div class="work-row">
-                    <label class="work-label" for="nazivFirme">Naziv Firme:</label>
-                    <div class="form-group">
-                        <input type="text" class="naziv-firme" name="nazivFirme[]" required>
-                    </div>
-                    <label class="work-label" for="datumPocetka">Datum Pocetka:</label>
-                    <div class="form-group">
-                        <input type="date" class="datum-pocetka" name="datumPocetka[]" required>
-                    </div>
-                    <label class="work-label" for="datumZavrsetka">Datum Zavrsetka:</label>
-                    <div class="form-group">
-                        <input type="date" class="datum-zavrsetka" name="datumZavrsetka[]" required>
-                    </div>
-                </div>
-            </div>
-            <div class="add-row" onclick="addWorkExperienceRow()">+ Add Work Experience</div>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
-</body>
-   
-    <script>
-        function addWorkExperienceRow() {
-            const workExperienceContainer = document.querySelector('.work-experience');
-            const newRow = document.createElement('div');
-            newRow.classList.add('work-row');
-            newRow.innerHTML = `
-                <label class="work-label" for="nazivFirme">Naziv Firme:</label>
-                <div class="form-group">
-                    <input type="text" class="naziv-firme" name="nazivFirme[]" required>
-                </div>
-                <label class="work-label" for="datumPocetka">Datum Pocetka:</label>
-                <div class="form-group">
-                    <input type="date" class="datum-pocetka" name="datumPocetka[]" required>
-                </div>
-                <label class="work-label" for="datumZavrsetka">Datum Zavrsetka:</label>
-                <div class="form-group">
-                    <input type="date" class="datum-zavrsetka" name="datumZavrsetka[]" required>
-                </div>
-            `;
-            workExperienceContainer.appendChild(newRow);
-        }
-    </script>
-    

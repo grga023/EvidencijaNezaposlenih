@@ -72,6 +72,9 @@ namespace Evidencijanezaposlenih.Interface.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            public string Username { get; set; }
+
+            [Required]
             public string Ime { get; set; }
 
             [Required]
@@ -127,7 +130,7 @@ namespace Evidencijanezaposlenih.Interface.Areas.Identity.Pages.Account
                     Ime = Input.Ime,
                     Prezime = Input.Prezime,
                     Kreiran = DateTime.Now,
-                    UserName = Input.Email,
+                    UserName = Input.Username,
                     Email = Input.Email,
                     
                 };

@@ -197,3 +197,23 @@ h1, th {
     background-color: #88888888;
     color: #ffffff; /* Ensures header text within these table cells is black for contrast */
 }
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn {
+    flex-basis: 45%;
+    padding: 10px 20px;
+    margin: 10px 10px 10px 10px;
+    background-color: #007bff;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
