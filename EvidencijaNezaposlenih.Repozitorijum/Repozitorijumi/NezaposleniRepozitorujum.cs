@@ -98,7 +98,8 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
         public Nezaposleni? Izmeni(Nezaposleni obj)
         {
-            _context.Entry(obj).State = EntityState.Modified;
+            //_context.Entry(obj).State = EntityState.Modified;
+            _context.Nezaposleni.Update(obj);
             return obj;
         }
 

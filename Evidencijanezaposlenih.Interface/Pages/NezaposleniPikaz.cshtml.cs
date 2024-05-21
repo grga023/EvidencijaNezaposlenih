@@ -8,10 +8,12 @@ namespace Evidencijanezaposlenih.Interface.Pages
     public class NezaposleniPrikazModel : PageModel
     {
         private readonly INezaposleniServis _nezaposleniService;
+        private readonly IRadniOdnosServis _radniOdnosServis;
 
-        public NezaposleniPrikazModel(INezaposleniServis nezaposleniService)
+        public NezaposleniPrikazModel(INezaposleniServis nezaposleniService, IRadniOdnosServis radniOdnosServis)
         {
             _nezaposleniService = nezaposleniService;
+            _radniOdnosServis = radniOdnosServis;
             NezaposleniList = new List<NezaposleniPrikaz>();
         }
         public List<NezaposleniPrikaz> NezaposleniList { get; set; }
@@ -35,7 +37,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
             }
 
         }
-        public async Task OnPostAsync()
+        public async Task OnPostSearch()
         {
             var filter = Request.Form["filter"].ToString();
 
@@ -59,6 +61,21 @@ namespace Evidencijanezaposlenih.Interface.Pages
             }
             else NezaposleniList = new List<NezaposleniPrikaz>();
 
+        }
+        public async Task<RedirectToPageResult> OnPostObrisiAsync()
+        {
+            var data = Request.Form["nazivf"].ToString();
+
+            var parts = data.ToString().Split(',');
+
+            if (parts.Length == 2)
+            {
+                var nazivFirme = parts[0].ToString();
+                var jmbg = parts[1].ToString();
+
+                await _radniOdnosServis.Obrisi(nazivFirme, jmbg);
+            }
+            return RedirectToPage("/NezaposleniPikaz");
         }
     }
 }

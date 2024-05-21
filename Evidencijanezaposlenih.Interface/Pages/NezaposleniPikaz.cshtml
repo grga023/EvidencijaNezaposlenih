@@ -15,7 +15,7 @@
     <div class="header">
         <h1>List of Nezaposleni</h1>
         <div class="search-box">
-            <form method="post">
+            <form method="post" asp-page-handler="Search">
                 <input type="text" id="filter" name="filter" placeholder="Search...">
                 <button type="submit">Search</button>
             </form>
@@ -35,7 +35,7 @@
                             <th>Datum Rodjenja</th>
                             <th>Broj telefona</th>
                             <th>Adresa</th>
-                            <th>Edit</th>
+                            <th>Izmeni</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,6 +67,7 @@
                             <th>Naziv Firme</th>
                             <th>Datum Pocetka</th>
                             <th>Datum Zavrsetka</th>
+                            <th>Obrisi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,6 +81,14 @@
                                 <td>@radniOdnos.NazivFirme</td>
                                 <td>@radniOdnos.DatumPocetka.ToShortDateString()</td>
                                 <td>@radniOdnos.DatumZavrsetka.ToShortDateString()</td>
+                                <td>
+                                    <form method="post" asp-page-handler="Obrisi">
+                                        <input type="hidden" name="nazivf" value="@radniOdnos.NazivFirme,@nezaposleni.JMBG"/>
+                                        <button type="submit" title="Edit">
+                                            ✏️
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                             rowIndex++;
                         }

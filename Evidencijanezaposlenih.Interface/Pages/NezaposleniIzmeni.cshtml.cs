@@ -80,6 +80,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
             };
 
             await _nezaposleniServis.Azuriraj(nezaposleniUnos);
+
             return RedirectToPage("/NezaposleniPikaz");
         }
     }
