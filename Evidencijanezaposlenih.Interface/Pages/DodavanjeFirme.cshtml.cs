@@ -42,8 +42,8 @@ namespace Evidencijanezaposlenih.Interface.Pages
             if (!_poslovnaLogika.ValidirajPIB(obj))
             { 
                 ShowPopup = true; // Set to true to show the popup
-                CustomMessage = "Invalid PIB"; // Set the custom message
-                ModelState.AddModelError("PIB", "Invalid PIB");
+                CustomMessage = "PIB mora biti 8 cifata"; // Set the custom message
+                ModelState.AddModelError("PIB", "PIB mora biti 8 cifata");
                 return Page();
             }
 
