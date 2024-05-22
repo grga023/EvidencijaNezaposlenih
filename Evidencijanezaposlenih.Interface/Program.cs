@@ -18,13 +18,14 @@ builder.Services.AddDbContext<EvidencijaNezaposlenihDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EvidencijaNezaposlenihDBContext")
     ).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
-builder.Services.AddDefaultIdentity<Korisnik>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<IdentitetiDBContext>();
 
 builder.Services.AddDbContext<IdentitetiDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("IdentitetiDBContext")
     ).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+
+builder.Services.AddDefaultIdentity<Korisnik>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<IdentitetiDBContext>();
 
 builder.Services.AddScoped<INezaposleniRepozitorijum, NezaposleniRepozitorujum>();
 builder.Services.AddScoped<IPoslodavacRepozitorijum, PoslodavacRepozitorijum>();
