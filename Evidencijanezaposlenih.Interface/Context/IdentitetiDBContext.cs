@@ -7,8 +7,8 @@ namespace Evidencijanezaposlenih.Interface.Context
 {
     public class IdentitetiDBContext : IdentityDbContext<Korisnik>
     {
-        public IdentitetiDBContext(DbContextOptions options) : base(options) 
-        { 
+        public IdentitetiDBContext(DbContextOptions<IdentitetiDBContext> options) : base(options)
+        {
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -21,7 +21,8 @@ namespace Evidencijanezaposlenih.Interface.Context
             var user = new IdentityRole("user");
             user.NormalizedName = "user";
 
-            builder.Entity<IdentityRole>().HasData(admin, user);    
+            builder.Entity<IdentityRole>().HasData(admin, user);
         }
     }
+
 }
