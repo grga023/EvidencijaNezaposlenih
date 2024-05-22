@@ -2,11 +2,13 @@ using EvidencijaNezaposlenih.ModeliPodataka.DTO;
 using EvidencijaNezaposlenih.ModeliPodataka.Modeli;
 using EvidencijaNezaposlenih.Servisi.Interfejsi;
 using EvidencijaNezaposlenih.Servisi.Servisi;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Evidencijanezaposlenih.Interface.Pages
 {
+    [Authorize(Roles="admin")]
     public class NezaposleniIzmeniModel : PageModel
     {
         private readonly INezaposleniServis _nezaposleniServis;

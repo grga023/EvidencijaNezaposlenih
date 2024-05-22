@@ -1,10 +1,13 @@
+using Evidencijanezaposlenih.Interface.Migrations;
 using EvidencijaNezaposlenih.ModeliPodataka.DTO;
 using EvidencijaNezaposlenih.Servisi.Interfejsi;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Evidencijanezaposlenih.Interface.Pages
 {
+    [Authorize(Roles = "user,admin")]
     public class NezaposleniPrikazModel : PageModel
     {
         private readonly INezaposleniServis _nezaposleniService;

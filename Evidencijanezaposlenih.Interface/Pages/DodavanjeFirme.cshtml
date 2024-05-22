@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Dodavanje Firme";
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,31 +17,36 @@
 <body>
     <div class="header">
         <h1>Dodavanje Firme</h1>
-
     </div>
     <div class="MasterSeparator"></div>
     <div class="container">
         <h2>Upisite informacije o firmi</h2>
         <form id="data-entry-form" method="post">
             <div class="form-group">
-                <label for="name">PIB:</label>
+                <label for="pib">PIB:</label>
                 <input type="text" id="pib" name="pib" required>
             </div>
             <div class="form-group">
-                <label for="startDate">Naziv:</label>
+                <label for="naziv">Naziv:</label>
                 <input type="text" id="naziv" name="naziv" required>
             </div>
             <div class="form-group">
-                <label for="startDate">Grad:</label>
+                <label for="grad">Grad:</label>
                 <input type="text" id="grad" name="grad" required>
             </div>
             <div class="form-group">
-                <label for="endDate">Adresa:</label>
+                <label for="adresa">Adresa:</label>
                 <input type="text" id="adresa" name="adresa">
             </div>
             <input type="submit" value="Submit">
             <div class="separator"></div>
         </form>
     </div>
+    @if (Model.ShowPopup)
+    {
+        <script>
+            alert('@Model.CustomMessage');
+        </script>
+    }
 </body>
 </html>

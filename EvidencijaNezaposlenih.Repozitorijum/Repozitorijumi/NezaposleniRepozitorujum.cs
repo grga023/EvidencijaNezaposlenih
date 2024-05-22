@@ -86,7 +86,8 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
         public async Task<Nezaposleni?> DajSvePoPrimarnomKljucu(object PK)
         {
             var data = await _context.Nezaposleni.Include(x => x.RadniOdnos)
-                         .ThenInclude(x => x.Nezaposleni).FirstOrDefaultAsync(x => x.ID == PK);
+                         .ThenInclude(x => x.Poslodavac)
+                         .FirstOrDefaultAsync(x => x.ID == PK.ToString());
             return data;
         }
 

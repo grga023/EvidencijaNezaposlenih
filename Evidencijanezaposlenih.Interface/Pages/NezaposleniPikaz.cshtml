@@ -2,6 +2,11 @@
 @model Evidencijanezaposlenih.Interface.Pages.NezaposleniPrikazModel
 @{
 }
+@using Microsoft.AspNetCore.Identity
+@using Evidencijanezaposlenih.Interface.Context.Modeli
+
+@inject SignInManager<Korisnik> SignInManager
+@inject UserManager<Korisnik> UserManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +40,13 @@
                             <th>Datum Rodjenja</th>
                             <th>Broj telefona</th>
                             <th>Adresa</th>
-                            <th>Izmeni</th>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                if(User.IsInRole("admin"))
+                                {
+                                    <th>Izmeni</th>
+                                }
+                            }
                         </tr>
                     </thead>
                     <tbody>
@@ -46,14 +57,20 @@
                             <td>@nezaposleni.DatumRodjenja.ToShortDateString()</td>
                             <td>@nezaposleni.BrojTelefona</td>
                             <td>@nezaposleni.Adresa</td>
-                            <td>
-                                <form method="get" action="/NezaposleniIzmeni">
-                                    <input type="hidden" name="jmbg" value="@nezaposleni.JMBG" />
-                                    <button type="submit" title="Edit">
-                                        ✏️
-                                    </button>
-                                </form>
-                            </td>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                if (User.IsInRole("admin"))
+                                {
+                                    <td>
+                                        <form method="get" action="/NezaposleniIzmeni">
+                                            <input type="hidden" name="jmbg" value="@nezaposleni.JMBG" />
+                                            <button type="submit" title="Edit">
+                                                ✏️
+                                            </button>
+                                        </form>
+                                    </td>
+                                }
+                            }
                         </tr>
                     </tbody>
                 </table>
@@ -67,7 +84,13 @@
                             <th>Naziv Firme</th>
                             <th>Datum Pocetka</th>
                             <th>Datum Zavrsetka</th>
-                            <th>Obrisi</th>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                if (User.IsInRole("admin"))
+                                {
+                                    <th>Obrisi</th>
+                                }
+                            }
                         </tr>
                     </thead>
                     <tbody>
@@ -81,14 +104,20 @@
                                 <td>@radniOdnos.NazivFirme</td>
                                 <td>@radniOdnos.DatumPocetka.ToShortDateString()</td>
                                 <td>@radniOdnos.DatumZavrsetka.ToShortDateString()</td>
-                                <td>
-                                    <form method="post" asp-page-handler="Obrisi">
-                                        <input type="hidden" name="nazivf" value="@radniOdnos.NazivFirme,@nezaposleni.JMBG"/>
-                                        <button type="submit" title="Edit">
-                                            ✏️
-                                        </button>
-                                    </form>
-                                </td>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    if (User.IsInRole("admin"))
+                                    {
+                                        <td>
+                                            <form method="post" asp-page-handler="Obrisi">
+                                                <input type="hidden" name="nazivf" value="@radniOdnos.NazivFirme,@nezaposleni.JMBG"/>
+                                                <button type="submit" title="Edit">
+                                                    ✏️
+                                                </button>
+                                            </form>
+                                        </td>
+                                    }
+                                }
                             </tr>
                             rowIndex++;
                         }

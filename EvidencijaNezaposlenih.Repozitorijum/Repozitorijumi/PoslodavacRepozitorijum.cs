@@ -2,6 +2,7 @@
 using EvidencijaNezaposlenih.ModeliPodataka.Modeli;
 using EvidencijaNezaposlenih.Repozitorijum.Context;
 using EvidencijaNezaposlenih.Repozitorijum.Interfejsi;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
@@ -35,7 +36,6 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
         public async Task<IEnumerable<PoslodavacPrikaz>> DajSvePogled(object pogled)
         {
-
             var poslodavci = await _ctx.PoslodavacPrikaz.ToListAsync();
 
             return poslodavci;
@@ -88,9 +88,22 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
         public async Task<Poslodavac> PronadjiPoNazivu(object filter) 
             => await _ctx.Poslodavci.FirstOrDefaultAsync(x => x.Naziv == (string)filter);
 
+        public async Task DodajStorred(PoslodavacUnos obj)
+        {
+            var paramPIB = new SqlParameter("@PIB", obj.PIB);
+            var paramNaziv = new SqlParameter("@Naziv", obj.Naziv);
+            var paramGrad = new SqlParameter("@Grad", obj.Grad);
+            var paramAdresa = new SqlParameter("@Adresa", obj.Adresa);
+
+            var data = await _ctx.Database.ExecuteSqlRawAsync("EXEC AddPoslodavac @PIB, @Naziv, @Grad, @Adresa",
+                                                   paramPIB, paramNaziv, paramGrad, paramAdresa);
+        }
+
         public void Snimi()
         {
-            _ctx.SaveChanges();
+             _ctx.SaveChanges();
         }
+
+
     }
 }

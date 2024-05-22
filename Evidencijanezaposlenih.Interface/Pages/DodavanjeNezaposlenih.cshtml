@@ -74,10 +74,18 @@
 
         </form>
     </div>
+
     <script>
         $(document).ready(function () {
-            // Populate the combo box with data from the ViewData["Firms"] variable
+            @if (Model.ShowPopup)
+            {
+                <text>
+                        alert('@Model.CustomMessage');
+                </text>
+            }
+
             $(".naziv-firme").html(`@Html.Raw(ViewData["Firms"])`);
+
         });
 
         function removeWorkExperienceRow(button) {

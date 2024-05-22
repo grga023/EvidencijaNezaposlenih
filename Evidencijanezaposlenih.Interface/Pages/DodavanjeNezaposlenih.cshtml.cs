@@ -1,30 +1,43 @@
 using EvidencijaNezaposlenih.ModeliPodataka.DTO;
+using EvidencijaNezaposlenih.PoslovnaLogika.Interfejsi;
 using EvidencijaNezaposlenih.Repozitorijum.Interfejsi;
 using EvidencijaNezaposlenih.Servisi.Interfejsi;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Runtime.CompilerServices;
 
 namespace Evidencijanezaposlenih.Interface.Pages
 {
+    [Authorize(Roles = "admin")]
     public class DodavanjeNezaposlenihModel : PageModel
     {
         private readonly INezaposleniServis _nezaposleniServis;
         private readonly IPoslodavacServis _poslodavacServis;
-
-        public DodavanjeNezaposlenihModel(IPoslodavacServis poslodavacServis, INezaposleniServis nezaposleniServis)
+        private readonly IPoslovnaLogika _poslovnaLogika;
+        public DodavanjeNezaposlenihModel(IPoslodavacServis poslodavacServis, INezaposleniServis nezaposleniServis, IPoslovnaLogika poslovnaLogika)
         {
             _poslodavacServis = poslodavacServis;
             _nezaposleniServis = nezaposleniServis;
+            _poslovnaLogika = poslovnaLogika;
         }
+        [BindProperty]
+        public bool ShowPopup { get; set; }
 
-        public async Task OnGetAsync()
+        [BindProperty]
+        public string CustomMessage { get; set; }
+
+        private async Task ucitajFirmeAsync()
         {
-            // Populate the combo boxes with data from _firmaServis.DajSve() method
             var firms = await _poslodavacServis.DajSve();
             foreach (var firm in firms)
             {
                 ViewData["Firms"] += $"<option >{firm.Naziv} | {firm.Grad}</option>"; // Adjust as per your Firma model properties
             }
+        }
+        public async Task OnGetAsync()
+        {
+            await ucitajFirmeAsync();
         }
         public async Task OnPost()
         {
@@ -58,10 +71,27 @@ namespace Evidencijanezaposlenih.Interface.Pages
                 BrojTelefona = Request.Form["phoneNumber"].ToString(),
                 RadniOdnosPrikaz = radniOdnosi
             };
-            
-            await _nezaposleniServis.KreirajNezaposlenog(nezaposleniUnos);
 
-            cnt++;
+            if (!_poslovnaLogika.ValidirajJMBG(nezaposleniUnos))
+            {
+                ShowPopup = true;
+                CustomMessage = "Neispravan JMBG";
+                ModelState.AddModelError("JMBG", "Neispravan JMBG");
+                await ucitajFirmeAsync();
+            }
+            else if (!_poslovnaLogika.ValidirajTrajanjeRadnogOdnosa(nezaposleniUnos))
+            {
+                ShowPopup = true;
+                CustomMessage = "Datum zavrsetka radnog odnosa mora biti veci od datuma pocetka radnog odnosa";
+                ModelState.AddModelError("Datum zavrsetka radnog odnosa", "Datum zavrsetka radnog odnosa mora biti veci od datuma pocetka radnog odnosa");
+                await ucitajFirmeAsync();
+            }
+            else
+            {
+                await _nezaposleniServis.KreirajNezaposlenog(nezaposleniUnos);
+                await ucitajFirmeAsync();
+            }
+
         }
     }
 }
