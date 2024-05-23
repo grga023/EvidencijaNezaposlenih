@@ -93,25 +93,63 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
         public Nezaposleni Dodaj(Nezaposleni obj)
         {
-            _ = _context.Nezaposleni.Add(obj).Entity;
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _ = _context.Nezaposleni.Add(obj).Entity;
+                    _context.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Transaction failed", ex);
+                }
+            }
             return obj;
         }
 
         public Nezaposleni? Izmeni(Nezaposleni obj)
         {
-            //_context.Entry(obj).State = EntityState.Modified;
-            _context.Nezaposleni.Update(obj);
-            return obj;
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _context.Nezaposleni.Update(obj);
+                    _context.SaveChanges();
+                    transaction.Commit();
+                    return obj;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Transaction failed", ex);
+                }
+            }
         }
 
         public async Task<Nezaposleni?> Obrisi(object PK)
         {
-            var nezaposleniToDelete = await _context.Nezaposleni.FirstOrDefaultAsync(x => x.ID == PK.ToString());
-            if (nezaposleniToDelete != null)
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                _context.Nezaposleni.Remove(nezaposleniToDelete);
+                try
+                {
+                    var nezaposleniToDelete = await _context.Nezaposleni.FirstOrDefaultAsync(x => x.ID == PK.ToString());
+                    if (nezaposleniToDelete != null)
+                    {
+                        _context.Nezaposleni.Remove(nezaposleniToDelete);
+                        _context.SaveChanges();
+                    }
+                    transaction.Commit();
+                    return nezaposleniToDelete;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Transaction failed", ex);
+                }
             }
-            return nezaposleniToDelete;
         }
 
         public void Snimi()

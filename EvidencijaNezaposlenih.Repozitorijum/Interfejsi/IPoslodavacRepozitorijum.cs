@@ -11,6 +11,7 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Interfejsi
     public interface IPoslodavacRepozitorijum : IRepozitorijum<Poslodavac>
     {
         Task<Poslodavac> PronadjiPoNazivu(object filter);
+        Task<List<Poslodavac>> DajSvePoFilteru(object naziv);
         Task<IEnumerable<PoslodavacPrikaz>> DajSvePogled(object pogled);
         Task DodajStorred(PoslodavacUnos obj);
     }

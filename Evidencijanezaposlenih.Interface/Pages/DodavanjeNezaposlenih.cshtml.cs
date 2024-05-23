@@ -12,12 +12,12 @@ namespace Evidencijanezaposlenih.Interface.Pages
     [Authorize(Roles = "admin")]
     public class DodavanjeNezaposlenihModel : PageModel
     {
+        private readonly HttpClient _httpClient;
         private readonly INezaposleniServis _nezaposleniServis;
-        private readonly IPoslodavacServis _poslodavacServis;
         private readonly IPoslovnaLogika _poslovnaLogika;
-        public DodavanjeNezaposlenihModel(IPoslodavacServis poslodavacServis, INezaposleniServis nezaposleniServis, IPoslovnaLogika poslovnaLogika)
+        public DodavanjeNezaposlenihModel(HttpClient httpClient, INezaposleniServis nezaposleniServis, IPoslovnaLogika poslovnaLogika)
         {
-            _poslodavacServis = poslodavacServis;
+            _httpClient = httpClient;
             _nezaposleniServis = nezaposleniServis;
             _poslovnaLogika = poslovnaLogika;
         }
@@ -29,7 +29,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
 
         private async Task ucitajFirmeAsync()
         {
-            var firms = await _poslodavacServis.DajSve();
+            var firms = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("https://localhost:7240/api/FirmaKontroler");
             foreach (var firm in firms)
             {
                 ViewData["Firms"] += $"<option >{firm.Naziv} | {firm.Grad}</option>"; // Adjust as per your Firma model properties

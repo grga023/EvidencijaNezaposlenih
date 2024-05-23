@@ -66,37 +66,75 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
         public RadniOdnos Dodaj(RadniOdnos obj)
         {
-            _ctx.RadniOdnosi.Add(obj);
+            using (var transaction = _ctx.Database.BeginTransaction())
+            {
+                try
+                {
+                    _ctx.RadniOdnosi.Add(obj);
+                    _ctx.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Transaction failed", ex);
+                }
+            }
             return obj;
         }
 
         public RadniOdnos? Izmeni(RadniOdnos obj)
         {
-            var radniOdnos =  _ctx.RadniOdnosi.FirstOrDefault(c => c.NezaposleniID == obj.NezaposleniID && c.ID == obj.ID);
-            if (radniOdnos != null)
+            using (var transaction = _ctx.Database.BeginTransaction())
             {
-
-                _ctx.RadniOdnosi.Update(obj);
+                try
+                {
+                    var radniOdnos = _ctx.RadniOdnosi.FirstOrDefault(c => c.NezaposleniID == obj.NezaposleniID && c.ID == obj.ID);
+                    if (radniOdnos != null)
+                    {
+                        _ctx.RadniOdnosi.Update(obj);
+                    }
+                    else
+                    {
+                        _ctx.RadniOdnosi.Add(obj);
+                    }
+                    _ctx.SaveChanges();
+                    transaction.Commit();
+                    return radniOdnos;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Transaction failed", ex);
+                }
             }
-            else
-            {
-                _ctx.RadniOdnosi.Add(obj);
-            }
-            return radniOdnos;
-           
         }
 
         public async Task<RadniOdnos?> Obrisi(object PK)
         {
-            string PKString = (string)PK;
-            var PKParts = PKString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-            var radniOdnos = await _ctx.RadniOdnosi.FirstOrDefaultAsync(c => c.NezaposleniID == PKParts[0] && c.ID == Int32.Parse(PKParts[1]));
-            if (radniOdnos != null)
+            using (var transaction = _ctx.Database.BeginTransaction())
             {
-                _ctx.RadniOdnosi.Remove(radniOdnos);
+                try
+                {
+                    string PKString = (string)PK;
+                    var PKParts = PKString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                    var radniOdnos = await _ctx.RadniOdnosi.FirstOrDefaultAsync(c => c.NezaposleniID == PKParts[0] && c.ID == Int32.Parse(PKParts[1]));
+                    if (radniOdnos != null)
+                    {
+                        _ctx.RadniOdnosi.Remove(radniOdnos);
+                        await _ctx.SaveChangesAsync();
+                    }
+
+                    transaction.Commit();
+                    return null;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Transaction failed", ex);
+                }
             }
-            return null;
         }
 
         public void Snimi()

@@ -21,16 +21,17 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
             return await _ctx.Poslodavci.ToListAsync();
         }
 
-        public async Task<List<Poslodavac>> DajSvePoFilteru(object filter)
+        public async Task<List<Poslodavac>> DajSvePoFilteru(object naziv)
         {
-            if (filter is string naziv)
+            if (naziv is string nazivP)
             {
-                var data = await _ctx.Poslodavci.Where(x => x.Naziv.Contains((string)filter)).ToListAsync();
-                return data;
+                    var data = await _ctx.Poslodavci.Where(x => x.Naziv.Contains((string)nazivP)).ToListAsync();
+                    return data;
             }
             else
             {
-                throw new ArgumentException("Filter mora biti String.");
+                var data = await _ctx.Poslodavci.ToListAsync();
+                return data;
             }   
         }
 
@@ -55,34 +56,74 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
         public Poslodavac Dodaj(Poslodavac obj)
         {
-            _ctx.Poslodavci.Add(obj);
-            return obj;
+            using (var transaction = _ctx.Database.BeginTransaction())
+            {
+                try
+                {
+                    _ctx.Poslodavci.Add(obj);
+                    _ctx.SaveChanges();
+                    transaction.Commit();
+                    return obj;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Transaction failed", ex);
+                }
+            }
         }
 
         public Poslodavac? Izmeni(Poslodavac obj)
         {
-            var poslodavac = _ctx.Poslodavci.Find(obj.PIB);
-
-            if (poslodavac != null)
+            using (var transaction = _ctx.Database.BeginTransaction())
             {
-                poslodavac.Adresa = obj.Adresa;
-                poslodavac.Naziv = obj.Naziv;
+                try
+                {
+                    var poslodavac = _ctx.Poslodavci.Find(obj.PIB);
 
-                _ctx.Poslodavci.Update(poslodavac);
+                    if (poslodavac != null)
+                    {
+                        poslodavac.Adresa = obj.Adresa;
+                        poslodavac.Naziv = obj.Naziv;
+
+                        _ctx.Poslodavci.Update(poslodavac);
+                        _ctx.SaveChanges();
+                    }
+
+                    transaction.Commit();
+                    return poslodavac;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Transaction failed", ex);
+                }
             }
-            return poslodavac;
         }
 
         public async Task<Poslodavac?> Obrisi(object PK)
         {
-            var poslodavac = await _ctx.Poslodavci.FindAsync(PK);
-
-            if (poslodavac != null)
+            using (var transaction = _ctx.Database.BeginTransaction())
             {
-                _ctx.Poslodavci.Remove(poslodavac);
-            }
+                try
+                {
+                    var poslodavac = await _ctx.Poslodavci.FirstOrDefaultAsync(x => x.PIB == Int32.Parse(PK.ToString()));
 
-            return poslodavac;
+                    if (poslodavac != null)
+                    {
+                        _ctx.Poslodavci.Remove(poslodavac);
+                        await _ctx.SaveChangesAsync();
+                    }
+
+                    transaction.Commit();
+                    return poslodavac;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Transaction failed", ex);
+                }
+            }
         }
 
         public async Task<Poslodavac> PronadjiPoNazivu(object filter) 
@@ -90,13 +131,26 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Repozitorijumi
 
         public async Task DodajStorred(PoslodavacUnos obj)
         {
-            var paramPIB = new SqlParameter("@PIB", obj.PIB);
-            var paramNaziv = new SqlParameter("@Naziv", obj.Naziv);
-            var paramGrad = new SqlParameter("@Grad", obj.Grad);
-            var paramAdresa = new SqlParameter("@Adresa", obj.Adresa);
+            using (var transaction = _ctx.Database.BeginTransaction())
+            {
+                try
+                {
+                    var paramPIB = new SqlParameter("@PIB", obj.PIB);
+                    var paramNaziv = new SqlParameter("@Naziv", obj.Naziv);
+                    var paramGrad = new SqlParameter("@Grad", obj.Grad);
+                    var paramAdresa = new SqlParameter("@Adresa", obj.Adresa);
 
-            var data = await _ctx.Database.ExecuteSqlRawAsync("EXEC AddPoslodavac @PIB, @Naziv, @Grad, @Adresa",
-                                                   paramPIB, paramNaziv, paramGrad, paramAdresa);
+                    var data = await _ctx.Database.ExecuteSqlRawAsync("EXEC AddPoslodavac @PIB, @Naziv, @Grad, @Adresa",
+                                                               paramPIB, paramNaziv, paramGrad, paramAdresa);
+
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Transaction failed", ex);
+                }
+            }
         }
 
         public void Snimi()

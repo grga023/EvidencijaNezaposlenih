@@ -6,19 +6,20 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Net.Http.Json;
 
 namespace Evidencijanezaposlenih.Interface.Pages
 {
     [Authorize]
     public class DodavanjeFirmeModel : PageModel
     {
-        private readonly IPoslodavacServis _poslodavacServis;
         private readonly IPoslovnaLogika _poslovnaLogika;
+        private readonly HttpClient _httpClient;
 
-        public DodavanjeFirmeModel(IPoslodavacServis poslodavacServis, IPoslovnaLogika poslovnaLogika)
+        public DodavanjeFirmeModel(IPoslovnaLogika poslovnaLogika, HttpClient httpClient)
         {
-            _poslodavacServis = poslodavacServis;
             _poslovnaLogika = poslovnaLogika;
+            _httpClient = httpClient;
         }
         [BindProperty]
         public bool ShowPopup { get; set; }
@@ -47,7 +48,9 @@ namespace Evidencijanezaposlenih.Interface.Pages
                 return Page();
             }
 
-            await _poslodavacServis.KreirajPoslodavca(obj);
+            await _httpClient.PostAsJsonAsync("https://localhost:7240/api/FirmaKontroler", obj);
+
+            //await _poslodavacServis.KreirajPoslodavca(obj);
             return Page();
         }
     }

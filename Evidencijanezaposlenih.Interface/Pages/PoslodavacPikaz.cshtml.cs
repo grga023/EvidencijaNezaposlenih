@@ -3,23 +3,25 @@ using EvidencijaNezaposlenih.Servisi.Interfejsi;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
 
 namespace Evidencijanezaposlenih.Interface.Pages
 {
     [Authorize(Roles = "user,admin")]
     public class PoslodavacPikazModel : PageModel
     {
-        private readonly IPoslodavacServis _poslodavacServis;
+        private readonly HttpClient _httpClient;
 
-        public PoslodavacPikazModel(IPoslodavacServis poslodavacServis)
+        public PoslodavacPikazModel(HttpClient httpClient)
         {
-            _poslodavacServis = poslodavacServis;
             PoslodavacPrikazLista = new List<PoslodavacPrikaz>();
+            _httpClient = httpClient;
         }
         public List<PoslodavacPrikaz> PoslodavacPrikazLista { get; set; }
+
         public async Task OnGetAsync()
         {
-            var data = await _poslodavacServis.DajSve();
+            var data = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("https://localhost:7240/api/FirmaKontroler");
 
             foreach (var item in data)
             {
@@ -36,8 +38,15 @@ namespace Evidencijanezaposlenih.Interface.Pages
         public async Task OnPostAsync()
         {
             var filter = Request.Form["filter"].ToString();
-
-            var data = await _poslodavacServis.DajSvePoNazivu(filter);
+            List<PoslodavacPrikaz> data = new();
+            if (filter == "")
+            {
+                data = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("https://localhost:7240/api/FirmaKontroler");
+            }
+            else
+            {
+                data = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("https://localhost:7240/api/FirmaKontroler/filter?naziv="+filter);
+            }
             if (data != null)
             {
                 foreach (var item in data)

@@ -9,19 +9,19 @@ using EvidencijaNezaposlenih.Servisi.Servisi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Evidencijanezaposlenih.Interface.Context.Modeli;
+using System.Text.Json.Serialization;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
+// Add services to the container.
 builder.Services.AddDbContext<EvidencijaNezaposlenihDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("EvidencijaNezaposlenihDBContext")
-    ).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
-
+    options.UseSqlServer(builder.Configuration.GetConnectionString("EvidencijaNezaposlenihDBContext"))
+           .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
 builder.Services.AddDbContext<IdentitetiDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("IdentitetiDBContext")
-    ).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("IdentitetiDBContext"))
+           .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
 builder.Services.AddDefaultIdentity<Korisnik>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
@@ -35,13 +35,39 @@ builder.Services.AddScoped<IRadniOdnosServis, RadniOdnosServis>();
 builder.Services.AddScoped<IRadniOdnosRepozitorijum, RadniOdnosRepozitorijum>();
 builder.Services.AddScoped<IPoslovnaLogika, PoslovnaLogika>();
 
-// Add services to the container.
+//builder.Services.AddHttpClient<ApiService>();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllers().AddJsonOptions(x =>
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "CashRegister.API", Version = "v1" });
+});
+
 builder.Services.AddRazorPages();
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+
+    // Enable middleware to serve generated Swagger as a JSON endpoint.
+    app.UseSwagger();
+
+    // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+    // specifying the Swagger JSON endpoint.
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        c.RoutePrefix = string.Empty; // To serve Swagger UI at the app's root
+    });
+}
+else
 {
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -56,5 +82,6 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapControllers();
 
 app.Run();

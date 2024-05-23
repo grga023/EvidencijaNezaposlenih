@@ -13,12 +13,14 @@ namespace Evidencijanezaposlenih.Interface.Pages
     {
         private readonly INezaposleniServis _nezaposleniServis;
         private readonly IPoslodavacServis _poslodavacServis;
+        private readonly HttpClient _httpClient;
         public string Jmbg { get; set; }
         public NezaposleniPrikaz nezaposleni { get; set; }
-        public NezaposleniIzmeniModel(INezaposleniServis nezaposleniServis, IPoslodavacServis poslodavacServis)
+        public NezaposleniIzmeniModel(INezaposleniServis nezaposleniServis, IPoslodavacServis poslodavacServis, HttpClient httpClient)
         {
             _nezaposleniServis = nezaposleniServis;
             _poslodavacServis = poslodavacServis;
+            _httpClient = httpClient;
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -29,7 +31,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
             {
                 return RedirectToPage("/Error");
             }
-            var firms = await _poslodavacServis.DajSve();
+            var firms = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("https://localhost:7240/api/FirmaKontroler");
             foreach (var firm in firms)
             {
                 ViewData["Firms"] += $"<option >{firm.Naziv} | {firm.Grad}</option>"; // Adjust as per your Firma model properties
@@ -49,7 +51,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
             var datumPocetka = Request.Form["datumPocetka[]"];
             var datumZavrsetka = Request.Form["datumZavrsetka[]"];
 
-            var firms = await _poslodavacServis.DajSve();
+            var firms = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("https://localhost:7240/api/FirmaKontroler");
             foreach (var firm in firms)
             {
                 ViewData["Firms"] += $"<option >{firm.Naziv} | {firm.Grad}</option>"; // Adjust as per your Firma model properties

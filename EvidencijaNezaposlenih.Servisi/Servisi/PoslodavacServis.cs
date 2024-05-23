@@ -51,13 +51,12 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
 
         public async Task<IEnumerable<PoslodavacPrikaz>> DajSvePoNazivu(object filter)
         {
+            List<PoslodavacPrikaz> poslodavci = new();
             var data = await _poslodavacRepozitorijum.DajSvePoFilteru(filter);
             if (data.Count == 0)
-                return null;
+                return poslodavci;
 
-            List<PoslodavacPrikaz> poslodavci = new();
-
-            foreach(var obj in data)
+            foreach (var obj in data)
             {
                 poslodavci.Add(new PoslodavacPrikaz
                 {
@@ -122,6 +121,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
 
         public async Task Obrisi(object PK)
         {
+            var pib = Int32.Parse(PK.ToString());
             await _poslodavacRepozitorijum.Obrisi(PK);
             _poslodavacRepozitorijum.Snimi();
         }
