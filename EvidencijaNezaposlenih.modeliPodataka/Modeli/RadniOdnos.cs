@@ -12,6 +12,8 @@ namespace EvidencijaNezaposlenih.ModeliPodataka.Modeli
     {
         public DateTime DatumPocetka { get; set; }
         public DateTime DatumZavrsetka { get; set; }
+        public string Pozicija { get; set; }
+        public bool Struka {  get; set; }
 
         [ForeignKey("Poslodavac")]
         public int ID { get; set; }

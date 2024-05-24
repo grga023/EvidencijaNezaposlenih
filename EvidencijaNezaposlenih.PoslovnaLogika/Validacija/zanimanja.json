@@ -1,0 +1,20 @@
+{
+  "zanimanja": [
+    {
+      "naziv": "Programer",
+      "pozicije": [ "Junior Developer", "Senior Developer", "Backend Developer", "Frontend Developer" ]
+    },
+    {
+      "naziv": "Menadzer",
+      "pozicije": [ "Project Manager", "Product Manager", "Operations Manager" ]
+    },
+    {
+      "naziv": "Dizajner",
+      "pozicije": [ "Graphic Designer", "UI/UX Designer", "Web Designer" ]
+    },
+    {
+      "naziv": "Marketar",
+      "pozicije": [ "Digital Marketing Specialist", "SEO Specialist", "Content Marketing Specialist" ]
+    }
+  ]
+}

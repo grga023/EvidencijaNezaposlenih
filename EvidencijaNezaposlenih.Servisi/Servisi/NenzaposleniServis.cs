@@ -40,6 +40,8 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                 {
                     DatumPocetka = item.DatumPocetka,
                     DatumZavrsetka = item.DatumZavrsetka,
+                    Pozicija = item.Pozicija,
+                    Struka = item.Struka,
                     ID = radniOdnos.ID,
                     NezaposleniID = data.ID,
                 };
@@ -81,6 +83,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                     JMBG = item.JMBG,
                     Prezime = item.Prezime,
                     DatumRodjenja = item.DatumRodjenja,
+                    Zanimanje = item.Zanimanje,
                     RadniOdnosPrikaz = null
                 };
 
@@ -93,6 +96,8 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                         NazivFirme = iskustvo.Poslodavac.Naziv,
                         DatumPocetka = iskustvo.DatumPocetka,
                         DatumZavrsetka = iskustvo.DatumZavrsetka,
+                        Pozicija = iskustvo.Pozicija,
+                        Struka = iskustvo.Struka,
                     };
                     radniOdnosList.Add(radniOdnos);
                 }
@@ -130,6 +135,8 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                     NazivFirme = iskustvo.Poslodavac.Naziv,
                     DatumPocetka = iskustvo.DatumPocetka,
                     DatumZavrsetka = iskustvo.DatumZavrsetka,
+                    Pozicija = iskustvo.Pozicija,
+                    Struka = iskustvo.Struka,
                 };
                 radniOdnosList.Add(radniOdnos);
             }
@@ -166,6 +173,8 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                     NazivFirme = iskustvo.Poslodavac.Naziv,
                     DatumPocetka = iskustvo.DatumPocetka,
                     DatumZavrsetka = iskustvo.DatumZavrsetka,
+                    Pozicija = iskustvo.Pozicija,
+                    Struka = iskustvo.Struka,
                 };
                 radniOdnosList.Add(radniOdnos);
             }
@@ -206,6 +215,8 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                         NazivFirme = iskustvo.Poslodavac.Naziv,
                         DatumPocetka = iskustvo.DatumPocetka,
                         DatumZavrsetka = iskustvo.DatumZavrsetka,
+                        Pozicija = iskustvo.Pozicija,
+                        Struka = iskustvo.Struka,
                     };
                     radniOdnosList.Add(radniOdnos);
                 }
@@ -259,6 +270,8 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
             if (postoji != null)
                 await KreirajNezaposlenog(obj);
 
+            obj = _poslovnaLogika.DaLiJeRedioUStruci(obj);
+
             Nezaposleni nezaposleniZaDodavanje = new Nezaposleni
             {
                 ID = ID_N,
@@ -267,7 +280,8 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                 BrojTelefona = obj.BrojTelefona,
                 DatumRodjenja = obj.DatumRodjenja,
                 Adresa = obj.Adresa,
-                JMBG = obj.JMBG
+                JMBG = obj.JMBG,
+                Zanimanje = obj.Zanimanje,
             };
 
             List<RadniOdnos> radniOdnosList = new List<RadniOdnos>();
@@ -284,6 +298,8 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                     ID = poslodavac.ID,
                     DatumPocetka = item.DatumPocetka,
                     DatumZavrsetka = item.DatumZavrsetka,
+                    Pozicija = item.Pozicija,
+                    Struka = item.Struka,
                 });
             }
             nezaposleniZaDodavanje.RadniOdnos = radniOdnosList;

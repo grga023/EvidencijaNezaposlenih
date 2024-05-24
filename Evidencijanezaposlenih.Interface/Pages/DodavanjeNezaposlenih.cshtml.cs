@@ -69,6 +69,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
                 JMBG = Request.Form["jmbg"].ToString(),
                 Adresa = Request.Form["adresa"].ToString(),
                 BrojTelefona = Request.Form["phoneNumber"].ToString(),
+                Zanimanje = Request.Form["zanimanje"].ToString(),
                 RadniOdnosPrikaz = radniOdnosi
             };
 

@@ -9,12 +9,13 @@ namespace EvidencijaNezaposlenih.ModeliPodataka.DTO
 {
     public class NezaposleniUnos
     {
-        public required string Ime { get; set; }
+        public required string Ime { get; set; }    
         public required string Prezime { get; set; }
         public DateTime DatumRodjenja { get; set; }
         public required string BrojTelefona { get; set; }
         public required string Adresa { get; set; }
         public required string JMBG { get; set; }
+        public string Zanimanje { get; set; }
         public required List<RadniOdnosPrikaz> RadniOdnosPrikaz { get; set; }
     }
 }

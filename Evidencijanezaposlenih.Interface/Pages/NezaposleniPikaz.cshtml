@@ -40,6 +40,7 @@
                             <th>Datum Rodjenja</th>
                             <th>Broj telefona</th>
                             <th>Adresa</th>
+                            <th>Zaninmanje</th>
                             @if (SignInManager.IsSignedIn(User))
                             {
                                 if(User.IsInRole("admin"))
@@ -57,6 +58,7 @@
                             <td>@nezaposleni.DatumRodjenja.ToShortDateString()</td>
                             <td>@nezaposleni.BrojTelefona</td>
                             <td>@nezaposleni.Adresa</td>
+                            <td>@nezaposleni.Zanimanje</td>
                             @if (SignInManager.IsSignedIn(User))
                             {
                                 if (User.IsInRole("admin"))
@@ -84,6 +86,8 @@
                             <th>Naziv Firme</th>
                             <th>Datum Pocetka</th>
                             <th>Datum Zavrsetka</th>
+                            <th>Pozicija rada</th>
+                            <th>Rad u struci</th>
                             @if (SignInManager.IsSignedIn(User))
                             {
                                 if (User.IsInRole("admin"))
@@ -104,6 +108,8 @@
                                 <td>@radniOdnos.NazivFirme</td>
                                 <td>@radniOdnos.DatumPocetka.ToShortDateString()</td>
                                 <td>@radniOdnos.DatumZavrsetka.ToShortDateString()</td>
+                                <td>@radniOdnos.Pozicija</td>
+                                <td>@radniOdnos.Struka</td>
                                 @if (SignInManager.IsSignedIn(User))
                                 {
                                     if (User.IsInRole("admin"))

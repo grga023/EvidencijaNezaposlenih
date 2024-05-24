@@ -13,5 +13,6 @@ namespace EvidencijaNezaposlenih.PoslovnaLogika.Interfejsi
         bool ValidirajTrajanjeRadnogOdnosa(NezaposleniUnos obj);
         bool ValidirajJMBG(NezaposleniUnos obj);
         bool ValidirajPIB(PoslodavacUnos obj);
+        NezaposleniUnos DaLiJeRedioUStruci(NezaposleniUnos obj);
     }
 }

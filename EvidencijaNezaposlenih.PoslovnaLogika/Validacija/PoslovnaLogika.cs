@@ -6,10 +6,62 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using EvidencijaNezaposlenih.PoslovnaLogika.Sifarnik;
+using Newtonsoft.Json;
+
 namespace EvidencijaNezaposlenih.PoslovnaLogika.Validacija
 {
     public class PoslovnaLogika : IPoslovnaLogika
     {
+        public NezaposleniUnos DaLiJeRedioUStruci(NezaposleniUnos obj)
+        {
+            string json = File.ReadAllText("zanimanja.json");
+            var data = JsonConvert.DeserializeObject<Dictionary<string, List<Zanimanje>>>(json);
+
+            // Pozicija koju želimo da pretražujemo
+            string trazenaPozicija = "";
+
+            List<RadniOdnosPrikaz> odnosi = new();
+
+            foreach (var kvp in obj.RadniOdnosPrikaz)
+            {
+                trazenaPozicija = kvp.Pozicija.ToString();
+
+                List<string> zanimanjaKojaSadrzePoziciju = new List<string>();
+                foreach (var zanimanje in data["zanimanja"])
+                {
+                    if (zanimanje.Pozicije.Contains(trazenaPozicija))
+                    {
+                        zanimanjaKojaSadrzePoziciju.Add(zanimanje.Naziv);
+                    }
+                }
+
+                foreach(var poz in zanimanjaKojaSadrzePoziciju)
+                {
+                    if(poz == obj.Zanimanje)
+                    {
+                        kvp.Struka = true;
+                    }
+                }
+                odnosi.Add(kvp);
+            };
+
+            obj.RadniOdnosPrikaz = null;
+            obj.RadniOdnosPrikaz = odnosi;
+
+
+            // Preuzimanje liste zanimanja koja sadrže određenu poziciju
+
+
+            //// Ispis rezultata
+            //Console.WriteLine("Zanimanja koja sadrže poziciju '" + trazenaPozicija + "':");
+            //foreach (var zanimanje in zanimanjaKojaSadrzePoziciju)
+            //{
+            //    Console.WriteLine(zanimanje);
+            //}
+            return obj;
+        }
+
         public bool ValidirajIdNezaposlenog(string IdNezaposlenog)
         { 
             IdNezaposlenog = IdNezaposlenog.Replace("-", "");

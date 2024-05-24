@@ -34,8 +34,10 @@ namespace Evidencijanezaposlenih.Interface.Pages
                     JMBG = item.JMBG,
                     BrojTelefona = item.BrojTelefona,
                     DatumRodjenja = item.DatumRodjenja,
+                    Zanimanje = item.Zanimanje,
                     RadniOdnosPrikaz = item.RadniOdnosPrikaz,
                 };
+                
                 NezaposleniList.Add(nezaposleni);
             }
 
@@ -57,6 +59,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
                         JMBG = item.JMBG,
                         BrojTelefona = item.BrojTelefona,
                         DatumRodjenja = item.DatumRodjenja,
+                        Zanimanje = item.Zanimanje,
                         RadniOdnosPrikaz = item.RadniOdnosPrikaz,
                     };
                     NezaposleniList.Add(nezaposleni);

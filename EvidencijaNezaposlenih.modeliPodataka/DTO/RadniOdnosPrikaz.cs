@@ -11,5 +11,7 @@ namespace EvidencijaNezaposlenih.ModeliPodataka.DTO
         public string NazivFirme { get; set; }
         public DateTime DatumPocetka { get; set; }
         public DateTime DatumZavrsetka { get; set; }
+        public string Pozicija { get; set; }
+        public bool Struka { get; set; }
     }
 }
