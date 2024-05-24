@@ -45,6 +45,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
             var nazivFirme = Request.Form["nazivFirme[]"];
             var datumPocetka = Request.Form["datumPocetka[]"];
             var datumZavrsetka = Request.Form["datumZavrsetka[]"];
+            var pozicija = Request.Form["pozicija[]"];
 
             List<RadniOdnosPrikaz> radniOdnosi = new List<RadniOdnosPrikaz>();
 
@@ -53,6 +54,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
                 RadniOdnosPrikaz radniOdnos = new()
                 {
                     NazivFirme = nazivFirme[cnt].ToString(),
+                    Pozicija = pozicija[cnt].ToString(),
                     DatumPocetka = DateTime.Parse(datumPocetka[cnt].ToString()),
                     DatumZavrsetka = DateTime.Parse(datumZavrsetka[cnt].ToString())
                 };

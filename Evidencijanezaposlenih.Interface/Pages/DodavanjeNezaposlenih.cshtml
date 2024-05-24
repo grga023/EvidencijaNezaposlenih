@@ -54,25 +54,36 @@
             <h3>Lista Radnih iskustava</h3>
             <div class="work-experience">
                 <div class="work-row">
-                    <label class="work-label" for="nazivFirme">Naziv Firme:</label>
-                    <div class="form-group">
-                        <select class="naziv-firme" name="nazivFirme[]" required>
-                            <option value="">Izaberi Firmu</option> 
-                        </select>
+                    <div class="main-info">
+                        <div class="form-group">
+                            <label class="work-label" for="nazivFirme">Naziv Firme:</label>
+                            <select class="naziv-firme" name="nazivFirme[]" required>
+                                <option value="">Izaberi Firmu</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="work-label" for="Pozicija">Pozicija:</label>
+                            <input type="text" class="pozicija" name="Pozicija[]" required>
+                        </div>
                     </div>
-                    <label class="work-label" for="datumPocetka">Datum Pocetka:</label>
-                    <div class="form-group">
-                        <input type="date" class="datum-pocetka" name="datumPocetka[]" required>
+                    <div class="date-info">
+                        <div class="form-group">
+                            <label class="work-label" for="datumPocetka">Datum Pocetka:</label>
+                            <input type="date" class="datum-pocetka" name="datumPocetka[]" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="work-label" for="datumZavrsetka">Datum Zavrsetka:</label>
+                            <input type="date" class="datum-zavrsetka" name="datumZavrsetka[]" required>
+                        </div>
                     </div>
-                    <label class="work-label" for="datumZavrsetka">Datum Zavrsetka:</label>
-                    <div class="form-group">
-                        <input type="date" class="datum-zavrsetka" name="datumZavrsetka[]" required>
-                    </div>
-                    <button class="remove-row" onclick="removeWorkExperienceRow(this)"> - </button> 
+                    <button class="remove-row" onclick="removeWorkExperienceRow(this)" style="background-color: transparent; border: none; font-size: 34px;">
+                        🗑️
+                    </button>
                 </div>
+                <div class="separator"></div>
             </div>
             <div class="add-row" onclick="addWorkExperienceRow()">+ Dodaj iskustvo</div>
-            <div class="separator"></div>
+            <div class="separator"></div> 
                 <input type="submit" value="Submit">
             <div class="separator"></div>
 
@@ -93,7 +104,13 @@
         });
 
         function removeWorkExperienceRow(button) {
-            button.parentNode.remove(); // Remove the parent element of the button (i.e., the work-row div)
+            const row = button.parentNode;
+            const separator = row.nextElementSibling; // Pronalazimo sledeći element (separator)
+
+            row.remove(); // Uklanjamo red
+            if (separator && separator.classList.contains('separator')) {
+                separator.remove(); // Uklanjamo separator ako postoji
+            }
         }
 
         function addWorkExperienceRow() {
@@ -101,27 +118,44 @@
             const newRow = document.createElement('div');
             newRow.classList.add('work-row');
             newRow.innerHTML = `
-                            <label class="work-label" for="nazivFirme">Naziv Firme:</label>
-                            <div class="form-group">
-                                <select class="naziv-firme" name="nazivFirme[]" required>
-                                    <option value="">Select Firm</option> <!-- Default option -->
-                                </select>
-                            </div>
-                            <label class="work-label" for="datumPocetka">Datum Pocetka:</label>
-                            <div class="form-group">
-                                <input type="date" class="datum-pocetka" name="datumPocetka[]" required>
-                            </div>
-                            <label class="work-label" for="datumZavrsetka">Datum Zavrsetka:</label>
-                            <div class="form-group">
-                                <input type="date" class="datum-zavrsetka" name="datumZavrsetka[]" required>
-                            </div>
-                            <button class="remove-row" onclick="removeWorkExperienceRow(this)"> - </button> <!-- Remove button -->
-                        `;
+                <div class="main-info">
+                    <div class="form-group">
+                        <label class="work-label" for="nazivFirme">Naziv Firme:</label>
+                        <select class="naziv-firme" name="nazivFirme[]" required>
+                            ${copyOptionsFromFirstFirmField()}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="work-label" for="Pozicija">Pozicija:</label>
+                        <input type="text" class="pozicija" name="Pozicija[]" required>
+                    </div>
+                </div>
+                <div class="date-info">
+                    <div class="form-group">
+                        <label class="work-label" for="datumPocetka">Datum Pocetka:</label>
+                        <input type="date" class="datum-pocetka" name="datumPocetka[]" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="work-label" for="datumZavrsetka">Datum Zavrsetka:</label>
+                        <input type="date" class="datum-zavrsetka" name="datumZavrsetka[]" required>
+                    </div>
+                </div>
+                <button class="remove-row" onclick="removeWorkExperienceRow(this)" style="background-color: transparent; border: none; font-size: 34px;">
+                    🗑️
+                </button>
+            `;
             workExperienceContainer.appendChild(newRow);
 
-            // Populate the newly added combo box with data from the ViewData["Firms"] variable
-            $(newRow).find(".naziv-firme").html(`@Html.Raw(ViewData["Firms"])`);
+            const separator = document.createElement('div');
+            separator.classList.add('separator');
+            workExperienceContainer.appendChild(separator);
         }
+
+        function copyOptionsFromFirstFirmField() {
+            const firstFirmOptions = document.querySelector('.naziv-firme').innerHTML;
+            return firstFirmOptions;
+        }
+
     </script>
 </body>
 </html>
