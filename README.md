@@ -20,13 +20,4 @@ CREATE VIEW [dbo].PoslodavacPrikaz
     AS SELECT PIB, Naziv, Grad, Adresa  FROM Poslodavci
 
 ## STORED PROCEDURA sa sledecim kodom.....
-CREATE PROCEDURE [dbo].AddPoslodavac
-    @PIB INT,
-    @Naziv NVARCHAR(255),
-    @Grad NVARCHAR(255),
-    @Adresa NVARCHAR(255)
-AS
-BEGIN
-    INSERT INTO Poslodavac (PIB, Naziv, Grad, Adresa)
-    VALUES (@PIB, @Naziv, @Grad, @Adresa);
-END;
+CREATE PROCEDURE [dbo].AddPoslodavac @PIB INT, @Naziv NVARCHAR(255), @Grad NVARCHAR(255), @Adresa NVARCHAR(255) AS BEGIN INSERT INTO Poslodavci (PIB, Naziv, Grad, Adresa) VALUES (@PIB, @Naziv, @Grad, @Adresa); END;
