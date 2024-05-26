@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvidencijaNezaposlenih.Mode
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvidencijaNezaposlenih.Servisi", "EvidencijaNezaposlenih.Servisi\EvidencijaNezaposlenih.Servisi.csproj", "{0612B185-0556-454F-B8CE-CD9E57A52640}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvidencijaNezaposlenih.PoslovnaLogika", "EvidencijaNezaposlenih.PoslovnaLogika\EvidencijaNezaposlenih.PoslovnaLogika.csproj", "{1C69ED64-DEE9-4389-82FD-C0C59825AD4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvidencijaNezaposlenih.PoslovnaLogika", "EvidencijaNezaposlenih.PoslovnaLogika\EvidencijaNezaposlenih.PoslovnaLogika.csproj", "{1C69ED64-DEE9-4389-82FD-C0C59825AD4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

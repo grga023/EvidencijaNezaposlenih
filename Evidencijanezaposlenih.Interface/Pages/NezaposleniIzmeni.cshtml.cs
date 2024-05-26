@@ -50,6 +50,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
             var nazivFirme = Request.Form["nazivFirme[]"];
             var datumPocetka = Request.Form["datumPocetka[]"];
             var datumZavrsetka = Request.Form["datumZavrsetka[]"];
+            var pozicija = Request.Form["pozicija[]"];
 
             var firms = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("https://localhost:7240/api/FirmaKontroler");
             foreach (var firm in firms)
@@ -65,14 +66,15 @@ namespace Evidencijanezaposlenih.Interface.Pages
                 {
                     NazivFirme = nazivFirme[cnt].ToString(),
                     DatumPocetka = DateTime.Parse(datumPocetka[cnt].ToString()),
-                    DatumZavrsetka = DateTime.Parse(datumZavrsetka[cnt].ToString())
+                    DatumZavrsetka = DateTime.Parse(datumZavrsetka[cnt].ToString()),
+                    Pozicija = pozicija[cnt].ToString(),
                 };
                 radniOdnosi.Add(radniOdnos);
                 cnt++;
 
             }
 
-            NezaposleniPrikaz nezaposleniUnos = new()
+            NezaposleniUnos nezaposleniUnos = new()
             {
                 Ime = Request.Form["name"].ToString(),
                 Prezime = Request.Form["surname"].ToString(),
@@ -80,6 +82,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
                 JMBG = Request.Form["jmbg"].ToString(),
                 Adresa = Request.Form["adresa"].ToString(),
                 BrojTelefona = Request.Form["phoneNumber"].ToString(),
+                Zanimanje = Request.Form["zanimanje"].ToString(),
                 RadniOdnosPrikaz = radniOdnosi
             };
 

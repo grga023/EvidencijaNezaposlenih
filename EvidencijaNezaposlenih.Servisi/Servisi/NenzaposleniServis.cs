@@ -26,11 +26,13 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
             _radniOdnosRepozitorijum = radniOdnosRepozitorijum;
             _poslovnaLogika = poslovnaLogika;
         }
-        public async Task Azuriraj(NezaposleniPrikaz obj)
+        public async Task Azuriraj(NezaposleniUnos obj)
         {
             var data = await _nezaposleniRepozitorijum.DajSvePoJMBG(obj.JMBG);
             if (data == null)
                 throw new ArgumentException("Pogresan ID");
+
+            obj = _poslovnaLogika.DaLiJeRedioUStruci(obj);
 
             foreach (var item in obj.RadniOdnosPrikaz)
             {
@@ -57,6 +59,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                 Ime = obj.Ime,
                 Prezime = obj.Prezime,
                 DatumRodjenja = obj.DatumRodjenja,
+                Zanimanje = obj.Zanimanje,
                 JMBG = data.JMBG,
             };
 
@@ -161,6 +164,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
                 Prezime = data.Prezime,
                 JMBG = data.JMBG,
                 DatumRodjenja = data.DatumRodjenja,
+                Zanimanje = data.Zanimanje,
                 RadniOdnosPrikaz = null
             };
 

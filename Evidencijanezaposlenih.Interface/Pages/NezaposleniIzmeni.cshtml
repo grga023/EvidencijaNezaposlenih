@@ -46,6 +46,10 @@
                 <label for="adresa">Adresa:</label>
                 <input type="text" id="adresa" name="adresa" value="@Model?.nezaposleni?.Adresa">
             </div>
+            <div class="form-group">
+                <label for="zanimanje">Zanimanje:</label>
+                <input type="text" id="zanimanje" name="zanimanje" value="@Model?.nezaposleni?.Zanimanje">
+            </div>
             <div class="separator"></div>
             <h3>List of Work Experience</h3>
             <div class="work-experience">
@@ -54,20 +58,31 @@
                     foreach (var workExperience in Model.nezaposleni.RadniOdnosPrikaz)
                         {
                             <div class="work-row">
-                                <label class="work-label" for="nazivFirme">Naziv Firme:</label>
-                                <div class="form-group">
-                                    <input type="text" class="naziv-firme" name="nazivFirme[]" value="@workExperience?.NazivFirme" required>
+                                <div class="main-info">
+                                    <div class="form-group">
+                                        <label class="work-label" for="nazivFirme">Naziv Firme:</label>
+                                        <input type="text" class="naziv-firme" name="nazivFirme[]" value="@workExperience?.NazivFirme" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="work-label" for="pozicija">pozicija:</label>
+                                        <input type="text" id="pozicija" name="pozicija[]" value="@workExperience?.Pozicija">
+                                    </div>
                                 </div>
-                                <label class="work-label" for="datumPocetka">Datum Pocetka:</label>
-                                <div class="form-group">
-                                    <input type="date" class="datum-pocetka" name="datumPocetka[]" value="@workExperience?.DatumPocetka.ToString("yyyy-MM-dd")" required>
+                                <div class="date-info">
+                                    <div class="form-group">
+                                        <label class="work-label" for="datumPocetka">Datum Pocetka:</label>
+                                        <input type="date" class="datum-pocetka" name="datumPocetka[]" value="@workExperience?.DatumPocetka.ToString("yyyy-MM-dd")" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="work-label" for="datumZavrsetka">Datum Zavrsetka:</label>
+                                        <input type="date" class="datum-zavrsetka" name="datumZavrsetka[]" value="@workExperience?.DatumZavrsetka.ToString("yyyy-MM-dd")" required>
+                                    </div>
                                 </div>
-                                <label class="work-label" for="datumZavrsetka">Datum Zavrsetka:</label>
-                                <div class="form-group">
-                                    <input type="date" class="datum-zavrsetka" name="datumZavrsetka[]" value="@workExperience?.DatumZavrsetka.ToString("yyyy-MM-dd")" required>
-                                </div>
-                                <button class="remove-row" onclick="removeWorkExperienceRow(this)"> - </button> <!-- Remove button -->
+                                <button class="remove-row" onclick="removeWorkExperienceRow(this)" style="background-color: transparent; border: none; font-size: 34px;">
+                                    🗑️
+                                </button>
                             </div>
+                        <div class="separator"></div>
                         }
                 }
             </div>
@@ -92,7 +107,13 @@
         });
 
         function removeWorkExperienceRow(button) {
-            button.parentNode.remove(); // Remove the parent element of the button (i.e., the work-row div)
+            const row = button.parentNode;
+            const separator = row.nextElementSibling; 
+
+            row.remove();
+            if (separator && separator.classList.contains('separator')) {
+                separator.remove(); 
+            }
         }
 
         function addWorkExperienceRow() {
@@ -100,23 +121,38 @@
             const newRow = document.createElement('div');
             newRow.classList.add('work-row');
             newRow.innerHTML = `
-                            <label class="work-label" for="nazivFirme">Naziv Firme:</label>
-                            <div class="form-group">
-                                <select class="naziv-firme" name="nazivFirme[]" required>
-                                    <option value="">Select Firm</option> <!-- Default option -->
-                                </select>
+                                    <div class="main-info">
+                                <div class="form-group">
+                                    <label class="work-label" for="nazivFirme">Naziv Firme:</label>
+                                    <select class="naziv-firme" name="nazivFirme[]" required>
+                                        <option value="">Select Firm</option> 
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="work-label" for="pozicija">pozicija:</label>
+                                    <input type="text" id="pozicija" name="pozicija[]" required>
+                                </div>
+                                </div>
+                                <div class="date-info">
+                                    <div class="form-group">
+                                        <label class="work-label" for="datumPocetka">Datum Pocetka:</label>
+                                        <input type="date" class="datum-pocetka" name="datumPocetka[]" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="work-label" for="datumZavrsetka">Datum Zavrsetka:</label>
+                                        <input type="date" class="datum-zavrsetka" name="datumZavrsetka[]" required>
+                                    </div>
+                                </div>
+
+                                <button class="remove-row" onclick="removeWorkExperienceRow(this)" style="background-color: transparent; border: none; font-size: 34px;">
+                                    🗑️
+                                </button>
                             </div>
-                            <label class="work-label" for="datumPocetka">Datum Pocetka:</label>
-                            <div class="form-group">
-                                <input type="date" class="datum-pocetka" name="datumPocetka[]" required>
-                            </div>
-                            <label class="work-label" for="datumZavrsetka">Datum Zavrsetka:</label>
-                            <div class="form-group">
-                                <input type="date" class="datum-zavrsetka" name="datumZavrsetka[]" required>
-                            </div>
-                            <button class="remove-row" onclick="removeWorkExperienceRow(this)"> - </button> <!-- Remove button -->
                         `;
             workExperienceContainer.appendChild(newRow);
+            const separator = document.createElement('div');
+            separator.classList.add('separator');
+            workExperienceContainer.appendChild(separator);
 
             // Populate the newly added combo box with data from the ViewData["Firms"] variable
             $(newRow).find(".naziv-firme").html(`@Html.Raw(ViewData["Firms"])`);

@@ -1,0 +1,224 @@
+﻿@page
+@model Evidencijanezaposlenih.Interface.Pages.NezaposleniPoslovnaModel
+@{
+}
+@using Microsoft.AspNetCore.Identity
+@using Evidencijanezaposlenih.Interface.Context.Modeli
+
+@inject SignInManager<Korisnik> SignInManager
+@inject UserManager<Korisnik> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nezaposleni List</title>
+    <link rel="stylesheet" href="~/css/dodavanje.css" asp-append-version="true" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h2>Nezaposleni poslovna logika</h2>
+        <div class="search-box">
+            <input type="text" id="filter" name="filter" placeholder="Search...">
+            <label for="show-da">Da li ima iskustav u struci?</label>
+            <input type="checkbox" id="show-da" name="show-da">
+        </div>
+    </div>
+    <div class="MasterSeparator"></div>
+    <div id="results-container">
+        @foreach (var nezaposleni in Model.NezaposleniList)
+        {
+            <div class="nezaposleni-container">
+                <div class="nezaposleni-details">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ime</th>
+                                <th>Prezime</th>
+                                <th>Jmbg</th>
+                                <th>Datum Rodjenja</th>
+                                <th>Broj telefona</th>
+                                <th>Adresa</th>
+                                <th>Zaninmanje</th>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    if (User.IsInRole("admin"))
+                                    {
+                                        <th>Izmeni</th>
+                                    }
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@nezaposleni.Ime</td>
+                                <td>@nezaposleni.Prezime</td>
+                                <td>@nezaposleni.JMBG</td>
+                                <td>@nezaposleni.DatumRodjenja.ToShortDateString()</td>
+                                <td>@nezaposleni.BrojTelefona</td>
+                                <td>@nezaposleni.Adresa</td>
+                                <td>@nezaposleni.Zanimanje</td>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    if (User.IsInRole("admin"))
+                                    {
+                                        <td>
+                                            <form method="get" action="/NezaposleniIzmeni">
+                                                <input type="hidden" name="jmbg" value="@nezaposleni.JMBG" />
+                                                <button type="submit" class="edit-row" title="Edit" style="background-color: transparent; border: none; font-size: 34px; display: flex; align-items: center; justify-content: center;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ADD8E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+                                                        <path d="M12 20h9"></path>
+                                                        <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19.5 3 21l1.5-4L16.5 3.5z"></path>
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    }
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                    <span class="toggle-button" onclick="toggleDetails(this)">&#x25BC;</span>
+                </div>
+                <div class="radni-odnos">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Naziv Firme</th>
+                                <th>Datum Pocetka</th>
+                                <th>Datum Zavrsetka</th>
+                                <th>Pozicija rada</th>
+                                <th>Rad u struci</th>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    if (User.IsInRole("admin"))
+                                    {
+                                        <th>Obrisi</th>
+                                    }
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var rowIndex = 1;
+                            }
+                            @foreach (var radniOdnos in nezaposleni.RadniOdnosPrikaz)
+                            {
+                                <tr>
+                                    <td>@rowIndex</td>
+                                    <td>@radniOdnos.NazivFirme</td>
+                                    <td>@radniOdnos.DatumPocetka.ToShortDateString()</td>
+                                    <td>@radniOdnos.DatumZavrsetka.ToShortDateString()</td>
+                                    <td>@radniOdnos.Pozicija</td>
+                                    <td>@(radniOdnos.Struka ? "DA" : "NE")</td>
+                                    @if (SignInManager.IsSignedIn(User))
+                                    {
+                                        if (User.IsInRole("admin"))
+                                        {
+                                            <td>
+                                                <form method="post" asp-page-handler="Obrisi">
+                                                    <input type="hidden" name="nazivf" value="@radniOdnos.NazivFirme,@nezaposleni.JMBG" />
+                                                    <button type="submit" class="remove-row" title="Obrisi" style="background-color: transparent; border: none; font-size: 20px;">
+                                                        🗑️
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        }
+                                    }
+                                </tr>
+                                rowIndex++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="separator"></div>
+        }
+    </div>
+
+    <script>
+        function toggleDetails(element) {
+            const radniOdnosDiv = element.parentElement.nextElementSibling;
+            if (radniOdnosDiv.style.display === "none" || radniOdnosDiv.style.display === "") {
+                radniOdnosDiv.style.display = "block";
+                element.innerHTML = "&#x25B2;"; // Change to up arrow
+            } else {
+                radniOdnosDiv.style.display = "none";
+                element.innerHTML = "&#x25BC;"; // Change to down arrow
+            }
+        }
+        $(document).ready(function () {
+            $('#filter').on('input', function () {
+                applyFilter();
+            });
+
+            function applyFilter() {
+                var filter = $('#filter').val().toLowerCase().trim();
+                console.log("Filter:", filter);
+                $('#results-container .nezaposleni-container').each(function () {
+                    var zanimanje = $(this).find('td:eq(6)').text().toLowerCase();
+                    var shouldShow = zanimanje.startsWith(filter);
+                    $(this).toggle(shouldShow);
+                    $(this).prev('.separator').toggle(shouldShow);
+
+                    // Filter nested table rows
+                    $(this).find('.radni-odnos tr').each(function () {
+                        var nazivFirme = $(this).find('td:eq(1)').text().toLowerCase(); // Assuming NazivFirme is the second column
+                        var shouldShowRow = shouldShow || nazivFirme.startsWith(filter);
+                        $(this).toggle(shouldShowRow);
+                    });
+                });
+
+                // If filter is empty, show all items
+                if (!filter) {
+                    $('#results-container .nezaposleni-container').toggle(true);
+                    $('#results-container .separator').toggle(true);
+                    $('#results-container .radni-odnos tr').toggle(true); 
+                }
+            }
+        });
+
+
+        $(document).ready(function () {
+            $('#show-da').on('change', function () {
+                applyDAFilter();
+            });
+
+            function applyDAFilter() {
+                var showDA = $('#show-da').is(':checked');
+                console.log("Show DA:", showDA);
+                $('#results-container .nezaposleni-container').each(function () {
+                    var struka = $(this).find('td:eq(7)').text().toLowerCase();
+                    var shouldShow = showDA || struka === 'da';
+                    $(this).toggle(shouldShow);
+                    $(this).prev('.separator').toggle(shouldShow);
+                    $(this).find('.radni-odnos tr').each(function () {
+                        var radUStruci = $(this).find('td:eq(5)').text().toLowerCase();
+                        if (radUStruci === 'ne' && showDA) {
+                            $(this).toggle(false);
+                        } else {
+                            $(this).toggle(shouldShow);
+                        }
+                    });
+                });
+
+                // If "DA" checkbox is unchecked, show all items
+                if (!showDA) {
+                    $('#results-container .nezaposleni-container').toggle(true);
+                    $('#results-container .radni-odnos tr').toggle(true);
+                    $('#results-container .separator').toggle(true);
+                }
+            }
+        });
+
+    </script>
+
+
+
+
+</body>
+</html>
+

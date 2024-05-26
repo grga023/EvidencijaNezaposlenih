@@ -74,6 +74,15 @@ input[type="submit"] {
         padding: 5px;
         border: 1px solid #ccc;
         border-radius: 4px;
+        margin-right: 10px;
+    }
+
+    .search-box input[type="checkbox"] {
+        margin-left: 10px;
+        margin-top: 20px;
+        width: 20px; /* Set the width */
+        vertical-align: middle;
+        height: 20px; /* Set the height */
     }
 
     .search-box button {

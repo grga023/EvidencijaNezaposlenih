@@ -1,20 +1,42 @@
 {
   "zanimanja": [
     {
-      "naziv": "Programer",
-      "pozicije": [ "Junior Developer", "Senior Developer", "Backend Developer", "Frontend Developer" ]
+      "naziv": "PROGRAMER",
+      "pozicije": [
+        "JUNIOR DEVELOPER",
+        "MEDIOR DEVELOPER",
+        "SENIOR DEVELOPER",
+        "BACKEND DEVELOPER",
+        "FRONTEND DEVELOPER",
+        "FULL-STACK DEVELOPER",
+        "EMBEDDED DEVELOPER"
+      ]
     },
     {
-      "naziv": "Menadzer",
-      "pozicije": [ "Project Manager", "Product Manager", "Operations Manager" ]
+      "naziv": "MENADZER",
+      "pozicije": [
+        "SCRUM MASTER",
+        "PROJECT OWNER",
+        "PROJECT MANAGER",
+        "PRODUCT MANAGER",
+        "OPERATIONS MANAGER"
+      ]
     },
     {
-      "naziv": "Dizajner",
-      "pozicije": [ "Graphic Designer", "UI/UX Designer", "Web Designer" ]
+      "naziv": "DIZAJNER",
+      "pozicije": [
+        "GRAPHIC DESIGNER",
+        "UI/UX DESIGNER",
+        "WEB DESIGNER"
+      ]
     },
     {
       "naziv": "Marketar",
-      "pozicije": [ "Digital Marketing Specialist", "SEO Specialist", "Content Marketing Specialist" ]
+      "pozicije": [
+        "DIGITAL MARKETING SPECIALIST",
+        "SEO SPECIALIST",
+        "CONTENT MARKETING SPECIALIST"
+      ]
     }
   ]
 }

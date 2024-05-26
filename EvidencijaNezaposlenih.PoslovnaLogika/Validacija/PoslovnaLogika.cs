@@ -25,7 +25,7 @@ namespace EvidencijaNezaposlenih.PoslovnaLogika.Validacija
 
             foreach (var kvp in obj.RadniOdnosPrikaz)
             {
-                trazenaPozicija = kvp.Pozicija.ToString();
+                trazenaPozicija = kvp.Pozicija.ToString().ToUpper();
 
                 List<string> zanimanjaKojaSadrzePoziciju = new List<string>();
                 foreach (var zanimanje in data["zanimanja"])
@@ -38,7 +38,7 @@ namespace EvidencijaNezaposlenih.PoslovnaLogika.Validacija
 
                 foreach(var poz in zanimanjaKojaSadrzePoziciju)
                 {
-                    if(poz == obj.Zanimanje)
+                    if(poz == obj.Zanimanje.ToUpper())
                     {
                         kvp.Struka = true;
                     }
@@ -49,16 +49,6 @@ namespace EvidencijaNezaposlenih.PoslovnaLogika.Validacija
             obj.RadniOdnosPrikaz = null;
             obj.RadniOdnosPrikaz = odnosi;
 
-
-            // Preuzimanje liste zanimanja koja sadrže određenu poziciju
-
-
-            //// Ispis rezultata
-            //Console.WriteLine("Zanimanja koja sadrže poziciju '" + trazenaPozicija + "':");
-            //foreach (var zanimanje in zanimanjaKojaSadrzePoziciju)
-            //{
-            //    Console.WriteLine(zanimanje);
-            //}
             return obj;
         }
 
