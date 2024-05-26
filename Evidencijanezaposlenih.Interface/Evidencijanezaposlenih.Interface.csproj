@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <None Include="wwwroot\Pictures\evidencijaLogo.png" />
-    <None Include="wwwroot\zanimanja.json" />
   </ItemGroup>
 
   <ItemGroup>
