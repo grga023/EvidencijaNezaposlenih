@@ -18,13 +18,15 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
         private readonly IPoslodavacRepozitorijum _poslodavacRepozitorijum;
         private readonly IRadniOdnosRepozitorijum _radniOdnosRepozitorijum;
         private readonly IPoslovnaLogika _poslovnaLogika;
+        private readonly IRadUStruci _radUStruci;
 
-        public NenzaposleniServis (INezaposleniRepozitorijum nezaposleniRepozitorijum, IPoslodavacRepozitorijum poslodavacRepozitorijum, IRadniOdnosRepozitorijum radniOdnosRepozitorijum, IPoslovnaLogika poslovnaLogika)
+        public NenzaposleniServis (INezaposleniRepozitorijum nezaposleniRepozitorijum, IPoslodavacRepozitorijum poslodavacRepozitorijum, IRadniOdnosRepozitorijum radniOdnosRepozitorijum, IPoslovnaLogika poslovnaLogika, IRadUStruci radUStruci)
         {
             _nezaposleniRepozitorijum = nezaposleniRepozitorijum;
             _poslodavacRepozitorijum = poslodavacRepozitorijum;
             _radniOdnosRepozitorijum = radniOdnosRepozitorijum;
             _poslovnaLogika = poslovnaLogika;
+            _radUStruci = radUStruci;
         }
         public async Task Azuriraj(NezaposleniUnos obj)
         {
@@ -32,7 +34,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
             if (data == null)
                 throw new ArgumentException("Pogresan ID");
 
-            obj = _poslovnaLogika.DaLiJeRedioUStruci(obj);
+            obj = _radUStruci.DaLiJeRedioUStruci(obj);
 
             foreach (var item in obj.RadniOdnosPrikaz)
             {
@@ -274,7 +276,7 @@ namespace EvidencijaNezaposlenih.Servisi.Servisi
             if (postoji != null)
                 await KreirajNezaposlenog(obj);
 
-            obj = _poslovnaLogika.DaLiJeRedioUStruci(obj);
+            obj = _radUStruci.DaLiJeRedioUStruci(obj);
 
             Nezaposleni nezaposleniZaDodavanje = new Nezaposleni
             {

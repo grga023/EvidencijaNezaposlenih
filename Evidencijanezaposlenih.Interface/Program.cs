@@ -34,6 +34,7 @@ builder.Services.AddScoped<IPoslodavacServis, PoslodavacServis>();
 builder.Services.AddScoped<IRadniOdnosServis, RadniOdnosServis>();
 builder.Services.AddScoped<IRadniOdnosRepozitorijum, RadniOdnosRepozitorijum>();
 builder.Services.AddScoped<IPoslovnaLogika, PoslovnaLogika>();
+builder.Services.AddScoped<IRadUStruci, RadUStruci>();
 
 //builder.Services.AddHttpClient<ApiService>();
 
