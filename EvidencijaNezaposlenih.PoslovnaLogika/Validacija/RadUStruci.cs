@@ -15,6 +15,7 @@ namespace EvidencijaNezaposlenih.PoslovnaLogika.Validacija
         public NezaposleniUnos DaLiJeRedioUStruci(NezaposleniUnos obj)
         {
             string json = File.ReadAllText("zanimanja.json");
+            //Ucitavanje podataka iz JSON fajla
             var data = JsonConvert.DeserializeObject<Dictionary<string, List<Zanimanje>>>(json);
 
             // Pozicija koju želimo da pretražujemo
@@ -22,6 +23,7 @@ namespace EvidencijaNezaposlenih.PoslovnaLogika.Validacija
 
             List<RadniOdnosPrikaz> odnosi = new();
 
+            //Prolazak kroz listu radnih odnosa
             foreach (var kvp in obj.RadniOdnosPrikaz)
             {
                 trazenaPozicija = kvp.Pozicija.ToString().ToUpper();
@@ -37,6 +39,7 @@ namespace EvidencijaNezaposlenih.PoslovnaLogika.Validacija
 
                 foreach (var poz in zanimanjaKojaSadrzePoziciju)
                 {
+                    //Radi lakse pretrage slova se pretvaraju u velika
                     if (poz == obj.Zanimanje.ToUpper())
                     {
                         kvp.Struka = true;
@@ -48,6 +51,7 @@ namespace EvidencijaNezaposlenih.PoslovnaLogika.Validacija
             obj.RadniOdnosPrikaz = null;
             obj.RadniOdnosPrikaz = odnosi;
 
+            //Vracanje izmenjenog objekta
             return obj;
         }
     }
