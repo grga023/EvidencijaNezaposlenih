@@ -10,8 +10,8 @@ services:
       - "5001:5001"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__EvidencijaNezaposlenihDBContext: Server=db;Database=EvidencijaNezaposlenih;User Id=sa;Password=YourPassword123!
-      ConnectionStrings__IdentitetiDBContext: Server=db;Database=Identiteti;User Id=sa;Password=YourPassword123!
+      ConnectionStrings__EvidencijaNezaposlenihDBContext: "Server=db;Database=EvidencijaNezaposlenih;User Id=sa;Password=YourPassword123!;TrustServerCertificate=True"
+      ConnectionStrings__IdentitetiDBContext: "Server=db;Database=Identiteti;User Id=sa;Password=YourPassword123!;TrustServerCertificate=True"
     depends_on:
       - db
 
@@ -25,7 +25,8 @@ services:
       ACCEPT_EULA: "Y"
     volumes:
       - dbdata:/var/opt/mssql
-    mem_limit: 2g  # Set memory limit to 2GB
+    # Increase the memory limit if needed
+    mem_limit: 4g  # For example, increase to 4GB
 
 volumes:
   dbdata:
