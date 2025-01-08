@@ -14,7 +14,6 @@ services:
       - ConnectionStrings__IdentitetiDBContext=Server=db;Database=Identiteti;User=sa;Password=YourPassword123!
     depends_on:
       - db
-
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     ports:
