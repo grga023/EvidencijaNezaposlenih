@@ -9,7 +9,6 @@ COPY EvidencijaNezaposlenih.PoslovnaLogika/*.csproj EvidencijaNezaposlenih.Poslo
 COPY EvidencijaNezaposlenih.Repozitorijum/*.csproj EvidencijaNezaposlenih.Repozitorijum/
 COPY EvidencijaNezaposlenih.Servisi/*.csproj EvidencijaNezaposlenih.Servisi/
 COPY EvidencijaNezaposlenih.modeliPodataka/*.csproj EvidencijaNezaposlenih.modeliPodataka/
-
 RUN dotnet restore
 
 # Copy the rest of the application code
