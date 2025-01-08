@@ -25,6 +25,7 @@ services:
       ACCEPT_EULA: "Y"
     volumes:
       - dbdata:/var/opt/mssql
+    mem_limit: 2g  # Set memory limit to 2GB
 
 volumes:
   dbdata:
