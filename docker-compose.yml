@@ -15,16 +15,15 @@ services:
     depends_on:
       - db
 
-  db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: db
-    ports:
-      - "1433:1433"
-    environment:
-      SA_PASSWORD: "YourPassword123!"
-      ACCEPT_EULA: "Y"
-    volumes:
-      - dbdata:/var/opt/mssql
+db:
+  image: mcr.microsoft.com/azure-sql-edge
+  ports:
+    - "1433:1433"
+  environment:
+    SA_PASSWORD: "YourPassword123!"
+    ACCEPT_EULA: "Y"
+  volumes:
+    - dbdata:/var/opt/mssql
 
 volumes:
   dbdata:
