@@ -15,29 +15,27 @@ services:
       - db2
 
   db1:
-    image: postgres:15
+    image: caprover/mssql-server-2019-arm64
     container_name: db1
     ports:
-      - "1434:5432"   # Host port 1434 -> container port 5432
+      - "1433:1433"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: YourPassword123!
-      POSTGRES_DB: evidencija1
+      SA_PASSWORD: "YourPassword123!"
+      ACCEPT_EULA: "Y"
     volumes:
-      - db1data:/var/lib/postgresql/data
+      - db1data:/var/opt/mssql
     mem_limit: 4g
 
   db2:
-    image: postgres:15
+    image: caprover/mssql-server-2019-arm64
     container_name: db2
     ports:
-      - "1435:5432"   # Host port 1435 -> container port 5432
+      - "1434:1433"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: YourPassword123!
-      POSTGRES_DB: evidencija2
+      SA_PASSWORD: "YourPassword123!"
+      ACCEPT_EULA: "Y"
     volumes:
-      - db2data:/var/lib/postgresql/data
+      - db2data:/var/opt/mssql
     mem_limit: 4g
 
 volumes:
