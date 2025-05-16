@@ -1,30 +1,30 @@
-# Use the official .NET SDK image for building the app
+# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+# This stage is used when running from VS in fast mode (Default for Debug configuration)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER $APP_UID
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
+
+# This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
-
-# Copy the project files and restore dependencies
-COPY *.sln .
-COPY Evidencijanezaposlenih.Interface/*.csproj Evidencijanezaposlenih.Interface/
-COPY EvidencijaNezaposlenih.PoslovnaLogika/*.csproj EvidencijaNezaposlenih.PoslovnaLogika/
-COPY EvidencijaNezaposlenih.Repozitorijum/*.csproj EvidencijaNezaposlenih.Repozitorijum/
-COPY EvidencijaNezaposlenih.Servisi/*.csproj EvidencijaNezaposlenih.Servisi/
-COPY EvidencijaNezaposlenih.modeliPodataka/*.csproj EvidencijaNezaposlenih.modeliPodataka/
-RUN dotnet restore
-
-# Copy the rest of the application code
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["Evidencijanezaposlenih.Interface/Evidencijanezaposlenih.Interface.csproj", "Evidencijanezaposlenih.Interface/"]
+RUN dotnet restore "./Evidencijanezaposlenih.Interface/Evidencijanezaposlenih.Interface.csproj"
 COPY . .
+WORKDIR "/src/Evidencijanezaposlenih.Interface"
+RUN dotnet build "./Evidencijanezaposlenih.Interface.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Build the app
-RUN dotnet publish Evidencijanezaposlenih.Interface/Evidencijanezaposlenih.Interface.csproj -c Release -o /out
+# This stage is used to publish the service project to be copied to the final stage
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./Evidencijanezaposlenih.Interface.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Use the runtime image to run the app
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
+FROM base AS final
 WORKDIR /app
-COPY --from=build /out .
-
-# Expose the port the app runs on
-EXPOSE 5000
-EXPOSE 5001
-
-# Set the entry point to run the app
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Evidencijanezaposlenih.Interface.dll"]
