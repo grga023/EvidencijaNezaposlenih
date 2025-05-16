@@ -48,7 +48,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
                 return Page();
             }
 
-            await _httpClient.PostAsJsonAsync("https://localhost:7240/api/FirmaKontroler", obj);
+            await _httpClient.PostAsJsonAsync("http://localhost:8080/api/FirmaKontroler", obj);
 
             //await _poslodavacServis.KreirajPoslodavca(obj);
             return Page();

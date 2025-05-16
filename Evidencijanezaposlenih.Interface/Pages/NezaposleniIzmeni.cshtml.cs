@@ -31,7 +31,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
             {
                 return RedirectToPage("/Error");
             }
-            var firms = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("https://localhost:7240/api/FirmaKontroler");
+            var firms = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("http://localhost:8080/api/FirmaKontroler");
             foreach (var firm in firms)
             {
                 ViewData["Firms"] += $"<option >{firm.Naziv} | {firm.Grad}</option>"; // Adjust as per your Firma model properties
@@ -52,7 +52,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
             var datumZavrsetka = Request.Form["datumZavrsetka[]"];
             var pozicija = Request.Form["pozicija[]"];
 
-            var firms = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("https://localhost:7240/api/FirmaKontroler");
+            var firms = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("http://localhost:8080/api/FirmaKontroler");
             foreach (var firm in firms)
             {
                 ViewData["Firms"] += $"<option >{firm.Naziv} | {firm.Grad}</option>"; // Adjust as per your Firma model properties

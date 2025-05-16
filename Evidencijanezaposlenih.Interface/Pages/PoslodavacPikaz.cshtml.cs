@@ -21,7 +21,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
 
         public async Task OnGetAsync()
         {
-            var data = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("https://localhost:7240/api/FirmaKontroler");
+            var data = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("http://localhost:8080/api/FirmaKontroler");
 
             foreach (var item in data)
             {
@@ -41,11 +41,11 @@ namespace Evidencijanezaposlenih.Interface.Pages
             List<PoslodavacPrikaz> data = new();
             if (filter == "")
             {
-                data = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("https://localhost:7240/api/FirmaKontroler");
+                data = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("http://localhost:8080/api/FirmaKontroler");
             }
             else
             {
-                data = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("https://localhost:7240/api/FirmaKontroler/filter?naziv="+filter);
+                data = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("http://localhost:8080/api/FirmaKontroler/filter?naziv="+filter);
             }
             if (data != null)
             {
