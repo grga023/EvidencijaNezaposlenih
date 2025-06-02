@@ -14,6 +14,18 @@ services:
       - db1
       # - db2
 
+  # db1:
+  #   image: mcr.microsoft.com/mssql/server:2022-latest
+  #   container_name: db1
+  #   ports:
+  #     - "1434:1433"
+  #   environment:
+  #     SA_PASSWORD: "YourPassword123!"
+  #     ACCEPT_EULA: "Y"
+  #   volumes:
+  #     - db1data:/var/opt/mssql
+  #   mem_limit: 4g
+
   db1:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: db1
@@ -24,19 +36,9 @@ services:
       ACCEPT_EULA: "Y"
     volumes:
       - db1data:/var/opt/mssql
+      - ./init-db.sh:/init-db.sh     # Mount your shell script
+    entrypoint: ["/bin/bash", "/init-db.sh"]   # Run your shell script
     mem_limit: 4g
-
-  # db2:
-  #   image: mcr.microsoft.com/mssql/server:2022-latest
-  #   container_name: db2
-  #   ports:
-  #     - "1435:1433"
-  #   environment:
-  #     SA_PASSWORD: "YourPassword123!"
-  #     ACCEPT_EULA: "Y"
-  #   volumes:
-  #     - db2data:/var/opt/mssql
-  #   mem_limit: 4g
 
   adminer:
     image: adminer
@@ -45,6 +47,17 @@ services:
     ports:
       - "8082:8080"
 
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    ports:
+      - "9000:9000"
+    restart: always
+
 volumes:
   db1data:
-  # db2data:
+  portainer_data:
