@@ -1,9 +1,11 @@
 #!/bin/bash
+
 set -e
 
 #######################################
 # Start SQL Server in background
 #######################################
+
 /opt/mssql/bin/sqlservr &
 
 SQL_PID=$!
