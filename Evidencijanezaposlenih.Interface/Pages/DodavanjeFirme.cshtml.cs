@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Net.Http.Json;
+using Evidencijanezaposlenih.Interface;
 
 namespace Evidencijanezaposlenih.Interface.Pages
 {
@@ -15,11 +16,10 @@ namespace Evidencijanezaposlenih.Interface.Pages
     {
         private readonly IPoslovnaLogika _poslovnaLogika;
         private readonly HttpClient _httpClient;
-
-        public DodavanjeFirmeModel(IPoslovnaLogika poslovnaLogika, HttpClient httpClient)
+        public DodavanjeFirmeModel(IPoslovnaLogika poslovnaLogika, IHttpClientFactory httpClientFactory)
         {
             _poslovnaLogika = poslovnaLogika;
-            _httpClient = httpClient;
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
         [BindProperty]
         public bool ShowPopup { get; set; }
@@ -48,7 +48,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
                 return Page();
             }
 
-            await _httpClient.PostAsJsonAsync("http://localhost:8080/api/FirmaKontroler", obj);
+            await _httpClient.PostAsJsonAsync("/api/FirmaKontroler", obj);
 
             //await _poslodavacServis.KreirajPoslodavca(obj);
             return Page();

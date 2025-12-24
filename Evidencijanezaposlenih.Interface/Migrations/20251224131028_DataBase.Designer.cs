@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Evidencijanezaposlenih.Interface.Migrations
 {
     [DbContext(typeof(IdentitetiDBContext))]
-    [Migration("20240521164622_Roles")]
-    partial class Roles
+    [Migration("20251224131028_DataBase")]
+    partial class DataBase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,6 +103,28 @@ namespace Evidencijanezaposlenih.Interface.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "d1f8eeb1-0a31-4e0b-9a3b-bccabf1d0003",
+                            AccessFailedCount = 0,
+                            Adresa = "",
+                            ConcurrencyStamp = "283cce16-bed5-422d-875f-33028ba67500",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true,
+                            Ime = "",
+                            Kreiran = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAED5j6cV6sKq6HY1b4D5BpweoEVl2erYlnsLsAQluFYFDETJWPdmCCESHqD1pBvB0IQ==",
+                            PhoneNumberConfirmed = false,
+                            Prezime = "",
+                            SecurityStamp = "38c63ef9-8576-4ce5-a5ab-8ca98f4f8e82",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -134,13 +156,13 @@ namespace Evidencijanezaposlenih.Interface.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6eb00521-d6d8-4445-a524-741086c068a2",
+                            Id = "d1f8eeb1-0a31-4e0b-9a3b-bccabf1d0001",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "a2a57843-a84e-425d-b0af-387a963a3a06",
+                            Id = "d1f8eeb1-0a31-4e0b-9a3b-bccabf1d0002",
                             Name = "user",
                             NormalizedName = "user"
                         });
@@ -199,10 +221,12 @@ namespace Evidencijanezaposlenih.Interface.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -231,6 +255,13 @@ namespace Evidencijanezaposlenih.Interface.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "d1f8eeb1-0a31-4e0b-9a3b-bccabf1d0003",
+                            RoleId = "d1f8eeb1-0a31-4e0b-9a3b-bccabf1d0001"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -239,10 +270,12 @@ namespace Evidencijanezaposlenih.Interface.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");

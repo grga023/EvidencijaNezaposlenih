@@ -1,74 +1,109 @@
 #!/bin/bash
+set -e
 
-# Start SQL Server in the background
+#######################################
+# Start SQL Server in background
+#######################################
 /opt/mssql/bin/sqlservr &
 
-# Wait for SQL Server to be ready to accept connections (connect to master)
-echo "Waiting for SQL Server to start..."
-until /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "YourPassword123!" -d master -Q "SELECT 1" -C 2>/dev/null
+SQL_PID=$!
+
+# Ensure SQL Server is stopped cleanly
+trap "kill $SQL_PID; wait $SQL_PID" SIGTERM SIGINT
+
+echo "⏳ Waiting for SQL Server to start..."
+
+until /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "YourPassword123!" -d master -Q "SELECT 1" -C >/dev/null 2>&1
 do
   echo "⏳ Waiting for SQL Server to start..."
+
   sleep 1
 done
 
-# Get list of databases into a variable, trim spaces
-DB_LIST=$(/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "YourPassword123!" -d master -Q "SET NOCOUNT ON; SELECT RTRIM(LTRIM(name)) FROM sys.databases;" -h -1 -C | sed '/^$/d')
+echo "✅ SQL Server is ready"
 
-# Check if 'Identiteti' database exists
-if echo "$DB_LIST" | grep -qw "Identiteti"; then
-  echo "✅ Database 'Identiteti' exists."
-else
-  echo "❌ Database 'Identiteti' NOT found."
-fi
+#######################################
+# Wait until databases exist and are ONLINE
+#######################################
+wait_for_db() {
+  local db_name=$1
+  until /opt/mssql-tools18/bin/sqlcmd \
+    -S localhost \
+    -U SA \
+    -P "YourPassword123!" \
+    -d master \
+    -Q "SELECT state_desc FROM sys.databases WHERE name='$db_name'" \
+    -h -1 \
+    -C | grep -q "ONLINE"; do
+    sleep 1
+  done
+}
 
-# Check if 'EvidencijaNezaposlenih' database exists
-if echo "$DB_LIST" | grep -qw "EvidencijaNezaposlenih"; then
-  echo "✅ Database 'EvidencijaNezaposlenih' exists."
-else
-  echo "❌ Database 'EvidencijaNezaposlenih' NOT found."
-fi
+wait_for_db "Identiteti"
+wait_for_db "EvidencijaNezaposlenih"
 
-  echo "⏳ Waiting for SQL Server to start..."
-  sleep 10
+echo "✅ Databases are online"
 
-# Only try to insert admin user if 'Identiteti' exists
-if echo "$DB_LIST" | grep -qw "Identiteti"; then
-  /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "YourPassword123!" -d Identiteti -Q "
-  SET ANSI_NULLS ON;
-  SET ANSI_WARNINGS ON;
-  SET CONCAT_NULL_YIELDS_NULL ON;
-  SET ANSI_PADDING ON;
-  SET QUOTED_IDENTIFIER ON;
+#######################################
+# Insert admin user into Identiteti DB Admin123!
+#######################################
+echo "👤 Ensuring admin user exists..."
 
-  IF NOT EXISTS (SELECT 1 FROM [dbo].[AspNetUsers] WHERE Ime = 'Admin')
-  BEGIN
-    DECLARE @adminUserId uniqueidentifier = NEWID();
-    DECLARE @adminRoleId uniqueidentifier;
+/opt/mssql-tools18/bin/sqlcmd \
+  -S localhost \
+  -U SA \
+  -P "YourPassword123!" \
+  -d master \
+  -b \
+  -C \
+  -Q "
+IF DB_ID('Identiteti') IS NOT NULL
+BEGIN
+    USE Identiteti;
 
-    INSERT INTO [dbo].[AspNetUsers] (
-      [Id], [Ime], [Prezime], [Adresa], [Kreiran], [UserName], [NormalizedUserName], [Email], 
-      [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], 
-      [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount])
-    VALUES (
-      @adminUserId, 'Admin', 'User', 'Admin Address', SYSDATETIME(), 'admin', 'ADMIN', 'admin@example.com',
-      'ADMIN@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAENBXwye6QT1KeQPwuEqxG9KpZLOAU7UUisnCRyRB00SGHnueVZSVRB0DJ+peGtpNpA==', NEWID(), NEWID(), NULL, 0, 0, NULL, 1, 0);
+    SET ANSI_NULLS ON;
+    SET ANSI_WARNINGS ON;
+    SET CONCAT_NULL_YIELDS_NULL ON;
+    SET ANSI_PADDING ON;
+    SET QUOTED_IDENTIFIER ON;
 
-    SELECT @adminRoleId = Id FROM [dbo].[AspNetRoles] WHERE Name = 'admin';
-
-    IF @adminRoleId IS NOT NULL
+    IF NOT EXISTS (SELECT 1 FROM [dbo].[AspNetUsers] WHERE Ime = 'Admin')
     BEGIN
-      INSERT INTO [dbo].[AspNetUserRoles] (UserId, RoleId) VALUES (@adminUserId, @adminRoleId);
+        DECLARE @adminUserId uniqueidentifier = NEWID();
+        DECLARE @adminRoleId uniqueidentifier;
+
+        INSERT INTO [dbo].[AspNetUsers] (
+            [Id], [Ime], [Prezime], [Adresa], [Kreiran],
+            [UserName], [NormalizedUserName],
+            [Email], [NormalizedEmail], [EmailConfirmed],
+            [PasswordHash], [SecurityStamp], [ConcurrencyStamp],
+            [PhoneNumber], [PhoneNumberConfirmed],
+            [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled],
+            [AccessFailedCount]
+        )
+        VALUES (
+            @adminUserId, 'Admin', 'User', 'Admin Address', SYSDATETIME(),
+            'admin', 'ADMIN',
+            'admin@example.com', 'ADMIN@EXAMPLE.COM', 1,
+            'AQAAAAIAAYagAAAAEEnkyh5JbH3smtwgp+0eJwaC9jzBJMksn0WdYRij0QCHTd7ncNu5zUdEgMW8PTGnSw==',
+            NEWID(), NEWID(),
+            NULL, 0, 0, NULL, 1, 0
+        );
+
+        SELECT @adminRoleId = Id FROM [dbo].[AspNetRoles] WHERE Name = 'admin';
+
+        IF @adminRoleId IS NOT NULL
+        BEGIN
+            INSERT INTO [dbo].[AspNetUserRoles] (UserId, RoleId)
+            VALUES (@adminUserId, @adminRoleId);
+        END
     END
-  END
-  " -b -C
+END
+"
 
-  echo "✅ - DONE"
+echo "✅ Admin user ensured"
 
-else
-  echo "Skipping admin user insert because database 'Identiteti' does not exist."
-fi
+echo "🚀 SQL Server is running"
 
-echo "🚀 SQL Server is up!"
-
-# Keep container alive (optional)
-wait
+# Keep container alive
+wait $SQL_PID

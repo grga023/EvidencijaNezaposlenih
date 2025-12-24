@@ -2,6 +2,7 @@ using EvidencijaNezaposlenih.ModeliPodataka.DTO;
 using EvidencijaNezaposlenih.ModeliPodataka.Modeli;
 using EvidencijaNezaposlenih.Servisi.Interfejsi;
 using EvidencijaNezaposlenih.Servisi.Servisi;
+using Evidencijanezaposlenih.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,11 +17,11 @@ namespace Evidencijanezaposlenih.Interface.Pages
         private readonly HttpClient _httpClient;
         public string Jmbg { get; set; }
         public NezaposleniPrikaz nezaposleni { get; set; }
-        public NezaposleniIzmeniModel(INezaposleniServis nezaposleniServis, IPoslodavacServis poslodavacServis, HttpClient httpClient)
+        public NezaposleniIzmeniModel(INezaposleniServis nezaposleniServis, IPoslodavacServis poslodavacServis, IHttpClientFactory httpClientFactory)
         {
             _nezaposleniServis = nezaposleniServis;
             _poslodavacServis = poslodavacServis;
-            _httpClient = httpClient;
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -31,7 +32,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
             {
                 return RedirectToPage("/Error");
             }
-            var firms = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("http://localhost:8080/api/FirmaKontroler");
+            var firms = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("/api/FirmaKontroler");
             foreach (var firm in firms)
             {
                 ViewData["Firms"] += $"<option >{firm.Naziv} | {firm.Grad}</option>"; // Adjust as per your Firma model properties
@@ -52,10 +53,10 @@ namespace Evidencijanezaposlenih.Interface.Pages
             var datumZavrsetka = Request.Form["datumZavrsetka[]"];
             var pozicija = Request.Form["pozicija[]"];
 
-            var firms = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("http://localhost:8080/api/FirmaKontroler");
+            var firms = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>( "/api/FirmaKontroler");
             foreach (var firm in firms)
             {
-                ViewData["Firms"] += $"<option >{firm.Naziv} | {firm.Grad}</option>"; // Adjust as per your Firma model properties
+                ViewData["Firms"] += $"<option >{firm.Naziv} | {firm.Grad}</option>";
             }
 
             List<RadniOdnosPrikaz> radniOdnosi = new List<RadniOdnosPrikaz>();

@@ -1,4 +1,5 @@
-using Evidencijanezaposlenih.Interface.Migrations;
+//using Evidencijanezaposlenih.Interface.Migrations;
+using Evidencijanezaposlenih.Interface;
 using EvidencijaNezaposlenih.ModeliPodataka.DTO;
 using EvidencijaNezaposlenih.Servisi.Interfejsi;
 using Microsoft.AspNetCore.Authorization;
