@@ -15,12 +15,12 @@ namespace Evidencijanezaposlenih.Interface.Pages
         private readonly HttpClient _httpClient;
         private readonly INezaposleniServis _nezaposleniServis;
         private readonly IPoslovnaLogika _poslovnaLogika;
-        public DodavanjeNezaposlenihModel(HttpClient httpClient, INezaposleniServis nezaposleniServis, IPoslovnaLogika poslovnaLogika)
+        public DodavanjeNezaposlenihModel(IHttpClientFactory httpClientFactory, INezaposleniServis nezaposleniServis, IPoslovnaLogika poslovnaLogika)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
             _nezaposleniServis = nezaposleniServis;
             _poslovnaLogika = poslovnaLogika;
-        }
+        }   
         [BindProperty]
         public bool ShowPopup { get; set; }
 
@@ -29,7 +29,7 @@ namespace Evidencijanezaposlenih.Interface.Pages
 
         private async Task ucitajFirmeAsync()
         {
-            var firms = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("http://localhost:8080/api/FirmaKontroler");
+            var firms = await _httpClient.GetFromJsonAsync<List<PoslodavacPrikaz>>("/api/FirmaKontroler");
             foreach (var firm in firms)
             {
                 ViewData["Firms"] += $"<option >{firm.Naziv} | {firm.Grad}</option>"; // Adjust as per your Firma model properties

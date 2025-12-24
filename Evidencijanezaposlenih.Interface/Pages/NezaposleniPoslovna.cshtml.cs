@@ -3,6 +3,7 @@ using EvidencijaNezaposlenih.Servisi.Interfejsi;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Evidencijanezaposlenih.Interface;
 
 namespace Evidencijanezaposlenih.Interface.Pages
 {

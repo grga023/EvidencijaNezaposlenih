@@ -6,38 +6,24 @@ services:
       context: .
       dockerfile: Evidencijanezaposlenih.Interface/Dockerfile
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "${ASPNETCORE_ENV}"
+      ApiSettings__BaseUrl: "${SERVER_URL}"
+      ConnectionStrings__EvidencijaNezaposlenihDBContext: "${EVIDENCIJA_NEZAPOSLENIH_DB}"
+      ConnectionStrings__IdentitetiDBContext: "${IDENTITETI_DB}"
     ports:
-      - "8080:8080"
-      - "8081:8081"
+      - "${WEB_HTTP_PORT}:8080"
+      - "${WEB_HTTPS_PORT}:8081"
     depends_on:
       - db1
-      # - db2
-
-  # db1:
-  #   image: mcr.microsoft.com/mssql/server:2022-latest
-  #   container_name: db1
-  #   ports:
-  #     - "1434:1433"
-  #   environment:
-  #     SA_PASSWORD: "YourPassword123!"
-  #     ACCEPT_EULA: "Y"
-  #   volumes:
-  #     - db1data:/var/opt/mssql
-  #   mem_limit: 4g
 
   db1:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: db1
     ports:
-      - "1434:1433"
+      - "${DB_PORT}:1433"
     environment:
-      SA_PASSWORD: "YourPassword123!"
+      SA_PASSWORD: "${DB_PASSWORD}"
       ACCEPT_EULA: "Y"
-    volumes:
-      - db1data:/var/opt/mssql
-      - ./init-db.sh:/init-db.sh     # Mount your shell script
-    entrypoint: ["/bin/bash", "/init-db.sh"]   # Run your shell script
     mem_limit: 4g
 
   adminer:
@@ -45,7 +31,9 @@ services:
     container_name: adminer
     restart: always
     ports:
-      - "8082:8080"
+      - "${ADMINER_PORT}:8080"
+    depends_on:
+      - db1
 
   portainer:
     image: portainer/portainer-ce
@@ -55,7 +43,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
     ports:
-      - "9000:9000"
+      - "${PORTAINER_PORT}:9000"
     restart: always
 
 volumes:

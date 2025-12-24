@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 {
     /// <inheritdoc />
-    public partial class update : Migration
+    public partial class DataBase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,8 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                     Prezime = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DatumRodjenja = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BrojTelefona = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Adresa = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Adresa = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Zanimanje = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,7 +52,9 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                     ID = table.Column<int>(type: "int", nullable: false),
                     NezaposleniID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DatumPocetka = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DatumZavrsetka = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DatumZavrsetka = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Pozicija = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Struka = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

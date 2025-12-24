@@ -35,11 +35,16 @@ builder.Services.AddScoped<IRadniOdnosRepozitorijum, RadniOdnosRepozitorijum>();
 builder.Services.AddScoped<IPoslovnaLogika, PoslovnaLogika>();
 builder.Services.AddScoped<IRadUStruci, RadUStruci>();
 
-//builder.Services.AddHttpClient<ApiService>();
+builder.Services.AddHttpClient("ApiClient", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]);
+});
+
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddControllers().AddJsonOptions(x =>
-    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(x =>
+        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -83,7 +88,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-        c.RoutePrefix = string.Empty; // To serve Swagger UI at the app's root
+        c.RoutePrefix = "swagger"; // To serve Swagger UI at the app's root
     });
 }
 else
@@ -102,5 +107,6 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
+
 
 app.Run();

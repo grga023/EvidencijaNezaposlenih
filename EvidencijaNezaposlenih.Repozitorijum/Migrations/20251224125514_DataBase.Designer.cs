@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 {
     [DbContext(typeof(EvidencijaNezaposlenihDBContext))]
-    [Migration("20240518151317_update")]
-    partial class update
+    [Migration("20251224125514_DataBase")]
+    partial class DataBase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -75,6 +75,10 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Zanimanje")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ID");
 
                     b.ToTable("Nezaposleni");
@@ -121,6 +125,13 @@ namespace EvidencijaNezaposlenih.Repozitorijum.Migrations
 
                     b.Property<DateTime>("DatumZavrsetka")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Pozicija")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Struka")
+                        .HasColumnType("bit");
 
                     b.HasKey("ID", "NezaposleniID");
 
