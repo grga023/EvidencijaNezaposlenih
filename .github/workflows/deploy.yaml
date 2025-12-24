@@ -19,6 +19,9 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd ~/data/EvidencijaNezaposlenih
+            git reset --hard
+            git clean -fdx
+            git checkout master
             git pull origin master
             docker compose down
             docker compose build
