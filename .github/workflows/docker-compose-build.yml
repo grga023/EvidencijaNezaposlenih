@@ -3,8 +3,8 @@ name: Build and Run with Docker Compose
 on:
   push:
     branches:
-      - master
-      - development
+      - master1
+      - development1
 
 jobs:
   build:

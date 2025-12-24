@@ -2,7 +2,10 @@ name: Deploy to Oracle VM
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
+      - development
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -68,6 +71,16 @@ jobs:
             cd ~/data/EvidencijaNezaposlenih
             docker compose up -d
 
+      # Step 5.5: Wait for 20 seconds
+      - name: Wait for containers to stabilize
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: opc
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            sleep 30
+
       # Step 6: Verify running containers
       - name: Verify containers
         uses: appleboy/ssh-action@v0.1.10
@@ -77,3 +90,13 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             docker ps
+
+      - name: Print Server IP
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: opc
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            curl -4 ifconfig.me
+
