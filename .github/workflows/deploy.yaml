@@ -43,7 +43,7 @@ jobs:
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.VM_HOST }}
-          username: opc
+          username: ubuntu
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd ~/data/EvidencijaNezaposlenih
@@ -54,7 +54,7 @@ jobs:
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.VM_HOST }}
-          username: opc
+          username: ubuntu
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd ~/data/EvidencijaNezaposlenih
@@ -65,7 +65,7 @@ jobs:
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.VM_HOST }}
-          username: opc
+          username: ubuntu
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd ~/data/EvidencijaNezaposlenih
@@ -76,7 +76,7 @@ jobs:
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.VM_HOST }}
-          username: opc
+          username: ubuntu
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             sleep 30
@@ -86,7 +86,7 @@ jobs:
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.VM_HOST }}
-          username: opc
+          username: ubuntu
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             docker ps
@@ -95,7 +95,7 @@ jobs:
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.VM_HOST }}
-          username: opc
+          username: ubuntu
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             curl -4 ifconfig.me
