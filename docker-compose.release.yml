@@ -1,8 +1,6 @@
 services:
   evidencijanezaposlenih.interface:
-    build:
-      context: .
-      dockerfile: Evidencijanezaposlenih.Interface/Dockerfile
+    image: ${DOCKER_REGISTRY}evidencijanezaposlenih_internetprogramiranje:${IMAGE_TAG}
     environment:
       ASPNETCORE_ENVIRONMENT: "${ASPNETCORE_ENV}"
       ApiSettings__BaseUrl: "${SERVER_URL_HTTPS}"

@@ -58,7 +58,7 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd ~/data/EvidencijaNezaposlenih
-            docker compose build
+            docker compose pull
 
       # Step 5: Start containers
       - name: Start containers
@@ -99,4 +99,3 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             curl -4 ifconfig.me
-
