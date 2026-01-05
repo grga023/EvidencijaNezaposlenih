@@ -58,7 +58,7 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd ~/data/EvidencijaNezaposlenih
-            docker compose pull
+            docker compose --env-file .env.prod -f docker-compose.release.yml pull
 
       # Step 5: Start containers
       - name: Start containers
