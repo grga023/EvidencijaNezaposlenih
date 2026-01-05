@@ -35,10 +35,29 @@ builder.Services.AddScoped<IRadniOdnosRepozitorijum, RadniOdnosRepozitorijum>();
 builder.Services.AddScoped<IPoslovnaLogika, PoslovnaLogika>();
 builder.Services.AddScoped<IRadUStruci, RadUStruci>();
 
-builder.Services.AddHttpClient("ApiClient", client =>
+if (builder.Environment.IsDevelopment())
 {
-    client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]);
-});
+    builder.Services.AddHttpClient("ApiClient")
+        .ConfigurePrimaryHttpMessageHandler(() =>
+            new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback =
+                    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            })
+        .ConfigureHttpClient(client =>
+        {
+            client.BaseAddress =
+                new Uri(builder.Configuration["ApiSettings:BaseUrl"]);
+        });
+}
+else
+{
+    builder.Services.AddHttpClient("ApiClient", client =>
+    {
+        client.BaseAddress =
+            new Uri(builder.Configuration["ApiSettings:BaseUrl"]);
+    });
+}
 
 
 builder.Services.AddEndpointsApiExplorer();
