@@ -1,7 +1,7 @@
 # Project startup - DEV
 * docker compose up --build
 # Project startup - PROD
-* docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+* docker compose -f docker-compose.yml -f docker-compose.release.yml up -d
 
 # BUILD
 ```

@@ -13,16 +13,17 @@ services:
       - db
 
   db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/azure-sql-edge:latest
     container_name: db
     ports:
-        - "${DB_PORT}:1433"
+      - "${DB_PORT}:1433"
     environment:
-        SA_PASSWORD: "${DB_PASSWORD}"
-        ACCEPT_EULA: "Y"
+      SA_PASSWORD: "${DB_PASSWORD}"
+      ACCEPT_EULA: "Y"
     volumes:
-        - db1data:/var/opt/mssql
-    mem_limit: 4g
+      - db1data:/var/opt/mssql
+    mem_limit: 1g
+
 
   adminer:
     image: adminer
