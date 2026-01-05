@@ -1,5 +1,6 @@
 services:
-  evidencijanezaposlenih.interface:
+  app:
+    container_name: evidencija_app
     image: ${DOCKER_REGISTRY}evidencijanezaposlenih_internetprogramiranje:${IMAGE_TAG}
     environment:
       ASPNETCORE_ENVIRONMENT: "${ASPNETCORE_ENV}"
@@ -20,9 +21,8 @@ services:
     environment:
       SA_PASSWORD: "${DB_PASSWORD}"
       ACCEPT_EULA: "Y"
-    volumes:
-      - db1data:/var/opt/mssql
     mem_limit: 1g
+    user: "0"
 
 
   adminer:

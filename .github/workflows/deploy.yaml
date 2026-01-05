@@ -47,7 +47,7 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd ~/data/EvidencijaNezaposlenih
-            docker compose down
+            docker compose --env-file .env.prod -f docker-compose.release.yml  down
 
       # Step 4: Build containers
       - name: Build containers
@@ -69,7 +69,7 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd ~/data/EvidencijaNezaposlenih
-            docker compose -f docker-compose.yml -f docker-compose.release.yml up -d
+            docker compose --env-file .env.prod -f docker-compose.release.yml  up -d
 
       # Step 5.5: Wait for 20 seconds
       - name: Wait for containers to stabilize

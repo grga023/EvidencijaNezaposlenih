@@ -1,5 +1,7 @@
 services:
-  evidencijanezaposlenih.interface:
+  
+  app:
+    container_name: evidencija_app
     build:
       context: .
       dockerfile: Evidencijanezaposlenih.Interface/Dockerfile
