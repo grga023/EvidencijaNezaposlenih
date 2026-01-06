@@ -1,6 +1,7 @@
-# Project startup - DEV
-* docker compose --env-file .env.dev -f docker-compose.yml  up -d
-# Project startup - PROD
+# Project startup - Visual studio
+* Docker startup proj
+* Run project
+# Project startup - Terminal
 * docker compose --env-file .env.dev -f docker-compose.release.yml  up -d
 
 # PUBLISH

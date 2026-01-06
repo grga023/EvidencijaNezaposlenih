@@ -1,16 +1,11 @@
 services:
-  
-  app:
-    container_name: evidencija_app
+  evidencijanezaposlenih.interface:
     build:
       context: .
       dockerfile: Evidencijanezaposlenih.Interface/Dockerfile
     user: "0"  
     environment:
       ASPNETCORE_ENVIRONMENT: "${ASPNETCORE_ENV}"
-      ASPNETCORE_Kestrel__Certificates__Default__Path: "/root/.aspnet/https/aspnetapp.pfx"
-      ASPNETCORE_Kestrel__Certificates__Default__Password: "YourPassword"
-      ASPNETCORE_URLS: "https://+:8081;http://+:8080"
       ApiSettings__BaseUrl: "${SERVER_URL_HTTPS}"
       ConnectionStrings__EvidencijaNezaposlenihDBContext: "${EVIDENCIJA_NEZAPOSLENIH_DB}"
       ConnectionStrings__IdentitetiDBContext: "${IDENTITETI_DB}"
@@ -21,7 +16,6 @@ services:
       - ./certs:/root/.aspnet/https:ro
     depends_on:
       - db
-
   db:
     image: mcr.microsoft.com/azure-sql-edge:latest
     container_name: db
