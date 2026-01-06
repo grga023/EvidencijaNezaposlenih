@@ -1,13 +1,18 @@
 name: Deploy to Oracle VM
 
 on:
-  push:
-    branches:
-      - master
-      - development
+  # push:
+  #   branches:
+  #     - master1
+  #     - development1
   workflow_dispatch:
 
 jobs:
+  test:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
   deploy:
     runs-on: ubuntu-latest
     steps:
