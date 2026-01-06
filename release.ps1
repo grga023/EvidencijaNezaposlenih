@@ -1,6 +1,10 @@
 param(
-  [string]$Version = "1.0.0"
+  [string]$Version
 )
+
+if (-not $Version) {
+    $Version = Read-Host "Please enter the version number (e.g., 1.0.1)"
+}
 
 $image = "grga023/evidencijanezaposlenih_internetprogramiranje"
 
