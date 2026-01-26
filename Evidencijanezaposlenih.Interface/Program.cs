@@ -35,29 +35,28 @@ builder.Services.AddScoped<IRadniOdnosRepozitorijum, RadniOdnosRepozitorijum>();
 builder.Services.AddScoped<IPoslovnaLogika, PoslovnaLogika>();
 builder.Services.AddScoped<IRadUStruci, RadUStruci>();
 
-if (builder.Environment.IsDevelopment())
+var baseUrl = builder.Environment.IsDevelopment()
+    ? "https://localhost:7225" // your local API URL
+    : builder.Configuration["ApiSettings:BaseUrl"];
+
+builder.Services.AddHttpClient("ApiClient", client =>
 {
-    builder.Services.AddHttpClient("ApiClient")
-        .ConfigurePrimaryHttpMessageHandler(() =>
-            new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback =
-                    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-            })
-        .ConfigureHttpClient(client =>
-        {
-            client.BaseAddress =
-                new Uri(builder.Configuration["ApiSettings:BaseUrl"]);
-        });
-}
-else
+    client.BaseAddress = new Uri(baseUrl);
+})
+.ConfigurePrimaryHttpMessageHandler(() =>
 {
-    builder.Services.AddHttpClient("ApiClient", client =>
+    if (builder.Environment.IsDevelopment())
     {
-        client.BaseAddress =
-            new Uri(builder.Configuration["ApiSettings:BaseUrl"]);
-    });
-}
+        // Accept self-signed certificates in development
+        return new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        };
+    }
+
+    return new HttpClientHandler();
+});
 
 
 builder.Services.AddEndpointsApiExplorer();
